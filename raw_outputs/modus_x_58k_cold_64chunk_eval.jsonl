@@ -1,0 +1,1 @@
+{"model": "Modus_X", "checkpoint_step": 58000, "valid_file": "/home/HP/fineweb_tokens_modus_v2_big/tokens_00006.npy", "seq_len": 512, "eval_chunks": 64, "eval_batch": 4, "valid_loss": 4.175283100455999, "valid_bpc": 6.023660223335366}

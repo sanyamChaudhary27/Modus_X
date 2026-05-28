@@ -1,0 +1,14 @@
+Modus_X vs Transformer Inference Scaling Report
+================================================
+
+recurrent state size represents the size of the KV Cache (for Transformer)
+or the recurrent hidden states (for Modus_X) in Megabytes (MB).
+
+Context Length  | Transformer Time (ms)  | Transformer State (MB) | Modus_X Time (ms)  | Modus_X State (MB)
+---------------------------------------------------------------------------------------------------------
+            128 |                  21.66 |                  1.000 |             100.17 |              1.004
+            256 |                  34.93 |                  2.000 |             187.03 |              1.004
+            512 |                  67.84 |                  4.000 |             401.08 |              1.004
+           1024 |                 133.41 |                  8.000 |             719.07 |              1.004
+           2048 |                 341.83 |                 16.000 |            1464.22 |              1.004
+           4096 |                 754.46 |                 32.000 |            2816.03 |              1.004

@@ -1,0 +1,24 @@
+Restored gs://axiom-v5-checkpoints-p6-eu/modus_v2/runs/modus_x/Modus_X_ckpt step=40000
+Modus_X 10/1000 acc=20.00%
+Modus_X 20/1000 acc=30.00%
+Modus_X 30/1000 acc=30.00%
+Modus_X 40/1000 acc=27.50%
+Modus_X 50/1000 acc=26.00%
+Modus_X 60/1000 acc=25.00%
+Modus_X 70/1000 acc=27.14%
+Modus_X 80/1000 acc=27.50%
+Modus_X 90/1000 acc=28.89%
+Modus_X 100/1000 acc=28.00%
+...
+Modus_X 900/1000 acc=27.67%
+Modus_X 910/1000 acc=27.58%
+Modus_X 920/1000 acc=27.50%
+Modus_X 930/1000 acc=27.63%
+Modus_X 940/1000 acc=27.55%
+Modus_X 950/1000 acc=27.68%
+Modus_X 960/1000 acc=27.71%
+Modus_X 970/1000 acc=27.84%
+Modus_X 980/1000 acc=27.76%
+Modus_X 990/1000 acc=27.68%
+Modus_X 1000/1000 acc=27.70%
+FINAL Modus_X HellaSwag accuracy=27.70% (277/1000)

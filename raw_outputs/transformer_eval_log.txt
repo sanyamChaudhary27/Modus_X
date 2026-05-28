@@ -1,0 +1,24 @@
+Restored gs://axiom-v5-checkpoints-p6-eu/modus_v2/runs/transformer/Transformer_ckpt step=40000
+Transformer 10/1000 acc=20.00%
+Transformer 20/1000 acc=25.00%
+Transformer 30/1000 acc=33.33%
+Transformer 40/1000 acc=35.00%
+Transformer 50/1000 acc=36.00%
+Transformer 60/1000 acc=33.33%
+Transformer 70/1000 acc=30.00%
+Transformer 80/1000 acc=32.50%
+Transformer 90/1000 acc=34.44%
+Transformer 100/1000 acc=36.00%
+...
+Transformer 900/1000 acc=32.33%
+Transformer 910/1000 acc=32.20%
+Transformer 920/1000 acc=32.07%
+Transformer 930/1000 acc=31.94%
+Transformer 940/1000 acc=32.02%
+Transformer 950/1000 acc=32.00%
+Transformer 960/1000 acc=31.98%
+Transformer 970/1000 acc=31.75%
+Transformer 980/1000 acc=31.63%
+Transformer 990/1000 acc=31.62%
+Transformer 1000/1000 acc=31.80%
+FINAL Transformer HellaSwag accuracy=31.80% (318/1000)

@@ -1,0 +1,24 @@
+Restored gs://axiom-v5-checkpoints-p6-eu/modus_v2/runs/mamba/Mamba_ckpt step=40000
+Mamba 10/1000 acc=20.00%
+Mamba 20/1000 acc=25.00%
+Mamba 30/1000 acc=26.67%
+Mamba 40/1000 acc=25.00%
+Mamba 50/1000 acc=28.00%
+Mamba 60/1000 acc=26.67%
+Mamba 70/1000 acc=28.57%
+Mamba 80/1000 acc=27.50%
+Mamba 90/1000 acc=28.89%
+Mamba 100/1000 acc=28.00%
+...
+Mamba 900/1000 acc=28.11%
+Mamba 910/1000 acc=28.02%
+Mamba 920/1000 acc=27.93%
+Mamba 930/1000 acc=28.06%
+Mamba 940/1000 acc=27.98%
+Mamba 950/1000 acc=28.11%
+Mamba 960/1000 acc=28.12%
+Mamba 970/1000 acc=28.14%
+Mamba 980/1000 acc=28.06%
+Mamba 990/1000 acc=27.98%
+Mamba 1000/1000 acc=28.00%
+FINAL Mamba HellaSwag accuracy=28.00% (280/1000)

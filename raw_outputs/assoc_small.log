@@ -1,0 +1,112 @@
+JAX devices: [TpuDevice(id=0, process_index=0, coords=(0,0,0), core_on_chip=0), TpuDevice(id=1, process_index=0, coords=(1,0,0), core_on_chip=0), TpuDevice(id=2, process_index=0, coords=(0,1,0), core_on_chip=0), TpuDevice(id=3, process_index=0, coords=(1,1,0), core_on_chip=0)]
+config: ModelConfig(vocab_size=256, embed_dim=64, hidden_dim=192, ax_res=64, n_layers=2, n_heads_attn=8, seq_len=18, mamba_state_dim=192)
+train: {'n_train': 4096, 'n_test': 512, 'train_pairs': 8, 'batch': 64, 'epochs': 30}
+
+=== TRAIN Modus_X ===
+params=277,448
+Modus_X epoch=001 loss=4.8810 val_acc=1.37% best=1.37% elapsed=9.4s
+Modus_X epoch=002 loss=4.6048 val_acc=1.95% best=1.95% elapsed=14.5s
+Modus_X epoch=003 loss=4.5951 val_acc=0.98% best=1.95% elapsed=19.5s
+Modus_X epoch=004 loss=4.5550 val_acc=1.17% best=1.95% elapsed=24.5s
+Modus_X epoch=005 loss=4.4862 val_acc=1.56% best=1.95% elapsed=29.6s
+Modus_X epoch=006 loss=4.4012 val_acc=0.78% best=1.95% elapsed=34.6s
+Modus_X epoch=007 loss=4.3493 val_acc=1.76% best=1.95% elapsed=39.6s
+Modus_X epoch=008 loss=4.2850 val_acc=2.34% best=2.34% elapsed=44.6s
+Modus_X epoch=009 loss=4.2241 val_acc=2.15% best=2.34% elapsed=49.6s
+Modus_X epoch=010 loss=4.1481 val_acc=1.76% best=2.34% elapsed=54.6s
+Modus_X epoch=011 loss=4.0517 val_acc=2.93% best=2.93% elapsed=59.6s
+Modus_X epoch=012 loss=3.9705 val_acc=2.73% best=2.93% elapsed=64.6s
+Modus_X epoch=013 loss=3.8899 val_acc=2.34% best=2.93% elapsed=69.6s
+Modus_X epoch=014 loss=3.7968 val_acc=3.12% best=3.12% elapsed=74.8s
+Modus_X epoch=015 loss=3.6918 val_acc=3.12% best=3.12% elapsed=79.8s
+Modus_X epoch=016 loss=3.5828 val_acc=2.73% best=3.12% elapsed=84.9s
+Modus_X epoch=017 loss=3.4940 val_acc=2.54% best=3.12% elapsed=89.8s
+Modus_X epoch=018 loss=3.3905 val_acc=3.32% best=3.32% elapsed=94.8s
+Modus_X epoch=019 loss=3.2740 val_acc=2.93% best=3.32% elapsed=99.8s
+Modus_X epoch=020 loss=3.1501 val_acc=3.52% best=3.52% elapsed=104.8s
+Modus_X epoch=021 loss=3.0459 val_acc=3.71% best=3.71% elapsed=109.8s
+Modus_X epoch=022 loss=2.9180 val_acc=5.08% best=5.08% elapsed=114.7s
+Modus_X epoch=023 loss=2.7925 val_acc=3.52% best=5.08% elapsed=119.7s
+Modus_X epoch=024 loss=2.6585 val_acc=3.91% best=5.08% elapsed=124.7s
+Modus_X epoch=025 loss=2.5258 val_acc=3.91% best=5.08% elapsed=129.7s
+Modus_X epoch=026 loss=2.4129 val_acc=4.69% best=5.08% elapsed=134.9s
+Modus_X epoch=027 loss=2.2652 val_acc=3.71% best=5.08% elapsed=139.8s
+Modus_X epoch=028 loss=2.1197 val_acc=4.10% best=5.08% elapsed=144.8s
+Modus_X epoch=029 loss=1.9880 val_acc=4.10% best=5.08% elapsed=149.8s
+Modus_X epoch=030 loss=1.8747 val_acc=3.91% best=5.08% elapsed=154.8s
+Modus_X pairs=8   acc=5.47%
+Modus_X pairs=16  acc=2.73%
+Modus_X pairs=32  acc=1.76%
+Modus_X pairs=64  acc=2.73%
+
+=== TRAIN Mamba ===
+params=210,624
+Mamba epoch=001 loss=4.8428 val_acc=0.59% best=0.59% elapsed=3.1s
+Mamba epoch=002 loss=4.6145 val_acc=1.56% best=1.56% elapsed=4.9s
+Mamba epoch=003 loss=4.5724 val_acc=1.17% best=1.56% elapsed=6.6s
+Mamba epoch=004 loss=4.5049 val_acc=1.76% best=1.76% elapsed=8.3s
+Mamba epoch=005 loss=4.4507 val_acc=1.37% best=1.76% elapsed=10.0s
+Mamba epoch=006 loss=4.3969 val_acc=2.54% best=2.54% elapsed=11.7s
+Mamba epoch=007 loss=4.3220 val_acc=2.93% best=2.93% elapsed=13.4s
+Mamba epoch=008 loss=4.2508 val_acc=1.56% best=2.93% elapsed=15.2s
+Mamba epoch=009 loss=4.1889 val_acc=2.34% best=2.93% elapsed=17.1s
+Mamba epoch=010 loss=4.1113 val_acc=1.76% best=2.93% elapsed=18.9s
+Mamba epoch=011 loss=4.0222 val_acc=3.71% best=3.71% elapsed=20.6s
+Mamba epoch=012 loss=3.9387 val_acc=1.76% best=3.71% elapsed=22.3s
+Mamba epoch=013 loss=3.8577 val_acc=2.15% best=3.71% elapsed=24.0s
+Mamba epoch=014 loss=3.7759 val_acc=3.91% best=3.91% elapsed=25.7s
+Mamba epoch=015 loss=3.6863 val_acc=2.15% best=3.91% elapsed=27.5s
+Mamba epoch=016 loss=3.6049 val_acc=3.12% best=3.91% elapsed=29.2s
+Mamba epoch=017 loss=3.5096 val_acc=4.30% best=4.30% elapsed=30.9s
+Mamba epoch=018 loss=3.4322 val_acc=3.52% best=4.30% elapsed=32.6s
+Mamba epoch=019 loss=3.3297 val_acc=3.32% best=4.30% elapsed=34.3s
+Mamba epoch=020 loss=3.2297 val_acc=4.88% best=4.88% elapsed=36.1s
+Mamba epoch=021 loss=3.1242 val_acc=4.30% best=4.88% elapsed=37.8s
+Mamba epoch=022 loss=3.0097 val_acc=3.71% best=4.88% elapsed=39.5s
+Mamba epoch=023 loss=2.8912 val_acc=5.08% best=5.08% elapsed=41.2s
+Mamba epoch=024 loss=2.7607 val_acc=4.88% best=5.08% elapsed=42.9s
+Mamba epoch=025 loss=2.6250 val_acc=6.25% best=6.25% elapsed=44.6s
+Mamba epoch=026 loss=2.4720 val_acc=4.49% best=6.25% elapsed=46.3s
+Mamba epoch=027 loss=2.3205 val_acc=4.88% best=6.25% elapsed=48.0s
+Mamba epoch=028 loss=2.1626 val_acc=4.30% best=6.25% elapsed=49.7s
+Mamba epoch=029 loss=1.9907 val_acc=6.45% best=6.45% elapsed=51.5s
+Mamba epoch=030 loss=1.8262 val_acc=4.69% best=6.45% elapsed=53.5s
+Mamba pairs=8   acc=3.71%
+Mamba pairs=16  acc=2.73%
+Mamba pairs=32  acc=1.17%
+Mamba pairs=64  acc=1.17%
+
+=== TRAIN Transformer ===
+params=178,880
+Transformer epoch=001 loss=4.8368 val_acc=0.59% best=0.59% elapsed=9.2s
+Transformer epoch=002 loss=4.6114 val_acc=1.37% best=1.37% elapsed=16.3s
+Transformer epoch=003 loss=4.5797 val_acc=0.78% best=1.37% elapsed=23.6s
+Transformer epoch=004 loss=4.5201 val_acc=1.76% best=1.76% elapsed=30.7s
+Transformer epoch=005 loss=4.4717 val_acc=1.37% best=1.76% elapsed=37.9s
+Transformer epoch=006 loss=4.4326 val_acc=2.15% best=2.15% elapsed=45.4s
+Transformer epoch=007 loss=4.3914 val_acc=3.32% best=3.32% elapsed=52.6s
+Transformer epoch=008 loss=4.3522 val_acc=2.15% best=3.32% elapsed=59.7s
+Transformer epoch=009 loss=4.3064 val_acc=2.15% best=3.32% elapsed=66.9s
+Transformer epoch=010 loss=4.2395 val_acc=2.54% best=3.32% elapsed=74.2s
+Transformer epoch=011 loss=4.1593 val_acc=2.34% best=3.32% elapsed=81.4s
+Transformer epoch=012 loss=4.0896 val_acc=2.73% best=3.32% elapsed=88.7s
+Transformer epoch=013 loss=4.0300 val_acc=3.52% best=3.52% elapsed=95.9s
+Transformer epoch=014 loss=3.9673 val_acc=2.34% best=3.52% elapsed=103.1s
+Transformer epoch=015 loss=3.9111 val_acc=1.76% best=3.52% elapsed=110.3s
+Transformer epoch=016 loss=3.8421 val_acc=3.12% best=3.52% elapsed=117.5s
+Transformer epoch=017 loss=3.7867 val_acc=1.76% best=3.52% elapsed=125.1s
+Transformer epoch=018 loss=3.7255 val_acc=2.15% best=3.52% elapsed=132.3s
+Transformer epoch=019 loss=3.6553 val_acc=2.34% best=3.52% elapsed=139.4s
+Transformer epoch=020 loss=3.5678 val_acc=2.73% best=3.52% elapsed=146.6s
+Transformer epoch=021 loss=3.5077 val_acc=2.54% best=3.52% elapsed=153.8s
+Transformer epoch=022 loss=3.4392 val_acc=3.71% best=3.71% elapsed=161.0s
+Transformer epoch=023 loss=3.3698 val_acc=2.15% best=3.71% elapsed=168.2s
+Transformer epoch=024 loss=3.3178 val_acc=2.15% best=3.71% elapsed=175.4s
+Transformer epoch=025 loss=3.2555 val_acc=2.34% best=3.71% elapsed=182.6s
+Transformer epoch=026 loss=3.1691 val_acc=2.93% best=3.71% elapsed=189.8s
+Transformer epoch=027 loss=3.1115 val_acc=1.95% best=3.71% elapsed=197.0s
+Transformer epoch=028 loss=3.0307 val_acc=1.95% best=3.71% elapsed=204.3s
+Transformer epoch=029 loss=2.9510 val_acc=2.93% best=3.71% elapsed=211.5s
+Transformer epoch=030 loss=2.8777 val_acc=2.15% best=3.71% elapsed=219.3s
+Transformer pairs=8   acc=1.56%
+Saved /home/HP/modus_x_bench/assoc_small/results.json
