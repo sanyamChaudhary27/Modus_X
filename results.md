@@ -63,16 +63,6 @@ The explicit 64-chunk audit found the 80k checkpoint better than 76k:
 | 76k | 4.152610 | 5.990950 |
 | 80k | 4.148229 | 5.984630 |
 
-## HellaSwag Probe
-
-These are 1000-example probes, not full HellaSwag:
-
-| Model | Correct / Samples | Accuracy |
-|---|---:|---:|
-| Modus_X 40k | 277 / 1000 | 27.70% |
-| Mamba 40k | 280 / 1000 | 28.00% |
-| Transformer 40k | 318 / 1000 | 31.80% |
-
 ## Scaling Probe
 
 The current prototype is slower than Transformer at short contexts, but its
@@ -86,4 +76,3 @@ state memory is constant:
 | 1024 | 8.000 | 1.004 |
 | 2048 | 16.000 | 1.004 |
 | 4096 | 32.000 | 1.004 |
-

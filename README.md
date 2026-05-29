@@ -49,21 +49,9 @@ evaluation protocol:
 - Unlike the Transformer baseline, Modus_X has no KV cache and keeps a fixed
   recurrent state independent of context length.
 
-## HellaSwag Probe
-
-The HellaSwag numbers are only 1000-sample probes, about 10% of the dataset.
-They are useful as a quick sanity check, not a full benchmark claim.
-
-| Model | Samples | Accuracy |
-|---|---:|---:|
-| Modus_X 40k | 1000 | 27.70% |
-| Mamba 40k | 1000 | 28.00% |
-| Transformer 40k | 1000 | 31.80% |
-
 ## Files
 
 - `architecture.md`: concise technical description and diagrams.
 - `results.md`: detailed benchmark summary.
 - `raw_outputs/`: copied JSONL/TXT outputs used in the tables.
 - `benchmark_scripts/`: copied scripts used for local benchmark/eval work.
-
