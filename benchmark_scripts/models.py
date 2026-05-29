@@ -18,6 +18,7 @@ class ModelConfig:
     n_heads_attn: int = 8
     seq_len: int = 512
     mamba_state_dim: int = 256
+    vector_router: bool = False
 
 
 def count_params(tree) -> int:
@@ -521,8 +522,8 @@ def init_modus_x_layer(key: jax.Array, cfg: ModelConfig) -> dict:
         # initialized to 0 bias => 0.5 mix at start
         "r_w":       random.normal(keys[15], (d, d)) * 0.01,
         "r_b":       jnp.zeros(d),
-        "r_proj":    random.normal(keys[16], (1, d)) * 0.01,
-        "r_proj_b":  jnp.zeros(1),
+        "r_proj":    random.normal(keys[16], (d if getattr(cfg, "vector_router", False) else 1, d)) * 0.01,
+        "r_proj_b":  jnp.zeros(d if getattr(cfg, "vector_router", False) else 1),
     }
 
 
@@ -564,7 +565,8 @@ def modus_x_layer_fwd(layer: dict, x_seq: jax.Array) -> jax.Array:
 
         # ── Router ──────────────────────────────────────────────────────
         r_hidden = jax.nn.gelu(layer["r_w"] @ e + layer["r_b"])
-        router   = jax.nn.sigmoid((layer["r_proj"] @ r_hidden + layer["r_proj_b"])[0])
+        r_logits = layer["r_proj"] @ r_hidden + layer["r_proj_b"]
+        router   = jax.nn.sigmoid(r_logits[0] if layer["r_proj"].shape[0] == 1 else r_logits)
         out = router * modus_out + (1.0 - router) * mamba_out
 
         return (H, s), out

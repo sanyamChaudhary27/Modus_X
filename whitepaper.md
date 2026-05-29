@@ -192,7 +192,22 @@ In this task, a model is trained to memorize a sequence of key-value associative
 
 ---
 
-## 8. Visual Summary
+## 8. Architectural Upgrades: Element-Wise Vector Router
+
+The current Modus_X router computes a scalar gate $r_t \in (0,1)$ that uniformly blends both memory streams across all embedding dimensions. However, we propose upgrading this to an element-wise vector gate $r_t \in (0,1)^d$:
+
+$$r_t = \sigma(W_{rp} \cdot \text{GeLU}(W_{rh} \cdot e_t + b_{rh}) + b_{rp})$$
+$$y_t = r_t \odot \text{modus\_out}_t + (1 - r_t) \odot \text{mamba\_out}_t$$
+
+where $W_{rp} \in \mathbb{R}^{d \times h}$. 
+
+This element-wise gating allows orthogonal semantic subspaces within the token representation to draw from different memory sources independently. The matrix stream can specialize in content-addressed semantic dimensions while the vector stream handles syntactic tracking dimensions.
+
+**Parameter Cost**: Upgrading the router projection from a scalar ($1 \times 512$) to a full vector ($512 \times 512$) adds $+261,632$ parameters, which is a negligible $\sim 0.17\%$ parameter cost increase for a $153.9\text{M}$ parameter model. The implementation is backward-compatible with existing checkpoints; empirical validation of this vector routing strategy is pending future compute.
+
+---
+
+## 9. Visual Summary
 
 ```mermaid
 flowchart TD
@@ -206,7 +221,7 @@ flowchart TD
     C --> C4["Best audited attention-free result in this run"]
 ```
 
-## 9. Conclusion
+## 10. Conclusion
 
 Modus_X establishes a serious attention-free alternative: a constant-state language model that combines matrix associative memory, selective vector recurrence, and input-dependent routing. In the current experiments, it is not the top model overall because the Transformer retains the best validation loss. But among constant-state no-attention models tested here, Modus_X is the clear leader, beating Mamba by a large margin and continuing to improve with training.
 
