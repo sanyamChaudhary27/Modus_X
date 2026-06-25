@@ -1,78 +1,50 @@
-# Modus_X Results
+# Modus_X v1.1 Results
 
-## Audited FineWeb-Edu Language Modeling
+This file summarizes the headline evidence in the v1.1 publication. Exact
+claim boundaries and protocol details are recorded in
+`docs/CLAIMS_AND_EVIDENCE.md` and `docs/BENCHMARK_PROTOCOL.md`.
 
-Protocol:
+## Matched enwik8 Dense Audit
 
-- checkpoint eval script: `benchmarks/eval_lm_checkpoint.py`
-- validation shard: `/home/HP/fineweb_tokens_modus_v2_big/tokens_00006.npy`
-- eval chunks: `64`
-- eval batch: `4`
-- sequence length: `512`
-- vocabulary: GPT-2 tokenizer, `50257`
-- Modus_X config: embed `512`, hidden `2048`, ax/state `384`, layers `8`
+All models were evaluated at 40,000 optimizer updates and 163.84M processed
+characters with nearby parameter counts.
 
-| Model | Step | Valid Loss | Valid BPC | Perplexity |
-|---|---:|---:|---:|---:|
-| Mamba | 40k | 4.321912 | 6.235201 | 75.33 |
-| Modus_X | 40k | 4.205961 | 6.067920 | 67.08 |
-| Modus_X | 58k | 4.175283 | 6.023660 | 65.06 |
-| Modus_X | 60k | 4.165989 | 6.010252 | 64.46 |
-| Modus_X | 76k | 4.152610 | 5.990950 | 63.60 |
-| Modus_X | 80k | 4.148229 | 5.984630 | 63.32 |
-| Transformer | 40k | 4.080766 | 5.887301 | 59.19 |
+| Model | Parameters | Dense validation BPC | Dense test BPC |
+| --- | ---: | ---: | ---: |
+| Official Mamba | 81.46M | **1.3505** | **1.3458** |
+| Modus_X | 82.76M | **1.3787** | **1.3842** |
+| Official xLSTM | 76.65M | 1.4351 | 1.4196 |
 
-## Main Comparisons
+Supported interpretation:
 
-| Comparison | Loss Delta | Perplexity Delta |
-|---|---:|---:|
-| Modus_X 80k vs Mamba 40k | -0.173682 | -12.01 |
-| Modus_X 80k vs Modus_X 40k | -0.057732 | -3.76 |
-| Modus_X 80k vs Transformer 40k | +0.067463 | +4.13 |
+- Official Mamba is the strongest byte-language model in this comparison.
+- Modus_X outperforms the tested official xLSTM configuration.
+- All three models use constant recurrent inference state with respect to
+  sequence length.
 
-Interpretation:
+## Associative Recall
 
-- Modus_X is the strongest recurrent/no-attention model in this run.
-- The Transformer baseline remains lower on the audited LM validation metric.
-- The gap to Transformer is now small enough that scaling, optimizer state,
-  longer training, and architecture tuning are plausible next levers.
+| Model | Params | Length 128 | Length 256 | Length 512 | Length 1024 | Length 2048 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Modus_X VectorLean | 152,436 | **95.1%** | **94.5%** | **94.8%** | **94.5%** | **94.6%** |
+| Official Mamba recall model | 162,560 | 2.85% | 3.70% | 3.30% | 3.28% | 3.33% |
+| Chance | - | 3.125% | 3.125% | 3.125% | 3.125% | 3.125% |
 
-## 80k Continuation Curve
+This is a controlled synthetic binding task. It demonstrates a strong
+content-addressed-memory advantage under the tested protocol, not universal
+long-context superiority.
 
-The 80k continuation used 32-chunk in-loop evals, so these numbers are not
-directly interchangeable with the 64-chunk audit table above. They are still
-useful for trend:
+## Same-Key Overwrite
 
-| Step | In-Loop Valid Loss | In-Loop Valid BPC |
-|---:|---:|---:|
-| 60k | 4.161579 | 6.003890 |
-| 62k | 4.153648 | 5.992447 |
-| 64k | 4.154800 | 5.994109 |
-| 66k | 4.156896 | 5.997134 |
-| 68k | 4.149930 | 5.987084 |
-| 70k | 4.151167 | 5.988868 |
-| 72k | 4.154589 | 5.993806 |
-| 74k | 4.149152 | 5.985961 |
-| 76k | 4.148533 | 5.985068 |
-| 78k | 4.150170 | 5.987430 |
+| Model | No-overwrite recall | 50% overwrite recall |
+| --- | ---: | ---: |
+| Modus_X VectorLean | **97.325%** | **88.850%** |
+| Official Mamba recall model | 2.850% | 3.425% |
 
-The explicit 64-chunk audit found the 80k checkpoint better than 76k:
+## Current Claim
 
-| Step | 64-Chunk Valid Loss | 64-Chunk Valid BPC |
-|---:|---:|---:|
-| 76k | 4.152610 | 5.990950 |
-| 80k | 4.148229 | 5.984630 |
+> Modus_X is a competitive constant-state language model with a demonstrated
+> associative-memory advantage on controlled binding and overwrite tasks. It
+> does not yet lead official Mamba on enwik8 compression.
 
-## Scaling Probe
-
-The current prototype is slower than Transformer at short contexts, but its
-state memory is constant:
-
-| Context | Transformer State MB | Modus_X State MB |
-|---:|---:|---:|
-| 128 | 1.000 | 1.004 |
-| 256 | 2.000 | 1.004 |
-| 512 | 4.000 | 1.004 |
-| 1024 | 8.000 | 1.004 |
-| 2048 | 16.000 | 1.004 |
-| 4096 | 32.000 | 1.004 |
+See `whitepaper.pdf` for the full analysis, limitations, and roadmap.

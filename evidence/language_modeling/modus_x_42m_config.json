@@ -1,0 +1,42 @@
+{
+  "args": {
+    "data_path": "/kaggle/working/modus_x_t12_relay/enwik8",
+    "outdir": "/kaggle/working/modus_x_t12_relay/output",
+    "batch": 8,
+    "target_chars": 500000000,
+    "stop_chars": 500000000,
+    "checkpoint_chars": 20480000,
+    "eval_chunks": 128,
+    "eval_batch": 8,
+    "lr": 0.0008,
+    "auxiliary_weight": 0.05,
+    "schedule": "late_cosine",
+    "warmup_steps": 100,
+    "decay_start_chars": 100000000,
+    "end_lr_ratio": 0.05,
+    "precision": "float32",
+    "resume": true,
+    "seed": 1,
+    "embed_dim": 512,
+    "hidden_dim": 1536,
+    "state_dim": 512,
+    "n_layers": 12,
+    "router_hidden": 32
+  },
+  "devices": [
+    "TPU_0(process=0,(0,0,0,0))",
+    "TPU_1(process=0,(1,0,0,0))",
+    "TPU_2(process=0,(0,1,0,0))",
+    "TPU_3(process=0,(1,1,0,0))",
+    "TPU_4(process=0,(0,2,0,0))",
+    "TPU_5(process=0,(1,2,0,0))",
+    "TPU_6(process=0,(0,3,0,0))",
+    "TPU_7(process=0,(1,3,0,0))"
+  ],
+  "params": 42692772,
+  "non_embedding_params": 42561700,
+  "chars_per_step": 4096,
+  "total_steps": 122071,
+  "stop_steps": 122071,
+  "checkpoint_steps": 5000
+}

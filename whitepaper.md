@@ -1,16 +1,16 @@
-﻿# Modus_X: Dual-Stream Hybrid Language Modeling with Associative Matrix Memory and Selective State Spaces
+# Modus_X v1.1: Constant-State Language Modeling with Associative Memory and Selective Recurrence
 
 Sanyam Chaudhary  
 Independent Researcher, India  
-Modus Research Project, May 2026
+Modus Research Project, June 2026
 
 ## Abstract
 
-We introduce **Modus_X**, a novel attention-free causal sequence architecture that integrates two complementary sequence modeling paradigms: selective state-space models (SSMs) for capturing fast, local sequential dynamics, and a content-addressed associative matrix memory using delta-rule updates for long-range associative recall. Unlike traditional Transformers [1], Modus_X does not employ attention mechanisms or key-value (KV) caches, resulting in $O(L)$ training complexity and $O(1)$ constant inference memory footprint with respect to sequence length. 
+We introduce **Modus_X**, an attention-free causal sequence architecture that combines a selective recurrent stream for local sequential dynamics with a delta-rule associative matrix stream for content-addressed memory. The resulting model uses fixed recurrent state during autoregressive inference: its cache does not grow with generated sequence length, unlike Transformer key-value caches. This property does not by itself imply lower total compute in every regime, but it creates a distinct systems path for long-context inference.
 
-To evaluate the architecture under controlled conditions, we train Modus_X, Transformer, and Mamba-family baselines on the FineWeb-Edu dataset [12]. Our experiments demonstrate that Modus_X achieves superior perplexity compared to the audited Mamba recurrent baseline, while an internal parameter-matched Mamba control suggests that the gain is architectural rather than merely parameter-count driven. Against the Transformer, we use the 40k checkpoint as a reference baseline rather than a strict compute-matched comparison: the Transformer remains lower at 40k, while Modus_X continues to improve through 80k and narrows the short-context language-modeling gap while preserving constant recurrent state.
+Version 1.1 adds three evidence layers. First, an 82.76M-parameter Modus_X model reaches **1.3842 dense test BPC** on enwik8 after 163.84M processed characters. Under the same dense evaluator, an official xLSTM baseline reaches **1.4196**, while an official Mamba baseline reaches **1.3458**. Thus Modus_X is competitive with strong recurrent families, exceeds the matched xLSTM result in this protocol, and does not yet beat Mamba on byte-level compression. Second, on a balanced associative-recall protocol, Modus_X sustains approximately **94-95% exact recall through length 2048**, while the evaluated Mamba baseline remains near the 3.125% chance level. On same-key overwrite recall, Modus_X reaches **88.85%** versus **3.43%** for the evaluated Mamba configuration. Third, router ablations show that a lean element-wise vector router improves the recovered recall result over a scalar router without requiring an expansive routing network.
 
-Crucially, synthetic associative recall stress tests indicate the intended qualitative separation: vector-state recurrence suffers interference as the number of independent key-value bindings grows, while the Modus_X matrix stream is designed for content-addressed lookup and overwrite. Modus_X is therefore not yet a Transformer replacement on every metric, but it is a strong attention-free, constant-state contender and a promising second path for long-context modeling.
+The combined evidence is more informative than any single leaderboard number. Mamba currently wins the enwik8 compression comparison; Modus_X wins the tested associative-memory comparisons and retains constant inference state. We therefore present Modus_X not as a universal replacement, but as a credible architecture line with an experimentally visible specialization: compression quality competitive with recurrent baselines, substantially stronger explicit binding and overwrite behavior in the tested setup, and a memory footprint whose sequence-length dependence differs fundamentally from attention.
 
 ---
 
@@ -46,7 +46,7 @@ flowchart TD
 ```
 
 <div align="center">
-    <img src="./assets/Modus_X(Scalar_router).png" alt="Modus_X Scalar Router Architecture" />
+    <img src="../figures/modus_x_scalar_router.png" alt="Modus_X Scalar Router Architecture" />
 </div>
 
 ### 2.1 The Local Selective Vector Stream (Mamba)
@@ -109,132 +109,353 @@ flowchart LR
 
 ---
 
-## 4. Experimental Setup
+## 4. Evidence Design and Experimental Protocols
 
-All audited language-modeling numbers use the same held-out FineWeb-Edu shard [12]:
+Version 1.1 separates evidence into three protocols rather than blending results from different datasets, scales, and implementations.
 
-```text
-/home/HP/fineweb_tokens_modus_v2_big/tokens_00006.npy
-```
+### 4.1 Protocol A: Historical FineWeb-Edu Language Modeling
 
-The primary evaluation models are configured at the $\sim 154\text{M}$ parameter scale:
-* **Transformer Reference Baseline** ($155.2\text{M}$ params): 12 layers, 12 attention heads, embed dim $768$, hidden dim $3072$.
-* **Mamba Baseline (Base)** ($139.7\text{M}$ params): 8 layers, embed dim $512$, hidden dim $2048$, state dim $384$.
-* **Mamba Baseline (Matched, internal control)** ($154.0\text{M}$ params): 8 layers, embed dim $512$, hidden dim $2328$, state dim $384$.
-* **Modus_X** ($153.9\text{M}$ params): 8 layers, embed dim $512$, matrix dimension $384 \times 384$, hidden dim $2048$.
+The original release evaluated approximately 154M-parameter models on a held-out FineWeb-Edu token shard. The model configurations were:
 
-Training is carried out for $40,000$ steps (amounting to $164\text{M}$ tokens), with Modus_X continuing training to $80,000$ steps ($327\text{M}$ tokens). Because Modus_X is continued beyond the baseline 40k checkpoints, its 80k row should be interpreted as a scaling/continuation result, not as a strictly compute-matched comparison to the 40k Transformer.
+* **Transformer reference**: 155.2M parameters, 12 layers, 12 attention heads, embedding dimension 768.
+* **Mamba-family base control**: 139.7M parameters, 8 layers, embedding dimension 512.
+* **Mamba-family matched control**: 154.0M parameters.
+* **Modus_X**: 153.9M parameters, 8 layers, matrix dimension $384 \times 384$.
 
----
+This evidence is retained because it motivated the architecture and shows learning at a larger parameter scale. It is not the primary v1.1 baseline claim because the recurrent control was a local implementation and the Transformer checkpoint was not trained for the same number of steps as the final Modus_X checkpoint.
 
-## 5. Main Language Modeling Results
+**Table 1: Historical FineWeb-Edu results retained from the original release.**
 
-**Table 1: Validation performance on FineWeb-Edu.**
+| Model | Parameters | Step | Eval loss | Perplexity | Eval BPC |
+|---|---:|---:|---:|---:|---:|
+| Mamba-family base control | 139.7M | 40k | 4.322 | 75.33 | 6.235 |
+| Mamba-family matched control | 154.0M | 40k | 4.259 | 70.74 | 6.144 |
+| Modus_X | 153.9M | 40k | **4.206** | **67.09** | **6.068** |
+| Modus_X continuation | 153.9M | 80k | **4.148** | **63.32** | **5.985** |
+| Transformer reference | 155.2M | 40k | 4.081 | 59.19 | 5.887 |
 
-| Model | Parameters | Step | Eval Loss | Perplexity | Eval BPC |
-|---|---|---|---|---|---|
-| **Mamba (Base)** | 139.7M | 40k | `4.322` | `75.33` | `6.235` |
-| **Mamba (Matched)** | 154.0M | 40k | `4.259` | `70.74` | `6.144` |
-| **Modus_X** | 153.9M | 40k | **`4.206`** | **`67.09`** | **`6.068`** |
-| **Modus_X (Continuation)** | 153.9M | 80k | **`4.148`** | **`63.32`** | **`5.985`** |
-| **Transformer (reference)** | 155.2M | 40k | `4.081` | `59.19` | `5.887` |
+The historical result supports two bounded conclusions. First, the matrix stream did not prevent ordinary language-model learning at 154M scale. Second, the matched local recurrent control did not recover the full Modus_X result by parameter count alone. It does **not** establish superiority over official Mamba or over a compute-matched Transformer.
 
-Our parameter-matched control run resolves a critical research question: *Is Modus_X's advantage over Mamba simply due to its higher parameter capacity?* 
-1. Scaling Mamba from $139.7\text{M}$ to $154.0\text{M}$ parameters improves validation loss from $4.322$ to $4.259$.
-2. **Modus_X significantly outperforms the parameter-matched Mamba control**, achieving a validation loss of $4.206$ (a $0.053$ gap over Mamba Matched). This validates that the performance superiority of Modus_X is architectural.
+### 4.2 Protocol B: Matched enwik8 Recurrent Baselines
 
-The Transformer comparison is deliberately not stated as a fair compute-matched win/loss comparison:
-```text
-Modus_X 80k loss       = 4.148
-Transformer 40k loss   = 4.081
-Remaining gap          = 0.067
-```
-The Transformer remains the strongest short-context LM baseline in this run. Modus_X is instead the strongest attention-free constant-state contender in the current evidence bundle: it beats recurrent Mamba-family baselines, improves with continuation, and keeps a fundamentally better memory scaling profile for long contexts.
+The primary v1.1 compression comparison uses the standard enwik8 split:
 
----
+* training bytes: first 90,000,000;
+* validation bytes: next 5,000,000;
+* test bytes: final 5,000,000;
+* byte vocabulary: 256 symbols;
+* context length: 512;
+* processed-character checkpoint for the main comparison: 163,840,000;
+* dense evaluation: two deterministic offsets over 9,765 windows per split.
 
-## 6. Synthetic Stress Test: Associative Recall
+The evaluated models are close in scale:
 
-To probe the long-range content-addressed retrieval thesis formulated in Section 1 and Section 2.2, we run a synthetic length-generalization benchmark.
+| Model | Parameters | Implementation status |
+|---|---:|---|
+| Official Mamba baseline | 81.46M | official Mamba family implementation, trained on T4 GPUs |
+| Modus_X | 82.76M | v1.1 implementation, trained on an eight-core Kaggle TPU |
+| Official xLSTM baseline | 76.65M | official xLSTM family implementation, trained with TPU mesh data parallelism |
 
-In this task, a model is trained to memorize a sequence of key-value associative pairs of length $N$ and is then queried to retrieve the value associated with a specific key. To test the physical generalization and memory bottlenecking behavior, the models are trained on sequences containing exactly $16$ pairs ($34$ tokens context) and then evaluated without further training on longer out-of-distribution context lengths containing up to $64$ pairs ($130$ tokens context).
+Device count is not a quality advantage by itself: it changes wall-clock throughput, not the amount of supervised data represented by 163.84M processed characters. Nevertheless, kernels, optimizer details, numerical precision, and hardware-specific implementations differ. The result should therefore be described as a tightly aligned empirical comparison, not a formal proof that one architecture dominates all implementations of another.
 
-![Out-of-Distribution Length Generalization (Associative Recall)](./assets/recall_plot.png)
+### 4.3 Protocol C: Balanced Associative Recall and Overwrite
 
-**Table 2: Out-of-Distribution Length Generalization on Key-Value Recall.**
+The recall benchmark isolates a capability that BPC can hide: retaining and retrieving independent key-value associations. Inputs contain explicit key-value bindings followed by a query. With 32 possible values, chance accuracy is 3.125%. The recovered Modus_X comparison uses a lean vector-router checkpoint with 152,436 parameters; the official Mamba recall model uses 162,560 parameters. Both are evaluated on the same vocabulary, key dimension, number of pairs, query format, and sequence-length sweep.
 
-| Model | Params | Training Length (16 pairs) | Evaluation (8 pairs) | Evaluation (32 pairs) | Evaluation (64 pairs) |
-|---|---|---|---|---|---|
-| **Mamba** | 1.39M | **`100.00%`** | `100.00%` | `32.25%` | `4.15%` |
-| **Transformer** | 1.35M | **`100.00%`** | - | - | - |
-| **Modus_X** | 1.41M | **`100.00%`** | **`100.00%`** | **`100.00%`** | **`100.00%`** |
-
-#### Interpretation:
-* **The Mamba Collapse**: While Mamba achieves $100.00\%$ accuracy on the training length ($16$ pairs), its retrieval capability **completely flatlines to $4.15\%$** (near random guess) at $64$ pairs. This demonstrates the fundamental physical limitation of selective vector-state models: because they squeeze information into a fixed-size vector state, they suffer from catastrophic memory interference when storing multiple independent associations.
-* **The Modus_X Perfect Scale**: Modus_X achieves a **flawless $100.00\%$ accuracy across all evaluation lengths**, showing zero degradation even when sequence context is quadrupled to $64$ pairs. Because the matrix state stores content as outer-product fast-weights, it bypasses the vector interference bottleneck in this controlled synthetic setting.
+The overwrite variant repeats keys and asks for the most recent value. This directly tests whether a recurrent memory can update an existing binding rather than merely accumulate a blurred summary.
 
 ---
 
-## 7. Architectural Upgrades: Element-Wise Vector Router
+## 5. Main Byte-Level Language Modeling Results
 
-The current Modus_X router computes a scalar gate $r_t \in (0,1)$ that uniformly blends both memory streams across all embedding dimensions. However, we propose upgrading this to an element-wise vector gate $r_t \in (0,1)^d$:
+![Dense enwik8 validation and test BPC](../figures/dense_bpc_comparison.png)
 
-$$r_t = \sigma(W_{rp} \cdot \text{GeLU}(W_{rh} \cdot e_t + b_{rh}) + b_{rp})$$
-$$y_t = r_t \odot \text{modus\_out}_t + (1 - r_t) \odot \text{mamba\_out}_t$$
+**Table 2: Dense enwik8 comparison at 163.84M processed characters. Lower is better.**
 
-where $W_{rp} \in \mathbb{R}^{d \times h}$. 
+| Model | Parameters | Dense validation BPC | Dense test BPC | Inference state growth |
+|---|---:|---:|---:|---|
+| Official Mamba | 81.46M | **1.3505** | **1.3458** | Constant in sequence length |
+| **Modus_X** | 82.76M | **1.3787** | **1.3842** | Constant in sequence length |
+| Official xLSTM | 76.65M | 1.4351 | 1.4196 | Constant in sequence length |
 
-This element-wise gating allows orthogonal semantic subspaces within the token representation to draw from different memory sources independently. The matrix stream can specialize in content-addressed semantic dimensions while the vector stream handles syntactic tracking dimensions.
+This table contains both a win and a limitation.
 
-**Parameter Cost**: Upgrading the router projection from a scalar ($1 \times 512$) to a full vector ($512 \times 512$) adds $+261,632$ parameters, which is a negligible $\sim 0.17\%$ parameter cost increase for a $153.9\text{M}$ parameter model. The implementation is backward-compatible with existing checkpoints; empirical validation of this vector routing strategy is pending future compute.
+* Modus_X improves dense test BPC over xLSTM by **0.0354 BPC** in the matched-character protocol.
+* Mamba improves dense test BPC over Modus_X by **0.0384 BPC**.
+* All three systems avoid Transformer-style KV-cache growth.
+
+The correct conclusion is not that enwik8 "does not matter." Compression is a central language-modeling metric, and Mamba is currently stronger under this protocol. The more important architectural observation is that Modus_X remains close in compression while expressing a sharply different recall profile in Section 6. A hybrid architecture is only scientifically interesting if each stream contributes something observable; these two evaluations begin to expose that separation.
+
+### 5.1 Observed Modus_X Scaling Curve
+
+![Measured Modus_X validation curve](../figures/modus_x_observed_scaling.png)
+
+The 82.76M-parameter run improved throughout its measured trajectory:
+
+| Processed characters | Sparse validation BPC |
+|---:|---:|
+| 20.48M | 1.6546 |
+| 40.96M | 1.4820 |
+| 81.92M | 1.4408 |
+| 102.40M | 1.3796 |
+| 122.88M | 1.3451 |
+| 143.36M | 1.3260 |
+| 163.84M | 1.3183 |
+
+These sparse checkpoint numbers use the run-time evaluator and are not interchangeable with the dense numbers in Table 2. They are useful for optimization and scaling-shape analysis. The curve demonstrates continuing improvement, but its diminishing slope does not justify extrapolating a specific character budget to 1.1 BPC. Version 1.1 deliberately reports the measured region only.
+
+### 5.2 Generalization Audit
+
+The final 80M checkpoint was also evaluated across train-tail, validation, and test windows with linspace, random, and dense offsets:
+
+| Split | Dense offset 0 | Dense half offset |
+|---|---:|---:|
+| Train tail | 1.2570 | 1.2572 |
+| Validation | 1.3787 | 1.3786 |
+| Test | 1.3840 | 1.3843 |
+
+The approximately 0.12 BPC train-to-validation gap shows remaining generalization pressure, but it is materially smaller than the gap observed in the earlier 42.69M-parameter 500M-character campaign. Capacity helped: the larger model produced the strongest generalization observed in the project even though it processed fewer characters than the earlier long run.
+
+---
+
+## 6. Associative Recall: The Primary Capability Win
+
+![Associative recall comparison](../figures/associative_recall_comparison.png)
+
+**Table 3: Exact recall accuracy by evaluation length. Higher is better.**
+
+| Model | Params | 128 | 256 | 512 | 1024 | 2048 |
+|---|---:|---:|---:|---:|---:|---:|
+| **Modus_X VectorLean** | 152,436 | **95.1%** | **94.5%** | **94.8%** | **94.5%** | **94.6%** |
+| Official Mamba recall model | 162,560 | 2.85% | 3.70% | 3.30% | 3.28% | 3.33% |
+| Chance | - | 3.125% | 3.125% | 3.125% | 3.125% | 3.125% |
+
+The Modus_X result is nearly flat across a 16-fold length increase. The Mamba result remains statistically close to chance. This is the clearest current evidence for the matrix-memory hypothesis: a matrix can maintain separable content-addressed bindings that are difficult to preserve in a compact vector recurrence under this task.
+
+This result should still be bounded carefully:
+
+* It is a synthetic benchmark, not a direct measurement of factual recall in a pretrained LLM.
+* It evaluates one official Mamba configuration and one Modus_X configuration, not all possible hyperparameter settings.
+* The conclusion is task-specific: Modus_X is dramatically better on this tested binding task, not universally better at every form of memory.
+* The benchmark is valuable precisely because it is controlled. Natural-language BPC alone cannot identify whether a model has learned persistent binding or merely local statistical continuation.
+
+### 6.1 Same-Key Overwrite
+
+![Same-key overwrite comparison](../figures/overwrite_comparison.png)
+
+**Table 4: Recovered seed-17 overwrite evidence.**
+
+| Model | Params | No-overwrite exact recall | 50% overwrite exact recall |
+|---|---:|---:|---:|
+| **Modus_X VectorLean** | 145,674 | **97.325%** | **88.850%** |
+| Official Mamba recall model | 162,560 | 2.850% | 3.425% |
+
+Overwrite is a harder test than static storage because the correct answer depends on recency and selective replacement. The Modus_X delta update explicitly computes a residual between the new value and the value currently retrieved by the key. The strong overwrite score is therefore aligned with the mechanism rather than being an incidental metric.
+
+The no-overwrite Modus_X row comes from a confirmation run with the same seed and task family, but not the exact checkpoint used for every length-generalization point in Table 3. The evidence package preserves this distinction instead of merging runs into a fictitious single experiment.
+
+---
+
+## 7. Element-Wise Vector Routing
+
+The original scalar router computes one gate $r_t \in (0,1)$ for the entire hidden representation. The v1.1 lean vector router computes a gate per feature:
+
+$$r_t = \sigma(W_{rp}\,\text{GeLU}(W_{rh}e_t+b_{rh})+b_{rp})$$
+$$y_t = r_t \odot y_t^{matrix} + (1-r_t)\odot y_t^{vector}$$
 
 <div align="center">
-    <img src="./assets/Modus_X(Vector_router).png" alt="Modus_X Vector Router Architecture" />
+    <img src="../figures/modus_x_vector_router.png" alt="Modus_X Vector Router Architecture" />
 </div>
+
+The conceptual benefit is specialization. A scalar router forces all hidden dimensions to choose the same stream mixture at a token. A vector router permits one subspace to preserve a retrieved entity or value while another tracks syntax, local phase, or recurrence.
+
+The empirical result is modest but real. In the recovered seed-17 width sweep:
+
+| Router | Width | Accuracy |
+|---|---:|---:|
+| Scalar parameter-matched | - | 96.2% |
+| VectorLean | 8 | 96.3% |
+| **VectorLean** | **16** | **97.325%** |
+| VectorLean | 32 | 96.725% |
+
+Across seeds 17, 27, and 37, the vector configuration averages approximately **97.033%**, compared with **96.692%** for the scalar control. This is not evidence that vector routing wins every task. It is evidence that the proposed router can improve specialization without requiring the full $d \times d$ projection originally considered. Width 16 is therefore the current defensible default for recall-oriented experiments.
 
 ---
 
-## 8. Visual Summary
+## 8. Memory Scaling and Systems Implications
 
-```mermaid
-flowchart TD
-    A["Transformer"] --> A1["Best LM loss in current run"]
-    A --> A2["KV cache grows with context"]
-    B["Mamba"] --> B1["Constant recurrent state"]
-    B --> B2["Vector memory bottleneck"]
-    C["Modus_X"] --> C1["Constant recurrent state"]
-    C --> C2["Matrix associative writes"]
-    C --> C3["Selective vector dynamics"]
-    C --> C4["Best audited attention-free result in this run"]
-```
+![Analytical recurrent-state and KV-cache scaling](../figures/memory_scaling_projection.png)
 
-## 9. Artifact Checklist and Limitations
+The memory comparison in this section is analytical, not a measured throughput benchmark. For a Transformer decoder with $n$ layers, $h$ KV heads, head dimension $d_h$, precision $b$ bytes, and context length $L$, KV storage scales approximately as:
 
-Before external submission, every table row should have a raw output artifact in `raw_outputs/`.
+$$M_{KV}(L) = 2n h d_h b L.$$
 
-| Claim | Status |
+For Modus_X, the recurrent state consists of matrix and vector states whose dimensions are fixed after model construction:
+
+$$M_{Modus\_X} = n b (d_m^2 + d_v + \text{auxiliary state}).$$
+
+The matrix state can be larger than a vector SSM state at short contexts; "constant-state" does not mean "free." Its advantage is that extending the generated context does not append another key and value vector for every layer. The chart therefore shows sequence-length dependence, not a universal memory win at every context or batch size.
+
+This distinction matters for scaling:
+
+1. **Long-context serving:** once the fixed state is allocated, additional generated tokens do not enlarge a KV cache.
+2. **Streaming:** the model can process indefinitely without retaining the original token history for attention.
+3. **Batching:** predictable per-sequence state can simplify capacity planning, although the matrix state may still limit batch size.
+4. **Kernel opportunity:** the current implementation uses general JAX/PyTorch operations. Fused delta-update and selective-scan kernels are likely necessary before making wall-clock efficiency claims.
+
+Modus_X currently offers a memory-scaling thesis, not a demonstrated end-to-end serving-cost victory. That thesis is still strategically important: a model line that preserves explicit associative behavior without context-growing state could become more attractive as sequence lengths move from thousands toward millions of tokens.
+
+---
+
+## 9. What the Combined Evidence Means
+
+![Evidence summary](../figures/evidence_summary.png)
+
+The v1.1 evidence does not reduce to one winner column.
+
+### 9.1 Compression
+
+Official Mamba is the strongest enwik8 model tested here. Modus_X is second and xLSTM third under dense test evaluation. This is a genuine limitation and a useful target: the selective recurrence stream inside Modus_X does not automatically inherit the full compression quality of a dedicated Mamba stack.
+
+### 9.2 Explicit Associative Memory
+
+Modus_X is overwhelmingly stronger on the tested balanced recall and overwrite protocols. The magnitude is too large to dismiss as a minor tuning fluctuation: approximately 95% versus chance across the length sweep, and 88.85% versus 3.425% under overwrite.
+
+### 9.3 Architectural Complementarity
+
+The result supports the reason Modus_X exists. Mamba-like recurrence offers strong sequence compression. Matrix memory offers separable content-addressed storage. Modus_X attempts to place both mechanisms in every layer and learn when each should dominate. The current model has not yet reached the best observed compression, but it exposes a capability that the tested Mamba baseline does not.
+
+### 9.4 Why BPC Is Necessary but Not Sufficient
+
+BPC measures predictive compression over a distribution. It rewards every statistical regularity and remains one of the cleanest language-model metrics. It does not reveal which internal capability produced the compression, nor whether a model can preserve many arbitrary bindings over long intervals. Conversely, synthetic recall cannot substitute for language modeling. A serious architecture must eventually perform both.
+
+The strongest defensible v1.1 statement is:
+
+> Modus_X is a competitive constant-state language model with a demonstrated associative-memory advantage on controlled binding and overwrite tasks. It does not yet lead official Mamba on enwik8 compression.
+
+---
+
+## 10. Training Campaign and Negative Results
+
+The path to v1.1 included an extensive 42.69M-parameter campaign targeting the 1.1 BPC challenge. The best long run reached approximately 1.32 sparse validation BPC after 500M processed characters. A dense audit measured approximately 1.389 validation and 1.411 test BPC, while the train tail reached approximately 1.155 BPC. This established that optimization capacity remained but generalization had become the primary bottleneck.
+
+Several plausible interventions did not produce a promotion-level gain:
+
+* lower auxiliary weight;
+* broader multi-layer auxiliary supervision;
+* input corruption;
+* label smoothing;
+* dropout at screened strengths;
+* short-to-long context curriculum;
+* shallow budget-shape variants;
+* naive future-target combinations beyond the useful offset-2 objective;
+* SGD/momentum as a replacement for AdamW.
+
+These negative results are scientifically useful. They narrow the next search toward data efficiency, architecture allocation, and mechanism-specific improvements rather than generic regularization. They also prevent the release from presenting a lucky curve without its surrounding failed hypotheses.
+
+The 80M scaling run delivered the most important positive signal after those failures: increasing capacity reduced the dense train-validation gap and improved dense test BPC. This suggests that the architecture was not simply memorizing enwik8; additional capacity improved its representation of held-out bytes.
+
+---
+
+## 11. Limitations and Countervailing Evidence
+
+Every major claim has a corresponding limitation:
+
+| Positive evidence | Limitation or counterevidence |
 |---|---|
-| Mamba base 40k LM eval | Backed by `mamba_40k_final_eval.jsonl` |
-| Modus_X 40k/60k/76k/80k LM eval | Backed by JSONL files in `raw_outputs/` |
-| Transformer 40k LM eval | Backed by `transformer_40k_final_eval.jsonl` |
-| Mamba matched 154M LM eval | Needs raw JSONL/log artifact before external submission |
-| Associative recall stress test | Needs raw script output paired with `recall_plot.png` before external submission |
+| Modus_X beats official xLSTM on dense enwik8 test BPC. | Official Mamba remains better by 0.0384 BPC. |
+| Modus_X retains approximately 95% recall through length 2048. | The task is synthetic and does not establish LLM-scale factual recall. |
+| Modus_X reaches 88.85% overwrite recall. | The comparison covers one task design, one principal seed, and small models. |
+| Inference state is constant in sequence length. | The fixed matrix state can be larger than a vector recurrent state, and optimized serving has not been benchmarked. |
+| The 80M model scales better than the 42M campaign. | Only one serious 80M trajectory is available; no multi-seed scaling law is claimed. |
+| Vector routing improves recall in the recovered sweep. | The gain is modest and has not yet been established on byte-level LM BPC. |
+| Historical FineWeb Modus_X beats local matched recurrent controls. | Those controls are not substitutes for current official implementations. |
 
-Limitations:
+Additional limitations:
 
-* The Transformer remains lower on the audited short-context language-modeling validation loss.
-* The 80k Modus_X row is a continuation/scaling result, not a compute-matched comparison to the 40k Transformer.
-* Full downstream reasoning benchmarks are not included in the main paper because the available HellaSwag probes were not central to the architectural claim.
-* The current implementation is not custom-kernel optimized.
-* The element-wise router is proposed but not yet empirically validated.
+* No custom fused kernel is included, so training speed is not representative of the architecture's possible systems performance.
+* The enwik8 runs use different accelerator families for different models. Character budgets and evaluation are aligned, but numerical and kernel paths differ.
+* The paper does not claim a 1.1 BPC result. That target remains open.
+* The current experiments do not include broad downstream reasoning, instruction following, multilinguality, safety, or factuality evaluation.
+* The largest public Modus_X language-model evidence in this release remains below one billion parameters.
 
-## 10. Conclusion
+These caveats do not erase the wins. They specify exactly what must be reproduced or scaled before the claims become broader.
 
-Modus_X establishes a serious attention-free alternative: a constant-state language model that combines matrix associative memory, selective vector recurrence, and input-dependent routing. In the current experiments, it is not the top model overall because the Transformer retains the best validation loss. But among constant-state no-attention models tested here, Modus_X is the clear leader, beating Mamba by a large margin and continuing to improve with training.
+---
 
-The right framing is therefore strong and honest:
+## 12. Reproducibility and Claim Discipline
 
-> Modus_X is not yet the Transformer killer. It is the strongest path we have found toward a post-KV-cache language model, and with custom kernels, broader training, and long-context retrieval benchmarks, it becomes a very serious contender.
+The release package separates:
+
+* `benchmarks/`: runnable benchmark implementations and commands;
+* `evidence/`: claim ledgers and normalized evidence summaries;
+* `figures/`: generated charts and their source script;
+* `docs/`: architecture, protocol, limitations, and reproduction notes;
+* `paper/`: this source and PDF builder;
+* `release/`: publication checklist and final artifacts.
+
+Every headline chart is generated from measured values embedded in `figures/generate_figures.py`. The memory-scaling chart is explicitly analytical. No synthetic datapoint is presented as a measured experiment.
+
+The claim policy is:
+
+1. use "official" only for baselines built from the corresponding official model family;
+2. distinguish sparse run-time evaluation from dense split evaluation;
+3. never compare checkpoints at different processed-character budgets without saying so;
+4. retain failures and negative screens in the experiment memory;
+5. describe recall superiority as protocol-specific;
+6. avoid converting a constant-state property into an unmeasured throughput or energy claim.
+
+---
+
+## 13. Roadmap to a Large Modus_X Model
+
+The next objective is not endless optimization on enwik8. The evidence is now sufficient to define a focused scaling program.
+
+### 13.1 Immediate Architecture Work
+
+* Preserve the dual-stream principle.
+* Promote the lean vector router as the recall default, then test it on language modeling.
+* Screen matrix/vector state allocation at matched parameter count.
+* Add router-specialization diagnostics and regularization only if they produce measurable stream separation.
+* Implement stable mixed precision and fused recurrent kernels.
+
+### 13.2 One-Billion-Parameter Gate
+
+A 1B run should proceed only with:
+
+* exact resumable checkpoints;
+* a tokenizer and corpus documented independently of the architecture;
+* predeclared evaluation at fixed token budgets;
+* Mamba, xLSTM, RWKV, and Transformer references where compute permits;
+* associative recall and overwrite probes throughout training;
+* memory, throughput, and serving-state measurements.
+
+The purpose of the 1B model is not merely to lower perplexity. It is to test whether the separation visible at small scale persists: strong ordinary language modeling, constant recurrent state, and explicit associative behavior.
+
+### 13.3 Grant-Scale Research Question
+
+The grant-worthy question is sharper than "can another architecture train?"
+
+> Can a constant-state language model combine Mamba-class compression with matrix-memory binding strongly enough to become a practical large-model alternative to KV-cache-based attention?
+
+Version 1.1 supplies evidence for both halves separately, while also showing the remaining gap between them.
+
+---
+
+## 14. Conclusion
+
+Modus_X v1.1 moves the project from a promising architectural proposal to a multi-axis empirical result.
+
+* It trains as a competitive 82.76M-parameter byte language model.
+* It beats the official xLSTM baseline in the matched dense enwik8 test comparison.
+* It remains behind official Mamba on enwik8 BPC.
+* It decisively outperforms the evaluated Mamba configuration on balanced associative recall and same-key overwrite.
+* It retains a fixed inference state with respect to sequence length.
+* Its larger-capacity run improves generalization relative to the earlier 42M campaign.
+
+The evidence does not justify calling Modus_X a universal winner. It does justify taking the architecture seriously. The matrix stream produces a capability that is visible, stable across tested lengths, and mechanistically aligned with the delta rule. The recurrent stream keeps the model competitive on ordinary language modeling. The router provides a path to combine them rather than choosing one memory geometry for every feature.
+
+Modus_X therefore represents a credible route toward a post-KV-cache model: not because every benchmark is already won, but because the architecture demonstrates a rare combination of competitive compression, constant recurrent state, and strong explicit binding. The next decisive experiment is scale.
 
 ---
 
@@ -266,3 +487,6 @@ The right framing is therefore strong and honest:
 
 [13] Songlin Yang, Bailin Wang, Yu Zhang, Yikang Shen, and Yoon Kim. **Parallelizing Linear Transformers with the Delta Rule over Sequence Length.** NeurIPS, 2024. https://yzhang.site/assets/pubs/neurips/2024/deltanet.pdf
 
+[14] Maximilian Beck, Korbinian Pöppel, Markus Spanring, Andreas Auer, Oleksandra Prudnikova, Michael Kopp, Günter Klambauer, Johannes Brandstetter, and Sepp Hochreiter. **xLSTM: Extended Long Short-Term Memory.** arXiv:2405.04517, 2024. https://arxiv.org/abs/2405.04517
+
+[15] Marcus Hutter. **The Human Knowledge Compression Contest.** enwik8 benchmark and dataset description. http://prize.hutter1.net/

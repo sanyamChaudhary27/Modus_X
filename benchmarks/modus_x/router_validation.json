@@ -1,0 +1,11 @@
+{
+  "models": ["ScalarPM", "VectorLeanPM"],
+  "seeds": [7, 17, 27, 37, 47],
+  "lean_router_hidden": [8, 16, 32],
+  "provisional_default_router_hidden": 16,
+  "epochs": 12,
+  "train_length": 128,
+  "test_lengths": [128, 256, 512, 1024, 2048],
+  "overwrite_rates": [0.0, 0.25],
+  "success_gate": "VectorLeanPM has higher mean accuracy, or statistically comparable accuracy with meaningfully fewer parameters."
+}

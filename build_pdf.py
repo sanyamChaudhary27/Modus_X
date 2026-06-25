@@ -38,9 +38,11 @@ def get_katex_css():
 
 def build():
     print("Starting Modus whitepaper PDF build pipeline...")
-    
+
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+
     # Check if whitepaper.md exists
-    md_path = "whitepaper.md"
+    md_path = os.path.join(base_dir, "whitepaper.md")
     if not os.path.exists(md_path):
         print(f"Error: {md_path} not found.")
         sys.exit(1)
@@ -379,8 +381,8 @@ def build():
         <div class="authors">
             <strong>Sanyam Chaudhary</strong><br>
             Independent Researcher, India<br>
-            <span style="color: #718096; font-size: 9.5pt;">May 2026 &nbsp;|&nbsp; Modus Research Project</span><br>
-            <span style="margin-top: 5px; display: inline-block; font-size: 9.5pt; font-family: 'JetBrains Mono', monospace;"><a href="https://github.com/sanyamChaudhary27/modus_paper" style="color: #4a5568; text-decoration: none; border-bottom: 1px solid #cbd5e1;">github.com/sanyamChaudhary27/modus_paper</a></span>
+            <span style="color: #718096; font-size: 9.5pt;">June 2026 &nbsp;|&nbsp; Modus Research Project</span><br>
+            <span style="margin-top: 5px; display: inline-block; font-size: 9.5pt; font-family: 'JetBrains Mono', monospace;"><a href="https://doi.org/10.5281/zenodo.20443699" style="color: #4a5568; text-decoration: none; border-bottom: 1px solid #cbd5e1;">doi.org/10.5281/zenodo.20443699</a> &nbsp;|&nbsp; <a href="https://github.com/sanyamChaudhary27/Modus_X" style="color: #4a5568; text-decoration: none; border-bottom: 1px solid #cbd5e1;">github.com/sanyamChaudhary27/Modus_X</a></span>
         </div>
     </div>
     <!-- Centered Abstract -->
@@ -405,7 +407,7 @@ def build():
 </body>
 </html>
 """
-    html_path = "whitepaper.html"
+    html_path = os.path.join(base_dir, "whitepaper.html")
     with open(html_path, "w", encoding="utf-8") as f:
         f.write(html_content)
     print(f"Beautiful publication-grade HTML output generated successfully at: {html_path}")
@@ -418,7 +420,7 @@ def build():
     
     # Absolute paths are required for Chrome headless to open files correctly on Windows
     abs_html_path = os.path.abspath(html_path)
-    abs_pdf_path = os.path.abspath("whitepaper.pdf")
+    abs_pdf_path = os.path.join(base_dir, "whitepaper.pdf")
     
     cmd = [
         chrome_path,

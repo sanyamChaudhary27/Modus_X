@@ -1,57 +1,48 @@
-# Modus_X Paper Package
+# Modus_X v1.1.0
 
-This directory contains the deadline-ready Modus_X evidence bundle: clean result
-tables, architecture notes, benchmark scripts, and raw outputs.
+This repository contains the Modus_X v1.1 paper, benchmark implementations,
+evidence ledgers, generated figures, and reproducibility documentation.
 
-## Headline
+- Latest paper: `whitepaper.pdf`
+- Source: `whitepaper.md`
+- Versioned release archive: `release/Modus_X_v1.1.0_release.zip`
+- Project DOI: https://doi.org/10.5281/zenodo.20443698
 
-Modus_X is a causal, no-attention, constant-state sequence model that combines:
+## Release Thesis
 
-- a Modus-style matrix delta-rule memory stream for content-addressed writes,
-- a Mamba-style selective vector recurrence stream for sequential dynamics,
-- an input-dependent router that decides how much each token uses each stream.
+Modus_X combines a selective recurrent stream with content-addressed
+delta-rule matrix memory. The current evidence does not support claiming that
+Modus_X wins every language-modeling benchmark:
 
-The best audited language-model result so far is the 80k Modus_X checkpoint:
+- official Mamba is stronger on the matched enwik8 byte-prediction protocol;
+- Modus_X is stronger than the tested official xLSTM configuration;
+- Modus_X is dramatically stronger than official Mamba on the recovered
+  associative-recall and same-key-overwrite stress protocol.
 
-```json
-{"checkpoint_step": 80000, "valid_loss": 4.148229327052832, "valid_bpc": 5.984629878609282}
-```
+The v1.1.0 paper explains this separation directly. Generic next-byte
+prediction and explicit associative memory are complementary capabilities, not
+interchangeable metrics.
 
-## Verified Language Modeling Results
+## Directory Map
 
-All values below use the same held-out shard and the same explicit 64-chunk
-evaluation protocol:
+- `paper/`: expanded paper source and PDF build tooling.
+- `docs/`: architecture, model card, claims, limitations, provenance, and
+  reproducibility documentation.
+- `benchmarks/modus_x/`: Modus_X evaluation implementations and configs.
+- `benchmarks/official_baselines/`: externally sourced baseline harnesses.
+- `evidence/language_modeling/`: compact language-modeling outputs.
+- `evidence/associative_memory/`: recall and overwrite evidence.
+- `figures/`: publication figures and diagrams.
+- `release/`: release checklist, changelog, archive manifest, and validation.
 
-- validation file: `/home/HP/fineweb_tokens_modus_v2_big/tokens_00006.npy`
-- sequence length: `512`
-- eval chunks: `64`
-- eval batch: `4`
-- config: embed `512`, hidden `2048`, ax/state `384`, layers `8`
+## Current Headline Evidence
 
-| Model | Step | Params | Valid Loss | Valid BPC | Perplexity | State at Inference |
-|---|---:|---:|---:|---:|---:|---|
-| Mamba | 40k | 139.7M | 4.321912 | 6.235201 | 75.33 | O(1) vector state |
-| Modus_X | 40k | 153.9M | 4.205961 | 6.067920 | 67.08 | O(1) matrix + vector state |
-| Modus_X | 60k | 153.9M | 4.165989 | 6.010252 | 64.46 | O(1) matrix + vector state |
-| Modus_X | 80k | 153.9M | 4.148229 | 5.984630 | 63.32 | O(1) matrix + vector state |
-| Transformer | 40k | 155.2M | 4.080766 | 5.887301 | 59.19 | O(L) KV cache |
+| Evaluation | Modus_X | Comparator | Outcome |
+|---|---:|---:|---|
+| enwik8 dense test, 80M tier | `1.38418` BPC | official Mamba `1.34578` | Mamba wins |
+| enwik8 dense test, 80M tier | `1.38418` BPC | official xLSTM `1.41962` | Modus_X wins |
+| Balanced-KV recall, seed 17 | `97.325%` | official Mamba near `3.1%` chance | Modus_X wins |
+| 50% same-key overwrite | `88.850%` | official Mamba `3.425%` | Modus_X wins |
 
-## Defensible Claims
-
-- Modus_X beats the matched Mamba checkpoint by `0.173682` validation loss at
-  80k vs 40k, with about 10.2% more parameters.
-- Modus_X reduces perplexity vs Mamba from `75.33` to `63.32`, a relative
-  reduction of about `15.94%`.
-- Modus_X continued training improved from `4.205961` at 40k to `4.148229` at
-  80k, a `0.057732` validation-loss reduction.
-- Modus_X does not yet beat the audited Transformer 40k validation loss; the
-  remaining gap is `0.067463` loss.
-- Unlike the Transformer baseline, Modus_X has no KV cache and keeps a fixed
-  recurrent state independent of context length.
-
-## Files
-
-- `architecture.md`: concise technical description and diagrams.
-- `results.md`: detailed benchmark summary.
-- `raw_outputs/`: copied JSONL/TXT outputs used in the tables.
-- `benchmark_scripts/`: copied scripts used for local benchmark/eval work.
+All claims must remain scoped to the exact protocols and configurations in
+`docs/CLAIMS_AND_EVIDENCE.md`.
