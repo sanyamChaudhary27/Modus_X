@@ -8,7 +8,7 @@ Modus Research Project, June 2026
 
 We introduce **Modus_X**, an attention-free causal sequence architecture that combines a selective recurrent stream for local sequential dynamics with a delta-rule associative matrix stream for content-addressed memory. The resulting model uses fixed recurrent state during autoregressive inference: its cache does not grow with generated sequence length, unlike Transformer key-value caches. This property does not by itself imply lower total compute in every regime, but it creates a distinct systems path for long-context inference.
 
-Version 1.1 adds three evidence layers. First, an 82.76M-parameter Modus_X model reaches **1.3842 dense test BPC** on enwik8 after 163.84M processed characters. Under the same dense evaluator, an official xLSTM baseline reaches **1.4196**, while an official Mamba baseline reaches **1.3458**. Thus Modus_X is competitive with strong recurrent families, exceeds the matched xLSTM result in this protocol, and does not yet beat Mamba on byte-level compression. Second, on a balanced associative-recall protocol, Modus_X sustains approximately **94-95% exact recall through length 2048**, while the evaluated Mamba baseline remains near the 3.125% chance level. On same-key overwrite recall, Modus_X reaches **88.85%** versus **3.43%** for the evaluated Mamba configuration. Third, router ablations show that a lean element-wise vector router improves the recovered recall result over a scalar router without requiring an expansive routing network.
+Version 1.1.1 adds a fourth evidence layer to the prior release package. First, an 82.76M-parameter Modus_X model reaches **1.3842 dense test BPC** on enwik8 after 163.84M processed characters. Under the same dense evaluator, an official xLSTM baseline reaches **1.4196**, while an official Mamba baseline reaches **1.3458**. Thus Modus_X is competitive with strong recurrent families, exceeds the matched xLSTM result in this protocol, and does not yet beat Mamba on byte-level compression. Second, on a balanced associative-recall protocol, Modus_X sustains approximately **94-95% exact recall through length 2048**, while the evaluated Mamba baseline remains near the 3.125% chance level. On same-key overwrite recall, Modus_X reaches **88.85%** versus **3.43%** for the evaluated Mamba configuration. Third, the three-seed component ablation identifies the tested mechanism: MatrixOnly retains `96.992 +/- 0.427%` no-overwrite recall at length 2048 while VectorOnly reaches `3.100 +/- 0.109%`, near chance. The lean element-wise router remains a compact default, but this experiment does not show that routing itself is the source of the recall advantage.
 
 The combined evidence is more informative than any single leaderboard number. Mamba currently wins the enwik8 compression comparison; Modus_X wins the tested associative-memory comparisons and retains constant inference state. We therefore present Modus_X not as a universal replacement, but as a credible architecture line with an experimentally visible specialization: compression quality competitive with recurrent baselines, substantially stronger explicit binding and overwrite behavior in the tested setup, and a memory footprint whose sequence-length dependence differs fundamentally from attention.
 
@@ -31,19 +31,6 @@ In this paper, we present **Modus_X**, a dual-stream hybrid architecture that ph
 ## 2. Architecture
 
 Modus_X processes an input sequence of activations $x_1, x_2, \dots, x_L \in \mathbb{R}^d$. Inside each layer, the input is fed into two parallel, independent streams: a local selective vector stream and a long-range matrix memory stream. The outputs of these streams are combined using an input-dependent router.
-
-```mermaid
-flowchart TD
-    A["Input token representation e_t"] --> B["Matrix delta stream"]
-    A --> C["Selective vector stream"]
-    B --> D["Associative read: modus_out_t"]
-    C --> E["Sequential state: mamba_out_t"]
-    A --> F["Router r_t = sigmoid(MLP(e_t))"]
-    D --> G["Mixture"]
-    E --> G
-    F --> G
-    G --> H["Layer output y_t"]
-```
 
 <div align="center">
     <img src="../figures/modus_x_scalar_router.png" alt="Modus_X Scalar Router Architecture" />
@@ -256,7 +243,7 @@ The no-overwrite Modus_X row comes from a confirmation run with the same seed an
 
 ---
 
-## 7. Element-Wise Vector Routing
+## 7. Routing and Component Attribution
 
 The original scalar router computes one gate $r_t \in (0,1)$ for the entire hidden representation. The v1.1 lean vector router computes a gate per feature:
 
@@ -269,7 +256,7 @@ $$y_t = r_t \odot y_t^{matrix} + (1-r_t)\odot y_t^{vector}$$
 
 The conceptual benefit is specialization. A scalar router forces all hidden dimensions to choose the same stream mixture at a token. A vector router permits one subspace to preserve a retrieved entity or value while another tracks syntax, local phase, or recurrence.
 
-The empirical result is modest but real. In the recovered seed-17 width sweep:
+The router-width evidence is modest. In the recovered seed-17 width sweep:
 
 | Router | Width | Accuracy |
 |---|---:|---:|
@@ -278,7 +265,25 @@ The empirical result is modest but real. In the recovered seed-17 width sweep:
 | **VectorLean** | **16** | **97.325%** |
 | VectorLean | 32 | 96.725% |
 
-Across seeds 17, 27, and 37, the vector configuration averages approximately **97.033%**, compared with **96.692%** for the scalar control. This is not evidence that vector routing wins every task. It is evidence that the proposed router can improve specialization without requiring the full $d \times d$ projection originally considered. Width 16 is therefore the current defensible default for recall-oriented experiments.
+Across seeds 17, 27, and 37, VectorLeanPM averages **96.758 +/- 0.317%** at length 2048 without overwrite, versus **96.383 +/- 0.496%** for ScalarPM. The difference is small, and ScalarPM has `156,584` parameters compared with `145,674` for VectorLeanPM, so this is not a general router-superiority claim. Width 16 is retained as a compact recall-oriented default pending language-model evidence.
+
+### 7.1 Stream Intervention
+
+![Three-seed router/component ablation](../figures/component_ablation.png)
+
+The more decisive experiment holds the lean-vector parameter allocation fixed and changes only which stream reaches the classifier. Across seeds `17`, `27`, and `37`:
+
+| Condition | Variant | Params | Length-2048 accuracy |
+|---|---|---:|---:|
+| No overwrite | ScalarPM | 156,584 | 96.383 +/- 0.496% |
+| No overwrite | VectorLeanPM | 145,674 | 96.758 +/- 0.317% |
+| No overwrite | MatrixOnly | 145,674 | **96.992 +/- 0.427%** |
+| No overwrite | VectorOnly | 145,674 | 3.100 +/- 0.109% |
+| 50% overwrite | VectorLeanPM | 145,674 | 87.758 +/- 0.777% |
+| 50% overwrite | MatrixOnly | 145,674 | 87.625 +/- 0.745% |
+| 50% overwrite | VectorOnly | 145,674 | 3.308 +/- 0.506% |
+
+With 32 values, chance is `3.125%`. The vector-only intervention therefore fails on the task, while MatrixOnly preserves the result. The controlled conclusion is that the delta-rule matrix stream carries the tested associative binding and overwrite capability. MatrixOnly and VectorOnly are output-stream interventions with the same lean-vector parameter allocation; they are not physically pruned models. This result does not establish that the vector stream is useless for language modeling or local sequence dynamics.
 
 ---
 
@@ -414,7 +419,7 @@ The next objective is not endless optimization on enwik8. The evidence is now su
 ### 13.1 Immediate Architecture Work
 
 * Preserve the dual-stream principle.
-* Promote the lean vector router as the recall default, then test it on language modeling.
+* Treat the lean vector router as a compact recall default, then test it on language modeling without claiming a routing advantage in advance.
 * Screen matrix/vector state allocation at matched parameter count.
 * Add router-specialization diagnostics and regularization only if they produce measurable stream separation.
 * Implement stable mixed precision and fused recurrent kernels.
@@ -444,16 +449,17 @@ Version 1.1 supplies evidence for both halves separately, while also showing the
 
 ## 14. Conclusion
 
-Modus_X v1.1 moves the project from a promising architectural proposal to a multi-axis empirical result.
+Modus_X v1.1.1 moves the project from a promising architectural proposal to a multi-axis empirical result.
 
 * It trains as a competitive 82.76M-parameter byte language model.
 * It beats the official xLSTM baseline in the matched dense enwik8 test comparison.
 * It remains behind official Mamba on enwik8 BPC.
 * It decisively outperforms the evaluated Mamba configuration on balanced associative recall and same-key overwrite.
+* It shows that the matrix stream, rather than vector-only output, carries the tested associative-recall result.
 * It retains a fixed inference state with respect to sequence length.
 * Its larger-capacity run improves generalization relative to the earlier 42M campaign.
 
-The evidence does not justify calling Modus_X a universal winner. It does justify taking the architecture seriously. The matrix stream produces a capability that is visible, stable across tested lengths, and mechanistically aligned with the delta rule. The recurrent stream keeps the model competitive on ordinary language modeling. The router provides a path to combine them rather than choosing one memory geometry for every feature.
+The evidence does not justify calling Modus_X a universal winner. It does justify taking the architecture seriously. The matrix stream produces a capability that is visible, stable across tested lengths, mechanistically attributed by the component intervention, and aligned with the delta rule. The recurrent stream remains part of the language-modeling design, but the current ablation does not demonstrate that it creates the associative effect. The router provides a path to combine them rather than choosing one memory geometry for every feature.
 
 Modus_X therefore represents a credible route toward a post-KV-cache model: not because every benchmark is already won, but because the architecture demonstrates a rare combination of competitive compression, constant recurrent state, and strong explicit binding. The next decisive experiment is scale.
 

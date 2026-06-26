@@ -12,6 +12,9 @@
    recovered balanced-KV associative-recall protocol.
 5. Modus_X strongly outperforms the tested official Mamba configuration under
    50% same-key overwrite.
+6. On the recovered associative-memory protocol, forcing Modus_X to use the
+   matrix stream preserves high recall, while forcing the vector stream alone
+   reduces accuracy to near chance.
 
 ## Not Supported
 
@@ -22,6 +25,8 @@
 - The current research implementation is throughput competitive with fused
   official Mamba kernels.
 - Modus_X has demonstrated billion-parameter scaling.
+- The lean vector router, by itself, is the cause of the associative-memory
+  advantage or is generally superior to a scalar router.
 
 ## Required Claim Format
 
@@ -34,4 +39,3 @@ Every comparative statement must include:
 - implementation source;
 - precision and accelerator;
 - uncertainty, seeds, and relevant caveats.
-

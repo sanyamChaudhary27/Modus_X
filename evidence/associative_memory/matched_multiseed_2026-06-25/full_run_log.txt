@@ -1,0 +1,291 @@
+RUN_MATCHED_RECALL_MULTISEED /usr/bin/python3 -u /kaggle/working/modus_x_mamba_recall_multiseed/run_matched_recall_multiseed.py --modus-script /kaggle/working/modus_x_mamba_recall_multiseed/modus_x_router_balanced_kv.py --mamba-script /kaggle/working/modus_x_mamba_recall_multiseed/official_mamba_balanced_kv.py --outdir /kaggle/working/modus_x_mamba_recall_multiseed/results --seeds 17,27,37 --epochs 12
+RUN /usr/bin/python3 -u /kaggle/working/modus_x_mamba_recall_multiseed/modus_x_router_balanced_kv.py --models VectorLeanPM --router-hidden 16 --seed 17 --epochs 12 --overwrite-rate 0.0 --outdir /kaggle/working/modus_x_mamba_recall_multiseed/results/modus_x_vectorleanpm_seed17_overwrite0
+JAX devices: [CudaDevice(id=0), CudaDevice(id=1)]
+config: Config(d_model=96, key_dim=32, n_values=32, n_pairs=32, train_len=128, test_lens=(128, 256, 512, 1024, 2048), n_train=40000, n_test=4000, batch=256, epochs=12, patience=30, lr=0.0003, ax_res=128, seed=17, vector_state=128, router_hidden=16, router_bias=6.0, residual_scale=0.25, overwrite_rate=0.0)
+========================================================================
+TRAIN VectorLeanPM
+========================================================================
+  params=145,674
+  [VectorLeanPM] ep=001 loss=3.2881 acc= 43.4% best= 43.4% pat=0/30 elapsed=  34.2s
+  [VectorLeanPM] ep=002 loss=1.9896 acc= 66.6% best= 66.6% pat=0/30 elapsed=  63.8s
+  [VectorLeanPM] ep=003 loss=1.0263 acc= 77.8% best= 77.8% pat=0/30 elapsed=  93.3s
+  [VectorLeanPM] ep=004 loss=0.6621 acc= 83.7% best= 83.7% pat=0/30 elapsed= 122.9s
+  [VectorLeanPM] ep=005 loss=0.4550 acc= 88.0% best= 88.0% pat=0/30 elapsed= 152.4s
+  [VectorLeanPM] ep=006 loss=0.3223 acc= 91.1% best= 91.1% pat=0/30 elapsed= 182.0s
+  [VectorLeanPM] ep=007 loss=0.2295 acc= 93.5% best= 93.5% pat=0/30 elapsed= 211.7s
+  [VectorLeanPM] ep=008 loss=0.1655 acc= 95.1% best= 95.1% pat=0/30 elapsed= 241.4s
+  [VectorLeanPM] ep=009 loss=0.1235 acc= 95.8% best= 95.8% pat=0/30 elapsed= 271.1s
+  [VectorLeanPM] ep=010 loss=0.0939 acc= 96.5% best= 96.5% pat=0/30 elapsed= 300.8s
+  [VectorLeanPM] ep=011 loss=0.0730 acc= 97.0% best= 97.0% pat=0/30 elapsed= 330.4s
+  [VectorLeanPM] ep=012 loss=0.0594 acc= 97.3% best= 97.3% pat=0/30 elapsed= 360.1s
+========================================================================
+ZERO-SHOT LENGTH GENERALIZATION
+========================================================================
+  VectorLeanPM L=128   acc= 97.0% eval=  1.3s
+  VectorLeanPM L=256   acc= 97.1% eval=  2.0s
+  VectorLeanPM L=512   acc= 97.2% eval=  3.3s
+  VectorLeanPM L=1024  acc= 96.9% eval=  5.8s
+  VectorLeanPM L=2048  acc= 96.9% eval= 10.8s
+Saved: /kaggle/working/modus_x_mamba_recall_multiseed/results/modus_x_vectorleanpm_seed17_overwrite0/results.json
+RUN /usr/bin/python3 -u /kaggle/working/modus_x_mamba_recall_multiseed/official_mamba_balanced_kv.py --seed 17 --overwrite-rate 0.0 --test-lens 128,256,512,1024,2048 --outdir /kaggle/working/modus_x_mamba_recall_multiseed/results/official_mamba_seed17_overwrite0
+OFFICIAL_MAMBA_RECALL_CONFIG {"params": 162560, "input_dim": 96, "key_dim": 32, "n_values": 32, "n_pairs": 32, "train_len": 128, "n_train": 40000, "n_test": 4000, "batch": 64, "epochs": 12, "lr": 0.0003, "overwrite_rate": 0.0, "seed": 17}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 1, "loss": 3.4668537967681883, "accuracy": 2.925}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 2, "loss": 3.45924871635437, "accuracy": 2.8}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 3, "loss": 3.4183921558380126, "accuracy": 2.675}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 4, "loss": 3.2546219844818114, "accuracy": 3.325}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 5, "loss": 3.0869236545562746, "accuracy": 3.65}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 6, "loss": 2.9249631561279297, "accuracy": 3.475}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 7, "loss": 2.775439496612549, "accuracy": 3.525}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 8, "loss": 2.6263570446014404, "accuracy": 3.575}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 9, "loss": 2.490471712684631, "accuracy": 3.85}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 10, "loss": 2.359690933418274, "accuracy": 3.825}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 11, "loss": 2.234626292991638, "accuracy": 3.8}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 12, "loss": 2.119647367286682, "accuracy": 3.7}
+OFFICIAL_MAMBA_RECALL_LENGTH 128 3.0 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 256 3.425 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 512 3.25 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 1024 3.625 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 2048 3.275 examples 4000
+OFFICIAL_MAMBA_RECALL_READY /kaggle/working/modus_x_mamba_recall_multiseed/results/official_mamba_seed17_overwrite0
+RUN /usr/bin/python3 -u /kaggle/working/modus_x_mamba_recall_multiseed/modus_x_router_balanced_kv.py --models VectorLeanPM --router-hidden 16 --seed 27 --epochs 12 --overwrite-rate 0.0 --outdir /kaggle/working/modus_x_mamba_recall_multiseed/results/modus_x_vectorleanpm_seed27_overwrite0
+JAX devices: [CudaDevice(id=0), CudaDevice(id=1)]
+config: Config(d_model=96, key_dim=32, n_values=32, n_pairs=32, train_len=128, test_lens=(128, 256, 512, 1024, 2048), n_train=40000, n_test=4000, batch=256, epochs=12, patience=30, lr=0.0003, ax_res=128, seed=27, vector_state=128, router_hidden=16, router_bias=6.0, residual_scale=0.25, overwrite_rate=0.0)
+========================================================================
+TRAIN VectorLeanPM
+========================================================================
+  params=145,674
+  [VectorLeanPM] ep=001 loss=3.2766 acc= 36.9% best= 36.9% pat=0/30 elapsed=  34.1s
+  [VectorLeanPM] ep=002 loss=1.9125 acc= 66.7% best= 66.7% pat=0/30 elapsed=  63.7s
+  [VectorLeanPM] ep=003 loss=1.0170 acc= 76.4% best= 76.4% pat=0/30 elapsed=  93.3s
+  [VectorLeanPM] ep=004 loss=0.6565 acc= 83.3% best= 83.3% pat=0/30 elapsed= 123.0s
+  [VectorLeanPM] ep=005 loss=0.4491 acc= 88.6% best= 88.6% pat=0/30 elapsed= 152.7s
+  [VectorLeanPM] ep=006 loss=0.3142 acc= 91.8% best= 91.8% pat=0/30 elapsed= 182.4s
+  [VectorLeanPM] ep=007 loss=0.2263 acc= 93.9% best= 93.9% pat=0/30 elapsed= 212.1s
+  [VectorLeanPM] ep=008 loss=0.1683 acc= 94.6% best= 94.6% pat=0/30 elapsed= 241.9s
+  [VectorLeanPM] ep=009 loss=0.1297 acc= 95.5% best= 95.5% pat=0/30 elapsed= 271.6s
+  [VectorLeanPM] ep=010 loss=0.1022 acc= 96.6% best= 96.6% pat=0/30 elapsed= 301.2s
+  [VectorLeanPM] ep=011 loss=0.0807 acc= 97.0% best= 97.0% pat=0/30 elapsed= 330.9s
+  [VectorLeanPM] ep=012 loss=0.0658 acc= 97.1% best= 97.1% pat=0/30 elapsed= 360.6s
+========================================================================
+ZERO-SHOT LENGTH GENERALIZATION
+========================================================================
+  VectorLeanPM L=128   acc= 97.1% eval=  1.3s
+  VectorLeanPM L=256   acc= 97.0% eval=  2.0s
+  VectorLeanPM L=512   acc= 97.0% eval=  3.3s
+  VectorLeanPM L=1024  acc= 96.5% eval=  5.8s
+  VectorLeanPM L=2048  acc= 96.4% eval= 10.8s
+Saved: /kaggle/working/modus_x_mamba_recall_multiseed/results/modus_x_vectorleanpm_seed27_overwrite0/results.json
+RUN /usr/bin/python3 -u /kaggle/working/modus_x_mamba_recall_multiseed/official_mamba_balanced_kv.py --seed 27 --overwrite-rate 0.0 --test-lens 128,256,512,1024,2048 --outdir /kaggle/working/modus_x_mamba_recall_multiseed/results/official_mamba_seed27_overwrite0
+OFFICIAL_MAMBA_RECALL_CONFIG {"params": 162560, "input_dim": 96, "key_dim": 32, "n_values": 32, "n_pairs": 32, "train_len": 128, "n_train": 40000, "n_test": 4000, "batch": 64, "epochs": 12, "lr": 0.0003, "overwrite_rate": 0.0, "seed": 27}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 1, "loss": 3.4669554145812986, "accuracy": 3.325}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 2, "loss": 3.4596074314117433, "accuracy": 2.925}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 3, "loss": 3.426431728744507, "accuracy": 2.9}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 4, "loss": 3.2825474811553956, "accuracy": 2.875}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 5, "loss": 3.1212874351501463, "accuracy": 2.85}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 6, "loss": 2.966430615615845, "accuracy": 2.825}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 7, "loss": 2.8152978855133055, "accuracy": 2.925}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 8, "loss": 2.67342836227417, "accuracy": 2.9}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 9, "loss": 2.5389520175933837, "accuracy": 2.625}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 10, "loss": 2.408332060623169, "accuracy": 3.0}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 11, "loss": 2.287356175041199, "accuracy": 2.65}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 12, "loss": 2.1752482412338257, "accuracy": 2.775}
+OFFICIAL_MAMBA_RECALL_LENGTH 128 3.5 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 256 3.15 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 512 3.575 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 1024 3.35 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 2048 2.9 examples 4000
+OFFICIAL_MAMBA_RECALL_READY /kaggle/working/modus_x_mamba_recall_multiseed/results/official_mamba_seed27_overwrite0
+RUN /usr/bin/python3 -u /kaggle/working/modus_x_mamba_recall_multiseed/modus_x_router_balanced_kv.py --models VectorLeanPM --router-hidden 16 --seed 37 --epochs 12 --overwrite-rate 0.0 --outdir /kaggle/working/modus_x_mamba_recall_multiseed/results/modus_x_vectorleanpm_seed37_overwrite0
+JAX devices: [CudaDevice(id=0), CudaDevice(id=1)]
+config: Config(d_model=96, key_dim=32, n_values=32, n_pairs=32, train_len=128, test_lens=(128, 256, 512, 1024, 2048), n_train=40000, n_test=4000, batch=256, epochs=12, patience=30, lr=0.0003, ax_res=128, seed=37, vector_state=128, router_hidden=16, router_bias=6.0, residual_scale=0.25, overwrite_rate=0.0)
+========================================================================
+TRAIN VectorLeanPM
+========================================================================
+  params=145,674
+  [VectorLeanPM] ep=001 loss=3.2780 acc= 34.4% best= 34.4% pat=0/30 elapsed=  34.0s
+  [VectorLeanPM] ep=002 loss=1.9352 acc= 66.8% best= 66.8% pat=0/30 elapsed=  63.6s
+  [VectorLeanPM] ep=003 loss=0.9965 acc= 78.6% best= 78.6% pat=0/30 elapsed=  93.2s
+  [VectorLeanPM] ep=004 loss=0.6186 acc= 84.9% best= 84.9% pat=0/30 elapsed= 122.9s
+  [VectorLeanPM] ep=005 loss=0.4173 acc= 88.7% best= 88.7% pat=0/30 elapsed= 152.6s
+  [VectorLeanPM] ep=006 loss=0.2950 acc= 91.3% best= 91.3% pat=0/30 elapsed= 182.2s
+  [VectorLeanPM] ep=007 loss=0.2157 acc= 93.0% best= 93.0% pat=0/30 elapsed= 211.9s
+  [VectorLeanPM] ep=008 loss=0.1616 acc= 94.6% best= 94.6% pat=0/30 elapsed= 241.6s
+  [VectorLeanPM] ep=009 loss=0.1240 acc= 95.1% best= 95.1% pat=0/30 elapsed= 271.2s
+  [VectorLeanPM] ep=010 loss=0.0981 acc= 95.7% best= 95.7% pat=0/30 elapsed= 300.9s
+  [VectorLeanPM] ep=011 loss=0.0786 acc= 96.5% best= 96.5% pat=0/30 elapsed= 330.7s
+  [VectorLeanPM] ep=012 loss=0.0651 acc= 96.7% best= 96.7% pat=0/30 elapsed= 360.4s
+========================================================================
+ZERO-SHOT LENGTH GENERALIZATION
+========================================================================
+  VectorLeanPM L=128   acc= 96.7% eval=  1.3s
+  VectorLeanPM L=256   acc= 96.6% eval=  2.0s
+  VectorLeanPM L=512   acc= 96.5% eval=  3.3s
+  VectorLeanPM L=1024  acc= 96.5% eval=  5.8s
+  VectorLeanPM L=2048  acc= 97.0% eval= 10.9s
+Saved: /kaggle/working/modus_x_mamba_recall_multiseed/results/modus_x_vectorleanpm_seed37_overwrite0/results.json
+RUN /usr/bin/python3 -u /kaggle/working/modus_x_mamba_recall_multiseed/official_mamba_balanced_kv.py --seed 37 --overwrite-rate 0.0 --test-lens 128,256,512,1024,2048 --outdir /kaggle/working/modus_x_mamba_recall_multiseed/results/official_mamba_seed37_overwrite0
+OFFICIAL_MAMBA_RECALL_CONFIG {"params": 162560, "input_dim": 96, "key_dim": 32, "n_values": 32, "n_pairs": 32, "train_len": 128, "n_train": 40000, "n_test": 4000, "batch": 64, "epochs": 12, "lr": 0.0003, "overwrite_rate": 0.0, "seed": 37}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 1, "loss": 3.466392979812622, "accuracy": 3.275}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 2, "loss": 3.4589931331634522, "accuracy": 2.95}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 3, "loss": 3.422764288330078, "accuracy": 2.7}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 4, "loss": 3.270136503601074, "accuracy": 3.25}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 5, "loss": 3.105559057235718, "accuracy": 3.325}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 6, "loss": 2.947573359298706, "accuracy": 2.925}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 7, "loss": 2.7956614059448244, "accuracy": 3.175}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 8, "loss": 2.653503168487549, "accuracy": 3.125}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 9, "loss": 2.5143894475936888, "accuracy": 3.3}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 10, "loss": 2.3846539882659914, "accuracy": 2.75}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 11, "loss": 2.2578044452667236, "accuracy": 3.35}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 12, "loss": 2.142198519897461, "accuracy": 3.125}
+OFFICIAL_MAMBA_RECALL_LENGTH 128 3.35 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 256 2.625 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 512 3.3 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 1024 3.45 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 2048 2.9 examples 4000
+OFFICIAL_MAMBA_RECALL_READY /kaggle/working/modus_x_mamba_recall_multiseed/results/official_mamba_seed37_overwrite0
+RUN /usr/bin/python3 -u /kaggle/working/modus_x_mamba_recall_multiseed/modus_x_router_balanced_kv.py --models VectorLeanPM --router-hidden 16 --seed 17 --epochs 12 --overwrite-rate 0.5 --outdir /kaggle/working/modus_x_mamba_recall_multiseed/results/modus_x_vectorleanpm_seed17_overwrite0p5
+JAX devices: [CudaDevice(id=0), CudaDevice(id=1)]
+config: Config(d_model=96, key_dim=32, n_values=32, n_pairs=32, train_len=128, test_lens=(128, 256, 512, 1024, 2048), n_train=40000, n_test=4000, batch=256, epochs=12, patience=30, lr=0.0003, ax_res=128, seed=17, vector_state=128, router_hidden=16, router_bias=6.0, residual_scale=0.25, overwrite_rate=0.5)
+========================================================================
+TRAIN VectorLeanPM
+========================================================================
+  params=145,674
+  [VectorLeanPM] ep=001 loss=3.2749 acc= 41.7% best= 41.7% pat=0/30 elapsed=  34.2s
+  [VectorLeanPM] ep=002 loss=1.9755 acc= 62.8% best= 62.8% pat=0/30 elapsed=  63.8s
+  [VectorLeanPM] ep=003 loss=1.2497 acc= 69.5% best= 69.5% pat=0/30 elapsed=  93.4s
+  [VectorLeanPM] ep=004 loss=0.9712 acc= 75.2% best= 75.2% pat=0/30 elapsed= 123.1s
+  [VectorLeanPM] ep=005 loss=0.7802 acc= 78.9% best= 78.9% pat=0/30 elapsed= 152.8s
+  [VectorLeanPM] ep=006 loss=0.6513 acc= 81.6% best= 81.6% pat=0/30 elapsed= 182.6s
+  [VectorLeanPM] ep=007 loss=0.5558 acc= 83.7% best= 83.7% pat=0/30 elapsed= 212.3s
+  [VectorLeanPM] ep=008 loss=0.4864 acc= 84.8% best= 84.8% pat=0/30 elapsed= 242.1s
+  [VectorLeanPM] ep=009 loss=0.4349 acc= 86.0% best= 86.0% pat=0/30 elapsed= 271.8s
+  [VectorLeanPM] ep=010 loss=0.3937 acc= 87.3% best= 87.3% pat=0/30 elapsed= 301.5s
+  [VectorLeanPM] ep=011 loss=0.3595 acc= 87.8% best= 87.8% pat=0/30 elapsed= 331.2s
+  [VectorLeanPM] ep=012 loss=0.3291 acc= 88.8% best= 88.8% pat=0/30 elapsed= 360.9s
+========================================================================
+ZERO-SHOT LENGTH GENERALIZATION
+========================================================================
+  VectorLeanPM L=128   acc= 88.3% eval=  1.4s
+  VectorLeanPM L=256   acc= 88.3% eval=  2.0s
+  VectorLeanPM L=512   acc= 88.4% eval=  3.3s
+  VectorLeanPM L=1024  acc= 87.7% eval=  5.8s
+  VectorLeanPM L=2048  acc= 88.6% eval= 10.7s
+Saved: /kaggle/working/modus_x_mamba_recall_multiseed/results/modus_x_vectorleanpm_seed17_overwrite0p5/results.json
+RUN /usr/bin/python3 -u /kaggle/working/modus_x_mamba_recall_multiseed/official_mamba_balanced_kv.py --seed 17 --overwrite-rate 0.5 --test-lens 128,256,512,1024,2048 --outdir /kaggle/working/modus_x_mamba_recall_multiseed/results/official_mamba_seed17_overwrite0p5
+OFFICIAL_MAMBA_RECALL_CONFIG {"params": 162560, "input_dim": 96, "key_dim": 32, "n_values": 32, "n_pairs": 32, "train_len": 128, "n_train": 40000, "n_test": 4000, "batch": 64, "epochs": 12, "lr": 0.0003, "overwrite_rate": 0.5, "seed": 17}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 1, "loss": 3.466806094741821, "accuracy": 3.3}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 2, "loss": 3.4595089916229247, "accuracy": 2.925}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 3, "loss": 3.4247334758758545, "accuracy": 3.05}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 4, "loss": 3.2753086933135984, "accuracy": 3.45}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 5, "loss": 3.106835470581055, "accuracy": 3.4}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 6, "loss": 2.945286639404297, "accuracy": 3.45}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 7, "loss": 2.7857793704986573, "accuracy": 3.65}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 8, "loss": 2.6347586502075195, "accuracy": 3.85}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 9, "loss": 2.4899706800460817, "accuracy": 3.5}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 10, "loss": 2.3549808000564574, "accuracy": 3.55}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 11, "loss": 2.230081388282776, "accuracy": 3.425}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 12, "loss": 2.112353876876831, "accuracy": 3.325}
+OFFICIAL_MAMBA_RECALL_LENGTH 128 3.225 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 256 3.5 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 512 3.475 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 1024 3.325 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 2048 3.4 examples 4000
+OFFICIAL_MAMBA_RECALL_READY /kaggle/working/modus_x_mamba_recall_multiseed/results/official_mamba_seed17_overwrite0p5
+RUN /usr/bin/python3 -u /kaggle/working/modus_x_mamba_recall_multiseed/modus_x_router_balanced_kv.py --models VectorLeanPM --router-hidden 16 --seed 27 --epochs 12 --overwrite-rate 0.5 --outdir /kaggle/working/modus_x_mamba_recall_multiseed/results/modus_x_vectorleanpm_seed27_overwrite0p5
+JAX devices: [CudaDevice(id=0), CudaDevice(id=1)]
+config: Config(d_model=96, key_dim=32, n_values=32, n_pairs=32, train_len=128, test_lens=(128, 256, 512, 1024, 2048), n_train=40000, n_test=4000, batch=256, epochs=12, patience=30, lr=0.0003, ax_res=128, seed=27, vector_state=128, router_hidden=16, router_bias=6.0, residual_scale=0.25, overwrite_rate=0.5)
+========================================================================
+TRAIN VectorLeanPM
+========================================================================
+  params=145,674
+  [VectorLeanPM] ep=001 loss=3.3043 acc= 46.2% best= 46.2% pat=0/30 elapsed=  34.2s
+  [VectorLeanPM] ep=002 loss=2.0555 acc= 64.7% best= 64.7% pat=0/30 elapsed=  63.8s
+  [VectorLeanPM] ep=003 loss=1.2681 acc= 70.4% best= 70.4% pat=0/30 elapsed=  93.4s
+  [VectorLeanPM] ep=004 loss=0.9789 acc= 76.1% best= 76.1% pat=0/30 elapsed= 123.2s
+  [VectorLeanPM] ep=005 loss=0.7808 acc= 79.9% best= 79.9% pat=0/30 elapsed= 152.9s
+  [VectorLeanPM] ep=006 loss=0.6426 acc= 82.4% best= 82.4% pat=0/30 elapsed= 182.6s
+  [VectorLeanPM] ep=007 loss=0.5540 acc= 83.8% best= 83.8% pat=0/30 elapsed= 212.4s
+  [VectorLeanPM] ep=008 loss=0.4938 acc= 85.0% best= 85.0% pat=0/30 elapsed= 242.2s
+  [VectorLeanPM] ep=009 loss=0.4504 acc= 85.9% best= 85.9% pat=0/30 elapsed= 271.9s
+  [VectorLeanPM] ep=010 loss=0.4130 acc= 86.3% best= 86.3% pat=0/30 elapsed= 301.6s
+  [VectorLeanPM] ep=011 loss=0.3811 acc= 87.2% best= 87.2% pat=0/30 elapsed= 331.4s
+  [VectorLeanPM] ep=012 loss=0.3519 acc= 87.8% best= 87.8% pat=0/30 elapsed= 361.2s
+========================================================================
+ZERO-SHOT LENGTH GENERALIZATION
+========================================================================
+  VectorLeanPM L=128   acc= 87.7% eval=  1.4s
+  VectorLeanPM L=256   acc= 87.7% eval=  2.0s
+  VectorLeanPM L=512   acc= 87.2% eval=  3.3s
+  VectorLeanPM L=1024  acc= 86.7% eval=  5.8s
+  VectorLeanPM L=2048  acc= 87.1% eval= 10.8s
+Saved: /kaggle/working/modus_x_mamba_recall_multiseed/results/modus_x_vectorleanpm_seed27_overwrite0p5/results.json
+RUN /usr/bin/python3 -u /kaggle/working/modus_x_mamba_recall_multiseed/official_mamba_balanced_kv.py --seed 27 --overwrite-rate 0.5 --test-lens 128,256,512,1024,2048 --outdir /kaggle/working/modus_x_mamba_recall_multiseed/results/official_mamba_seed27_overwrite0p5
+OFFICIAL_MAMBA_RECALL_CONFIG {"params": 162560, "input_dim": 96, "key_dim": 32, "n_values": 32, "n_pairs": 32, "train_len": 128, "n_train": 40000, "n_test": 4000, "batch": 64, "epochs": 12, "lr": 0.0003, "overwrite_rate": 0.5, "seed": 27}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 1, "loss": 3.4669860931396483, "accuracy": 3.4}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 2, "loss": 3.4591177543640135, "accuracy": 3.35}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 3, "loss": 3.4192013343811034, "accuracy": 3.125}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 4, "loss": 3.256558973312378, "accuracy": 3.125}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 5, "loss": 3.0796154273986818, "accuracy": 3.225}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 6, "loss": 2.9107286907196044, "accuracy": 3.2}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 7, "loss": 2.7535404304504394, "accuracy": 2.925}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 8, "loss": 2.602548207092285, "accuracy": 3.35}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 9, "loss": 2.4628221757888795, "accuracy": 3.2}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 10, "loss": 2.3322648027420043, "accuracy": 3.35}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 11, "loss": 2.204231731414795, "accuracy": 3.225}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 12, "loss": 2.0889258066177367, "accuracy": 3.625}
+OFFICIAL_MAMBA_RECALL_LENGTH 128 3.525 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 256 3.6 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 512 2.9 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 1024 3.175 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 2048 3.125 examples 4000
+OFFICIAL_MAMBA_RECALL_READY /kaggle/working/modus_x_mamba_recall_multiseed/results/official_mamba_seed27_overwrite0p5
+RUN /usr/bin/python3 -u /kaggle/working/modus_x_mamba_recall_multiseed/modus_x_router_balanced_kv.py --models VectorLeanPM --router-hidden 16 --seed 37 --epochs 12 --overwrite-rate 0.5 --outdir /kaggle/working/modus_x_mamba_recall_multiseed/results/modus_x_vectorleanpm_seed37_overwrite0p5
+JAX devices: [CudaDevice(id=0), CudaDevice(id=1)]
+config: Config(d_model=96, key_dim=32, n_values=32, n_pairs=32, train_len=128, test_lens=(128, 256, 512, 1024, 2048), n_train=40000, n_test=4000, batch=256, epochs=12, patience=30, lr=0.0003, ax_res=128, seed=37, vector_state=128, router_hidden=16, router_bias=6.0, residual_scale=0.25, overwrite_rate=0.5)
+========================================================================
+TRAIN VectorLeanPM
+========================================================================
+  params=145,674
+  [VectorLeanPM] ep=001 loss=3.2911 acc= 36.6% best= 36.6% pat=0/30 elapsed=  34.2s
+  [VectorLeanPM] ep=002 loss=2.1166 acc= 58.8% best= 58.8% pat=0/30 elapsed=  63.7s
+  [VectorLeanPM] ep=003 loss=1.3729 acc= 67.0% best= 67.0% pat=0/30 elapsed=  93.2s
+  [VectorLeanPM] ep=004 loss=1.0374 acc= 72.7% best= 72.7% pat=0/30 elapsed= 122.9s
+  [VectorLeanPM] ep=005 loss=0.8337 acc= 76.4% best= 76.4% pat=0/30 elapsed= 152.5s
+  [VectorLeanPM] ep=006 loss=0.6909 acc= 80.3% best= 80.3% pat=0/30 elapsed= 182.2s
+  [VectorLeanPM] ep=007 loss=0.5869 acc= 82.0% best= 82.0% pat=0/30 elapsed= 211.9s
+  [VectorLeanPM] ep=008 loss=0.5127 acc= 84.2% best= 84.2% pat=0/30 elapsed= 241.6s
+  [VectorLeanPM] ep=009 loss=0.4562 acc= 85.2% best= 85.2% pat=0/30 elapsed= 271.3s
+  [VectorLeanPM] ep=010 loss=0.4139 acc= 85.5% best= 85.5% pat=0/30 elapsed= 301.0s
+  [VectorLeanPM] ep=011 loss=0.3804 acc= 86.7% best= 86.7% pat=0/30 elapsed= 330.7s
+  [VectorLeanPM] ep=012 loss=0.3531 acc= 87.2% best= 87.2% pat=0/30 elapsed= 360.4s
+========================================================================
+ZERO-SHOT LENGTH GENERALIZATION
+========================================================================
+  VectorLeanPM L=128   acc= 87.2% eval=  1.4s
+  VectorLeanPM L=256   acc= 87.3% eval=  2.0s
+  VectorLeanPM L=512   acc= 87.6% eval=  3.3s
+  VectorLeanPM L=1024  acc= 86.9% eval=  5.8s
+  VectorLeanPM L=2048  acc= 87.5% eval= 10.7s
+Saved: /kaggle/working/modus_x_mamba_recall_multiseed/results/modus_x_vectorleanpm_seed37_overwrite0p5/results.json
+RUN /usr/bin/python3 -u /kaggle/working/modus_x_mamba_recall_multiseed/official_mamba_balanced_kv.py --seed 37 --overwrite-rate 0.5 --test-lens 128,256,512,1024,2048 --outdir /kaggle/working/modus_x_mamba_recall_multiseed/results/official_mamba_seed37_overwrite0p5
+OFFICIAL_MAMBA_RECALL_CONFIG {"params": 162560, "input_dim": 96, "key_dim": 32, "n_values": 32, "n_pairs": 32, "train_len": 128, "n_train": 40000, "n_test": 4000, "batch": 64, "epochs": 12, "lr": 0.0003, "overwrite_rate": 0.5, "seed": 37}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 1, "loss": 3.4666465141296388, "accuracy": 3.225}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 2, "loss": 3.4593372901916504, "accuracy": 3.4}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 3, "loss": 3.4237405319213865, "accuracy": 3.6}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 4, "loss": 3.2655630779266356, "accuracy": 3.15}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 5, "loss": 3.082575994873047, "accuracy": 3.65}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 6, "loss": 2.911135576248169, "accuracy": 3.25}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 7, "loss": 2.749633352279663, "accuracy": 3.575}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 8, "loss": 2.5992540012359617, "accuracy": 3.2}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 9, "loss": 2.4552893241882323, "accuracy": 3.625}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 10, "loss": 2.3194648086547853, "accuracy": 3.525}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 11, "loss": 2.1963273443222047, "accuracy": 3.45}
+OFFICIAL_MAMBA_RECALL_EPOCH {"epoch": 12, "loss": 2.077760916519165, "accuracy": 3.425}
+OFFICIAL_MAMBA_RECALL_LENGTH 128 3.275 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 256 3.4 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 512 2.75 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 1024 3.05 examples 4000
+OFFICIAL_MAMBA_RECALL_LENGTH 2048 3.2 examples 4000
+OFFICIAL_MAMBA_RECALL_READY /kaggle/working/modus_x_mamba_recall_multiseed/results/official_mamba_seed37_overwrite0p5
+MATCHED_RECALL_MULTISEED_SUMMARY [{"model": "Modus_X_VectorLeanPM", "overwrite_rate": 0.0, "seeds": [17, 27, 37], "runs": 3, "params": 145674, "train_best_mean": 97.03333333333333, "train_best_stdev": 0.34671073437857675, "length_128_mean": 96.89166666666667, "length_128_stdev": 0.21842237370135104, "length_256_mean": 96.9, "length_256_stdev": 0.2817356917396146, "length_512_mean": 96.85833333333333, "length_512_stdev": 0.37109073463686953, "length_1024_mean": 96.64166666666667, "length_1024_stdev": 0.2036131953811776, "length_2048_mean": 96.75833333333334, "length_2048_stdev": 0.31655699855370645}, {"model": "Modus_X_VectorLeanPM", "overwrite_rate": 0.5, "seeds": [17, 27, 37], "runs": 3, "params": 145674, "train_best_mean": 87.96666666666667, "train_best_stdev": 0.8217106141053139, "length_128_mean": 87.72500000000001, "length_128_stdev": 0.5878988008152409, "length_256_mean": 87.74166666666667, "length_256_stdev": 0.5033222956847172, "length_512_mean": 87.72500000000001, "length_512_stdev": 0.6309714732061986, "length_1024_mean": 87.08333333333333, "length_1024_stdev": 0.5064171534746214, "length_2048_mean": 87.75, "length_2048_stdev": 0.7628073151196139}, {"model": "Official_Mamba", "overwrite_rate": 0.0, "seeds": [17, 27, 37], "runs": 3, "params": 162560, "train_best_mean": 3.5083333333333333, "train_best_stdev": 0.29615592739861435, "length_128_mean": 3.283333333333333, "length_128_stdev": 0.2565800719723442, "length_256_mean": 3.0666666666666664, "length_256_stdev": 0.40645827994190653, "length_512_mean": 3.375, "length_512_stdev": 0.17500000000000013, "length_1024_mean": 3.475, "length_1024_stdev": 0.1391941090707505, "length_2048_mean": 3.025, "length_2048_stdev": 0.21650635094610965}, {"model": "Official_Mamba", "overwrite_rate": 0.5, "seeds": [17, 27, 37], "runs": 3, "params": 162560, "train_best_mean": 3.7083333333333335, "train_best_stdev": 0.12332207155790625, "length_128_mean": 3.341666666666667, "length_128_stdev": 0.16072751268321586, "length_256_mean": 3.5, "length_256_stdev": 0.10000000000000009, "length_512_mean": 3.0416666666666665, "length_512_stdev": 0.3826987501068345, "length_1024_mean": 3.183333333333333, "length_1024_stdev": 0.13768926368215273, "length_2048_mean": 3.2416666666666667, "length_2048_stdev": 0.1421560175769331}]
+MATCHED_RECALL_MULTISEED_READY /kaggle/working/modus_x_mamba_recall_multiseed.zip

@@ -1,12 +1,9 @@
-# Modus_X v1.1.0
+# Modus_X v1.1.1 Research Release
 
-This repository contains the Modus_X v1.1 paper, benchmark implementations,
-evidence ledgers, generated figures, and reproducibility documentation.
-
-- Latest paper: `whitepaper.pdf`
-- Source: `whitepaper.md`
-- Versioned release archive: `release/Modus_X_v1.1.0_release.zip`
-- Project DOI: https://doi.org/10.5281/zenodo.20443698
+This directory is the isolated publication workspace for the next Modus_X
+paper release. It is derived from the published Modus_X package and the
+verified v1.0.1 evidence campaign. The original release directories remain
+unchanged.
 
 ## Release Thesis
 
@@ -19,7 +16,7 @@ Modus_X wins every language-modeling benchmark:
 - Modus_X is dramatically stronger than official Mamba on the recovered
   associative-recall and same-key-overwrite stress protocol.
 
-The v1.1.0 paper explains this separation directly. Generic next-byte
+The v1.1.0 paper will explain this separation directly. Generic next-byte
 prediction and explicit associative memory are complementary capabilities, not
 interchangeable metrics.
 
@@ -46,3 +43,14 @@ interchangeable metrics.
 
 All claims must remain scoped to the exact protocols and configurations in
 `docs/CLAIMS_AND_EVIDENCE.md`.
+
+## v1.1.1 Evidence Addition
+
+The completed three-seed component ablation separates the two streams on the
+recovered associative-memory protocol. At length 2048, MatrixOnly achieves
+`96.992 +/- 0.427%` without overwrite and `87.625 +/- 0.745%` with 50%
+overwrite; VectorOnly remains near the `3.125%` chance level. VectorLeanPM
+retains similarly strong performance with fewer parameters than the scalar
+router control. This supports a bounded mechanism claim: the matrix stream is
+necessary for the tested binding and overwrite behavior. See
+`evidence/associative_memory/component_ablation_2026-06-26/`.

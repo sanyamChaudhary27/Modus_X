@@ -1,50 +1,38 @@
-# Modus_X v1.1 Results
+# Results Ledger
 
-This file summarizes the headline evidence in the v1.1 publication. Exact
-claim boundaries and protocol details are recorded in
-`docs/CLAIMS_AND_EVIDENCE.md` and `docs/BENCHMARK_PROTOCOL.md`.
+## Language Modeling
 
-## Matched enwik8 Dense Audit
+| Model | Params | Updates | Characters | Dense Val BPC | Dense Test BPC |
+|---|---:|---:|---:|---:|---:|
+| Modus_X | `82,764,964` | `40,000` | `163.84M` | `1.378681` | `1.384180` |
+| Official Mamba | `81,462,656` | `40,000` | `163.84M` | `1.350538` | `1.345780` |
+| Official xLSTM | `76,649,664` | `40,000` | `163.84M` | `1.435132` | `1.419620` |
 
-All models were evaluated at 40,000 optimizer updates and 163.84M processed
-characters with nearby parameter counts.
+## Associative Memory
 
-| Model | Parameters | Dense validation BPC | Dense test BPC |
-| --- | ---: | ---: | ---: |
-| Official Mamba | 81.46M | **1.3505** | **1.3458** |
-| Modus_X | 82.76M | **1.3787** | **1.3842** |
-| Official xLSTM | 76.65M | 1.4351 | 1.4196 |
+| Model | Params | Seed | Overwrite | Length 128 Accuracy |
+|---|---:|---:|---:|---:|
+| Modus_X VectorLeanPM | `145,674` | `17` | `0%` | `97.325%` |
+| Official Mamba | `162,560` | `17` | `0%` | `2.850%` |
+| Modus_X VectorLeanPM | `145,674` | `17` | `50%` | `88.850%` |
+| Official Mamba | `162,560` | `17` | `50%` | `3.425%` |
 
-Supported interpretation:
+These are current verified values, but release claims remain gated on raw
+artifact promotion and multi-seed confirmation.
 
-- Official Mamba is the strongest byte-language model in this comparison.
-- Modus_X outperforms the tested official xLSTM configuration.
-- All three models use constant recurrent inference state with respect to
-  sequence length.
+### Router/Component Ablation, Three Seeds, Length 2048
 
-## Associative Recall
+| Condition | Model | Params | Accuracy |
+|---|---|---:|---:|
+| No overwrite | ScalarPM | `156,584` | `96.383 +/- 0.496%` |
+| No overwrite | VectorLeanPM | `145,674` | `96.758 +/- 0.317%` |
+| No overwrite | MatrixOnly | `145,674` | `96.992 +/- 0.427%` |
+| No overwrite | VectorOnly | `145,674` | `3.100 +/- 0.109%` |
+| 50% overwrite | ScalarPM | `156,584` | `88.108 +/- 0.447%` |
+| 50% overwrite | VectorLeanPM | `145,674` | `87.758 +/- 0.777%` |
+| 50% overwrite | MatrixOnly | `145,674` | `87.625 +/- 0.745%` |
+| 50% overwrite | VectorOnly | `145,674` | `3.308 +/- 0.506%` |
 
-| Model | Params | Length 128 | Length 256 | Length 512 | Length 1024 | Length 2048 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Modus_X VectorLean | 152,436 | **95.1%** | **94.5%** | **94.8%** | **94.5%** | **94.6%** |
-| Official Mamba recall model | 162,560 | 2.85% | 3.70% | 3.30% | 3.28% | 3.33% |
-| Chance | - | 3.125% | 3.125% | 3.125% | 3.125% | 3.125% |
-
-This is a controlled synthetic binding task. It demonstrates a strong
-content-addressed-memory advantage under the tested protocol, not universal
-long-context superiority.
-
-## Same-Key Overwrite
-
-| Model | No-overwrite recall | 50% overwrite recall |
-| --- | ---: | ---: |
-| Modus_X VectorLean | **97.325%** | **88.850%** |
-| Official Mamba recall model | 2.850% | 3.425% |
-
-## Current Claim
-
-> Modus_X is a competitive constant-state language model with a demonstrated
-> associative-memory advantage on controlled binding and overwrite tasks. It
-> does not yet lead official Mamba on enwik8 compression.
-
-See `whitepaper.pdf` for the full analysis, limitations, and roadmap.
+The trained vector-only intervention is at chance. The matrix stream is
+therefore necessary for this protocol's observed recall behavior. Raw
+seed-level outputs remain required for final release promotion.

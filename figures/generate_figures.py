@@ -54,12 +54,13 @@ def dense_bpc():
 
 def recall():
     lengths = np.array([128, 256, 512, 1024, 2048])
-    # Exact recovered VectorLeanPM length-generalization run (seed 7, epoch 8).
-    modus = np.array([95.1, 94.5, 94.8, 94.5, 94.6])
-    mamba = np.array([2.85, 3.70, 3.30, 3.275, 3.325])
+    modus = np.array([96.8917, 96.9000, 96.8583, 96.6417, 96.7583])
+    modus_std = np.array([0.2184, 0.2817, 0.3711, 0.2036, 0.3166])
+    mamba = np.array([3.2833, 3.0667, 3.3750, 3.4750, 3.0250])
+    mamba_std = np.array([0.2566, 0.4065, 0.1750, 0.1392, 0.2165])
     plt.figure(figsize=(8.2, 4.8))
-    plt.plot(lengths, modus, marker="o", linewidth=2.6, color=COLORS["modus"], label="Modus_X VectorLeanPM")
-    plt.plot(lengths, mamba, marker="o", linewidth=2.2, color=COLORS["mamba"], label="Official Mamba")
+    plt.errorbar(lengths, modus, yerr=modus_std, marker="o", linewidth=2.6, capsize=3, color=COLORS["modus"], label="Modus_X VectorLeanPM")
+    plt.errorbar(lengths, mamba, yerr=mamba_std, marker="o", linewidth=2.2, capsize=3, color=COLORS["mamba"], label="Official Mamba")
     plt.axhline(3.125, color="#888", linestyle="--", linewidth=1.2, label="Chance (32 values)")
     plt.xscale("log", base=2)
     plt.xticks(lengths, [str(x) for x in lengths])
@@ -67,26 +68,28 @@ def recall():
     plt.xlabel("Evaluation sequence length (trained at 128)")
     plt.ylabel("Held-out retrieval accuracy (%)")
     plt.title("Content-addressed recall length extrapolation")
-    plt.suptitle("Exact recovered Modus_X run versus official Mamba seed-17 run; multi-seed confirmation remains a release gate", y=0.94, fontsize=8, color=COLORS["muted"])
+    plt.suptitle("Mean +/- sample standard deviation across seeds 17, 27, and 37", y=0.94, fontsize=8, color=COLORS["muted"])
     plt.legend(frameon=False, loc="center right")
     save("associative_recall_comparison.png")
 
 
 def overwrite():
     labels = ["No overwrite", "50% same-key overwrite"]
-    modus = [97.325, 88.850]
-    mamba = [2.850, 3.425]
+    modus = [96.8917, 87.7250]
+    modus_std = [0.2184, 0.5879]
+    mamba = [3.2833, 3.3417]
+    mamba_std = [0.2566, 0.1607]
     x = np.arange(2)
     width = 0.34
     plt.figure(figsize=(7.6, 4.8))
-    plt.bar(x - width / 2, modus, width, color=COLORS["modus"], label="Modus_X")
-    plt.bar(x + width / 2, mamba, width, color=COLORS["mamba"], label="Official Mamba")
+    plt.bar(x - width / 2, modus, width, yerr=modus_std, capsize=3, color=COLORS["modus"], label="Modus_X")
+    plt.bar(x + width / 2, mamba, width, yerr=mamba_std, capsize=3, color=COLORS["mamba"], label="Official Mamba")
     plt.axhline(3.125, color="#888", linestyle="--", linewidth=1.2, label="Chance")
     plt.xticks(x, labels)
     plt.ylim(0, 102)
     plt.ylabel("Held-out accuracy (%)")
     plt.title("Same-key overwrite stress test")
-    plt.suptitle("Seed 17, matched 12-epoch protocol; additional seeds required for final release claim", y=0.94, fontsize=8.5, color=COLORS["muted"])
+    plt.suptitle("Mean +/- sample standard deviation across three matched seeds", y=0.94, fontsize=8.5, color=COLORS["muted"])
     plt.legend(frameon=False)
     for i, values in enumerate(zip(modus, mamba)):
         for j, value in enumerate(values):
@@ -146,6 +149,29 @@ def evidence_map():
     save("evidence_summary.png")
 
 
+def component_ablation():
+    variants = ["ScalarPM", "VectorLeanPM", "MatrixOnly", "VectorOnly"]
+    no_overwrite = np.array([96.3833, 96.7583, 96.9917, 3.1000])
+    no_overwrite_std = np.array([0.4964, 0.3166, 0.4274, 0.1090])
+    overwrite_50 = np.array([88.1083, 87.7583, 87.6250, 3.3083])
+    overwrite_50_std = np.array([0.4474, 0.7767, 0.7454, 0.5058])
+    x = np.arange(len(variants))
+    width = 0.36
+    colors = ["#4C78A8", COLORS["modus"], "#2E8B57", COLORS["mamba"]]
+    plt.figure(figsize=(9.0, 5.0))
+    for index, color in enumerate(colors):
+        plt.bar(x[index] - width / 2, no_overwrite[index], width, yerr=no_overwrite_std[index], capsize=3, color=color)
+        plt.bar(x[index] + width / 2, overwrite_50[index], width, yerr=overwrite_50_std[index], capsize=3, color=color, alpha=0.58)
+    plt.axhline(3.125, color="#888", linestyle="--", linewidth=1.2, label="Chance (32 values)")
+    plt.xticks(x, variants)
+    plt.ylabel("Length-2048 held-out accuracy (%)")
+    plt.ylim(0, 103)
+    plt.title("Matrix stream carries the controlled associative-recall result")
+    plt.suptitle("Mean +/- sample standard deviation across seeds 17, 27, and 37; light bars are 50% same-key overwrite", y=0.94, fontsize=8, color=COLORS["muted"])
+    plt.legend(frameon=False, loc="lower left")
+    save("component_ablation.png")
+
+
 if __name__ == "__main__":
     dense_bpc()
     recall()
@@ -153,4 +179,5 @@ if __name__ == "__main__":
     memory_projection()
     observed_scaling()
     evidence_map()
+    component_ablation()
     print("Generated figures in", OUT)

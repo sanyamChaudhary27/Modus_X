@@ -1,6 +1,16 @@
 # Changelog
 
-## v1.1.0 - In Development
+## v1.1.1 - In Development
+
+- Added a three-seed router/component ablation across no-overwrite and 50%
+  same-key-overwrite conditions.
+- Corrected the router interpretation: the matrix stream carries the tested
+  associative recall; vector-only output is near chance; the lean router is a
+  compact retained variant, not a demonstrated universal advantage.
+- Added exact component-ablation commands, aggregate evidence, parameter
+  disclosures, and raw-archive promotion requirements.
+
+## v1.1.0
 
 - Added official xLSTM and official Mamba matched baselines.
 - Added dense reset-window evaluation.

@@ -1,4 +1,4 @@
-# Modus_X v1.1.0 Release Gates
+# Modus_X v1.1.1 Release Gates
 
 ## Evidence
 
@@ -9,6 +9,9 @@
 - [ ] Official Mamba overwrite `results.json` promoted.
 - [ ] Modus_X recall and overwrite raw seed outputs promoted.
 - [ ] At least three matched seeds for Modus_X versus official Mamba recall.
+- [x] Router/component ablation raw Kaggle archive promoted.
+- [x] Router/component ablation aggregate completed across three seeds and
+  both overwrite conditions.
 
 ## Paper
 
@@ -19,6 +22,7 @@
 - [x] Synthetic-task caveats are explicit.
 - [x] New figures are generated from measured or explicitly analytical data.
 - [x] PDF is rebuilt and visually inspected.
+- [x] v1.1.1 PDF is rebuilt and visually inspected.
 
 ## Reproducibility
 
@@ -26,5 +30,5 @@
 - [ ] External source commits are pinned.
 - [ ] Dataset hashes are recorded.
 - [ ] Commands execute from a clean runtime.
-- [ ] Artifact hashes and manifest are generated.
+- [x] Artifact hashes and manifest are generated.
 - [ ] Archive contains no checkpoints unless intentionally released.

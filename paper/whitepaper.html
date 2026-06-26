@@ -263,7 +263,7 @@
     <div class="abstract-box">
         <div class="abstract-title">Abstract</div>
         <p>We introduce <strong>Modus_X</strong>, an attention-free causal sequence architecture that combines a selective recurrent stream for local sequential dynamics with a delta-rule associative matrix stream for content-addressed memory. The resulting model uses fixed recurrent state during autoregressive inference: its cache does not grow with generated sequence length, unlike Transformer key-value caches. This property does not by itself imply lower total compute in every regime, but it creates a distinct systems path for long-context inference.</p>
-<p>Version 1.1 adds three evidence layers. First, an 82.76M-parameter Modus_X model reaches <strong>1.3842 dense test BPC</strong> on enwik8 after 163.84M processed characters. Under the same dense evaluator, an official xLSTM baseline reaches <strong>1.4196</strong>, while an official Mamba baseline reaches <strong>1.3458</strong>. Thus Modus_X is competitive with strong recurrent families, exceeds the matched xLSTM result in this protocol, and does not yet beat Mamba on byte-level compression. Second, on a balanced associative-recall protocol, Modus_X sustains approximately <strong>94-95% exact recall through length 2048</strong>, while the evaluated Mamba baseline remains near the 3.125% chance level. On same-key overwrite recall, Modus_X reaches <strong>88.85%</strong> versus <strong>3.43%</strong> for the evaluated Mamba configuration. Third, router ablations show that a lean element-wise vector router improves the recovered recall result over a scalar router without requiring an expansive routing network.</p>
+<p>Version 1.1.1 adds a fourth evidence layer to the prior release package. First, an 82.76M-parameter Modus_X model reaches <strong>1.3842 dense test BPC</strong> on enwik8 after 163.84M processed characters. Under the same dense evaluator, an official xLSTM baseline reaches <strong>1.4196</strong>, while an official Mamba baseline reaches <strong>1.3458</strong>. Thus Modus_X is competitive with strong recurrent families, exceeds the matched xLSTM result in this protocol, and does not yet beat Mamba on byte-level compression. Second, on a balanced associative-recall protocol, Modus_X sustains approximately <strong>94-95% exact recall through length 2048</strong>, while the evaluated Mamba baseline remains near the 3.125% chance level. On same-key overwrite recall, Modus_X reaches <strong>88.85%</strong> versus <strong>3.43%</strong> for the evaluated Mamba configuration. Third, the three-seed component ablation identifies the tested mechanism: MatrixOnly retains <code>96.992 +/- 0.427%</code> no-overwrite recall at length 2048 while VectorOnly reaches <code>3.100 +/- 0.109%</code>, near chance. The lean element-wise router remains a compact default, but this experiment does not show that routing itself is the source of the recall advantage.</p>
 <p>The combined evidence is more informative than any single leaderboard number. Mamba currently wins the enwik8 compression comparison; Modus_X wins the tested associative-memory comparisons and retains constant inference state. We therefore present Modus_X not as a universal replacement, but as a credible architecture line with an experimentally visible specialization: compression quality competitive with recurrent baselines, substantially stronger explicit binding and overwrite behavior in the tested setup, and a memory footprint whose sequence-length dependence differs fundamentally from attention.</p>
     </div>
     <!-- Main HTML Body -->
@@ -278,16 +278,6 @@
 <hr />
 <h2>2. Architecture</h2>
 <p>Modus_X processes an input sequence of activations $x_1, x_2, \dots, x_L \in \mathbb{R}^d$. Inside each layer, the input is fed into two parallel, independent streams: a local selective vector stream and a long-range matrix memory stream. The outputs of these streams are combined using an input-dependent router.</p>
-<pre><code>flowchart TD
-    A[&quot;Input token representation e_t&quot;] --&gt; B[&quot;Matrix delta stream&quot;]
-    A --&gt; C[&quot;Selective vector stream&quot;]
-    B --&gt; D[&quot;Associative read: modus_out_t&quot;]
-    C --&gt; E[&quot;Sequential state: mamba_out_t&quot;]
-    A --&gt; F[&quot;Router r_t = sigmoid(MLP(e_t))&quot;]
-    D --&gt; G[&quot;Mixture&quot;]
-    E --&gt; G
-    F --&gt; G
-    G --&gt; H[&quot;Layer output y_t&quot;]</code></pre>
 <div align="center">
     <img src="../figures/modus_x_scalar_router.png" alt="Modus_X Scalar Router Architecture" />
 </div>
@@ -635,7 +625,7 @@ Transformer KV cache O(L * d * layers)</code></pre>
 <p>Overwrite is a harder test than static storage because the correct answer depends on recency and selective replacement. The Modus_X delta update explicitly computes a residual between the new value and the value currently retrieved by the key. The strong overwrite score is therefore aligned with the mechanism rather than being an incidental metric.</p>
 <p>The no-overwrite Modus_X row comes from a confirmation run with the same seed and task family, but not the exact checkpoint used for every length-generalization point in Table 3. The evidence package preserves this distinction instead of merging runs into a fictitious single experiment.</p>
 <hr />
-<h2>7. Element-Wise Vector Routing</h2>
+<h2>7. Routing and Component Attribution</h2>
 <p>The original scalar router computes one gate $r_t \in (0,1)$ for the entire hidden representation. The v1.1 lean vector router computes a gate per feature:</p>
 <p>$$r_t = \sigma(W_{rp}\,\text{GeLU}(W_{rh}e_t+b_{rh})+b_{rp})$$
 $$y_t = r_t \odot y_t^{matrix} + (1-r_t)\odot y_t^{vector}$$</p>
@@ -644,7 +634,7 @@ $$y_t = r_t \odot y_t^{matrix} + (1-r_t)\odot y_t^{vector}$$</p>
 </div>
 
 <p>The conceptual benefit is specialization. A scalar router forces all hidden dimensions to choose the same stream mixture at a token. A vector router permits one subspace to preserve a retrieved entity or value while another tracks syntax, local phase, or recurrence.</p>
-<p>The empirical result is modest but real. In the recovered seed-17 width sweep:</p>
+<p>The router-width evidence is modest. In the recovered seed-17 width sweep:</p>
 <table>
 <thead>
 <tr>
@@ -676,7 +666,65 @@ $$y_t = r_t \odot y_t^{matrix} + (1-r_t)\odot y_t^{vector}$$</p>
 </tr>
 </tbody>
 </table>
-<p>Across seeds 17, 27, and 37, the vector configuration averages approximately <strong>97.033%</strong>, compared with <strong>96.692%</strong> for the scalar control. This is not evidence that vector routing wins every task. It is evidence that the proposed router can improve specialization without requiring the full $d \times d$ projection originally considered. Width 16 is therefore the current defensible default for recall-oriented experiments.</p>
+<p>Across seeds 17, 27, and 37, VectorLeanPM averages <strong>96.758 +/- 0.317%</strong> at length 2048 without overwrite, versus <strong>96.383 +/- 0.496%</strong> for ScalarPM. The difference is small, and ScalarPM has <code>156,584</code> parameters compared with <code>145,674</code> for VectorLeanPM, so this is not a general router-superiority claim. Width 16 is retained as a compact recall-oriented default pending language-model evidence.</p>
+<h3>7.1 Stream Intervention</h3>
+<p><img alt="Three-seed router/component ablation" src="../figures/component_ablation.png" /></p>
+<p>The more decisive experiment holds the lean-vector parameter allocation fixed and changes only which stream reaches the classifier. Across seeds <code>17</code>, <code>27</code>, and <code>37</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Variant</th>
+<th style="text-align: right;">Params</th>
+<th style="text-align: right;">Length-2048 accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No overwrite</td>
+<td>ScalarPM</td>
+<td style="text-align: right;">156,584</td>
+<td style="text-align: right;">96.383 +/- 0.496%</td>
+</tr>
+<tr>
+<td>No overwrite</td>
+<td>VectorLeanPM</td>
+<td style="text-align: right;">145,674</td>
+<td style="text-align: right;">96.758 +/- 0.317%</td>
+</tr>
+<tr>
+<td>No overwrite</td>
+<td>MatrixOnly</td>
+<td style="text-align: right;">145,674</td>
+<td style="text-align: right;"><strong>96.992 +/- 0.427%</strong></td>
+</tr>
+<tr>
+<td>No overwrite</td>
+<td>VectorOnly</td>
+<td style="text-align: right;">145,674</td>
+<td style="text-align: right;">3.100 +/- 0.109%</td>
+</tr>
+<tr>
+<td>50% overwrite</td>
+<td>VectorLeanPM</td>
+<td style="text-align: right;">145,674</td>
+<td style="text-align: right;">87.758 +/- 0.777%</td>
+</tr>
+<tr>
+<td>50% overwrite</td>
+<td>MatrixOnly</td>
+<td style="text-align: right;">145,674</td>
+<td style="text-align: right;">87.625 +/- 0.745%</td>
+</tr>
+<tr>
+<td>50% overwrite</td>
+<td>VectorOnly</td>
+<td style="text-align: right;">145,674</td>
+<td style="text-align: right;">3.308 +/- 0.506%</td>
+</tr>
+</tbody>
+</table>
+<p>With 32 values, chance is <code>3.125%</code>. The vector-only intervention therefore fails on the task, while MatrixOnly preserves the result. The controlled conclusion is that the delta-rule matrix stream carries the tested associative binding and overwrite capability. MatrixOnly and VectorOnly are output-stream interventions with the same lean-vector parameter allocation; they are not physically pruned models. This result does not establish that the vector stream is useless for language modeling or local sequence dynamics.</p>
 <hr />
 <h2>8. Memory Scaling and Systems Implications</h2>
 <p><img alt="Analytical recurrent-state and KV-cache scaling" src="../figures/memory_scaling_projection.png" /></p>
@@ -803,7 +851,7 @@ $$y_t = r_t \odot y_t^{matrix} + (1-r_t)\odot y_t^{vector}$$</p>
 <h3>13.1 Immediate Architecture Work</h3>
 <ul>
 <li>Preserve the dual-stream principle.</li>
-<li>Promote the lean vector router as the recall default, then test it on language modeling.</li>
+<li>Treat the lean vector router as a compact recall default, then test it on language modeling without claiming a routing advantage in advance.</li>
 <li>Screen matrix/vector state allocation at matched parameter count.</li>
 <li>Add router-specialization diagnostics and regularization only if they produce measurable stream separation.</li>
 <li>Implement stable mixed precision and fused recurrent kernels.</li>
@@ -827,16 +875,17 @@ $$y_t = r_t \odot y_t^{matrix} + (1-r_t)\odot y_t^{vector}$$</p>
 <p>Version 1.1 supplies evidence for both halves separately, while also showing the remaining gap between them.</p>
 <hr />
 <h2>14. Conclusion</h2>
-<p>Modus_X v1.1 moves the project from a promising architectural proposal to a multi-axis empirical result.</p>
+<p>Modus_X v1.1.1 moves the project from a promising architectural proposal to a multi-axis empirical result.</p>
 <ul>
 <li>It trains as a competitive 82.76M-parameter byte language model.</li>
 <li>It beats the official xLSTM baseline in the matched dense enwik8 test comparison.</li>
 <li>It remains behind official Mamba on enwik8 BPC.</li>
 <li>It decisively outperforms the evaluated Mamba configuration on balanced associative recall and same-key overwrite.</li>
+<li>It shows that the matrix stream, rather than vector-only output, carries the tested associative-recall result.</li>
 <li>It retains a fixed inference state with respect to sequence length.</li>
 <li>Its larger-capacity run improves generalization relative to the earlier 42M campaign.</li>
 </ul>
-<p>The evidence does not justify calling Modus_X a universal winner. It does justify taking the architecture seriously. The matrix stream produces a capability that is visible, stable across tested lengths, and mechanistically aligned with the delta rule. The recurrent stream keeps the model competitive on ordinary language modeling. The router provides a path to combine them rather than choosing one memory geometry for every feature.</p>
+<p>The evidence does not justify calling Modus_X a universal winner. It does justify taking the architecture seriously. The matrix stream produces a capability that is visible, stable across tested lengths, mechanistically attributed by the component intervention, and aligned with the delta rule. The recurrent stream remains part of the language-modeling design, but the current ablation does not demonstrate that it creates the associative effect. The router provides a path to combine them rather than choosing one memory geometry for every feature.</p>
 <p>Modus_X therefore represents a credible route toward a post-KV-cache model: not because every benchmark is already won, but because the architecture demonstrates a rare combination of competitive compression, constant recurrent state, and strong explicit binding. The next decisive experiment is scale.</p>
 <hr />
 <h2>References</h2>

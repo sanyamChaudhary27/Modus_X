@@ -38,6 +38,20 @@ python benchmarks/modus_x/balanced_kv.py \
   --epochs 12
 ```
 
+Router/component ablation:
+
+```bash
+python evidence/associative_memory/component_ablation_2026-06-26/run_component_ablation.py \
+  --runner evidence/associative_memory/component_ablation_2026-06-26/modus_x_router_balanced_kv.py \
+  --outdir results \
+  --seeds 17,27,37 \
+  --epochs 12
+```
+
+The component ablation aligns the task, seeds, data counts, optimizer, epochs,
+and evaluation lengths. It reports parameter counts explicitly: ScalarPM has
+`156,584` parameters; VectorLeanPM, MatrixOnly, and VectorOnly have `145,674`.
+
 Official Mamba recall:
 
 ```bash
@@ -62,4 +76,3 @@ python benchmarks/official_baselines/official_mamba_balanced_kv.py \
 - raw 80M Modus_X audit JSON;
 - raw official xLSTM and Mamba dense audit JSON;
 - hashes for every promoted artifact.
-
