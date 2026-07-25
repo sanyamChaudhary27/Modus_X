@@ -1,0 +1,8 @@
+comparison_class,approximate,metric_type,family,label,params,processed_characters,dense_validation_bpc,dense_test_bpc,schedule,evidence
+fixed_budget_scaling,False,dense_test_bpc,MemoryFeedbackArchive,MemoryFeedbackArchive,47437768,102400000,1.459723,1.465006,6e-4 to 81.92M; 3e-4 to 102.4M,Modus_X_2.0.0/experiments/enwik8_current_archive/MEMORY_FEEDBACK_ARCHIVE_V0_2026-07-12.md
+fixed_budget_scaling,False,dense_test_bpc,MemoryFeedbackArchive,MemoryFeedbackArchive,81486728,102400000,1.4331383109092712,1.4438726902008057,0.0004 through 81.92M; 0.0002 through 102.4M,Modus_X_2.0.0\experiments\memory_feedback_scaling\results\memory_feedback_81m_scaling_point.json
+fixed_budget_scaling,False,dense_test_bpc,MemoryFeedbackArchive,MemoryFeedbackArchive,99438920,102400000,1.4342829585075378,1.4420339465141296,0.0004 through 81.92M; 0.0002 through 102.4M,Modus_X_2.0.0\experiments\memory_feedback_scaling\results\memory_feedback_99m_scaling_point.json
+historical_endpoint,True,dense_test_bpc,Modus X v1.1.1,Modus X v1.1.1 long run,42692772,500000000,1.389,1.4106,historical long-run recipe,Modus_X_v1.0.1/TPU_optim/BPC_1_1_PUSH_MEMORY.md
+historical_endpoint,False,dense_test_bpc,Modus X v1.1.1,Modus X v1.1.1,82764964,163840000,1.378681,1.38418,published v1.1.1 recipe,Modus_X_v1.1.1/evidence/RESULTS_LEDGER.md
+historical_endpoint,False,dense_test_bpc,Official Mamba,Official Mamba,81462656,163840000,1.350538,1.34578,matched 80M-tier baseline protocol,Modus_X_v1.1.1/evidence/RESULTS_LEDGER.md
+historical_endpoint,False,dense_test_bpc,Official xLSTM,Official xLSTM,76649664,163840000,1.435132,1.41962,matched 80M-tier baseline protocol,Modus_X_v1.1.1/evidence/RESULTS_LEDGER.md

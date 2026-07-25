@@ -1,3 +1,46 @@
+# Modus_X
+
+Modus_X is an open research program exploring how bounded associative matrix
+memory can cooperate with recurrent computation. This repository preserves the
+published v1.1.1 line and now includes the experimental v2.0.0 release
+candidate as a separate, versioned package.
+
+## Releases
+
+### Modus_X 2.0.0
+
+The complete v2 research package is in [`Modus_X_2.0.0/`](Modus_X_2.0.0/).
+It introduces two distinct experimental leads:
+
+- **MemoryFeedbackArchive**, where retrieved matrix context conditions the
+  recurrent stream and improves the tested dense enwik8 result over the
+  matched CurrentArchive control;
+- **CurrentArchiveDelta**, which separates bounded current and historical
+  storage and performs strongly on controlled mixed clean/update retrieval
+  after a matched Transformer KV cache can no longer retain full context.
+
+These strengths have not yet been demonstrated together in one model.
+Official Mamba remains stronger on the tested matched generic-language
+comparison, the `1.1` BPC target remains unmet, and the 1B artifacts establish
+systems readiness rather than trained model quality.
+
+The v2.0.0 Zenodo draft has reserved DOI
+[`10.5281/zenodo.21538210`](https://doi.org/10.5281/zenodo.21538210). The DOI
+becomes registered when that draft is published.
+
+The v2.1.0 paper correction is pre-registered in
+[`Modus_X_2.0.0/V2_1_0_PAPER_RESTRUCTURE.md`](Modus_X_2.0.0/V2_1_0_PAPER_RESTRUCTURE.md).
+It will make the transition from v1.1.1 to the v2 mechanisms and evidence
+visually and narratively explicit.
+
+### Modus_X v1.1.1
+
+The repository root below remains the published v1.1.1 research release. Its
+Zenodo DOI is
+[`10.5281/zenodo.20923248`](https://doi.org/10.5281/zenodo.20923248).
+
+---
+
 # Modus_X v1.1.1 Research Release
 
 This directory is the isolated publication workspace for the next Modus_X

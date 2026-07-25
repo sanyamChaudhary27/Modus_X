@@ -1,0 +1,35 @@
+{
+  "title": "Modus_X 2.0.0: Coordinating Bounded Associative Memory with Recurrent Computation",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "description": "<p>Modus_X 2.0.0 is an experimental research release on coordinating bounded associative matrix memory with recurrent vector computation. It promotes two configurations for different evidence layers: MemoryFeedbackArchive for byte-level language modeling and CurrentArchiveDelta for controlled versioned-memory evaluation.</p><p>CurrentArchiveDelta maintains shared-address current and archive matrices with independently gated update timescales. MemoryFeedbackArchive compresses their mixed retrieval through a low-rank projection and gates it into the vector-stream input before recurrence. This specific coordination pattern is the architectural contribution; fast weights, delta-rule updates, recurrent memory, and hybrid sequence models have substantial prior art.</p><p>At a fixed 102.4M-character enwik8 budget, MemoryFeedbackArchive improves strongly from 47.44M to 81.49M parameters, then saturates from 81.49M to 99.44M. In controlled equal-state experiments, CurrentArchiveDelta outperforms a truncated Transformer KV baseline when the cache cannot retain full context, while full-context KV remains superior. Official Mamba remains better on the available matched dense enwik8 endpoint. The 1.1 BPC target and trained 1B quality remain open.</p><p>The archive includes source, protocols, dense evaluation evidence, controlled-memory studies, rejected interventions, systems-readiness appendices, a full whitepaper, model card, provenance, reproducibility metadata, and an integrity manifest.</p>",
+  "creators": [
+    {
+      "name": "Chaudhary, Sanyam"
+    }
+  ],
+  "version": "2.0.0",
+  "publication_date": "2026-07-25",
+  "license": "cc-by-4.0",
+  "keywords": [
+    "recurrent language models",
+    "associative memory",
+    "matrix memory",
+    "linear attention",
+    "constant-state inference",
+    "enwik8",
+    "long-context models"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.20923248",
+      "relation": "isNewVersionOf",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "https://github.com/sanyamChaudhary27/Modus_X",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ]
+}

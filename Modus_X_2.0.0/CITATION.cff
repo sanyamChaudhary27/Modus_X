@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this research release, cite the specific Modus_X 2.0.0 version DOI after publication."
+title: "Modus_X 2.0.0: Coordinating Bounded Associative Memory with Recurrent Computation"
+type: software
+version: 2.0.0
+date-released: 2026-07-25
+authors:
+  - family-names: Chaudhary
+    given-names: Sanyam
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.21538210
+    description: Reserved Modus_X 2.0.0 version DOI
+  - type: doi
+    value: 10.5281/zenodo.20923248
+    description: Published Modus_X v1.1.1 predecessor
+repository-code: "https://github.com/sanyamChaudhary27/Modus_X"
+license: MIT
