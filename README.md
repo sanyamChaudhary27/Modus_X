@@ -29,7 +29,7 @@ The v2.0.0 Zenodo draft has reserved DOI
 becomes registered when that draft is published.
 
 The v2.1.0 paper correction is pre-registered in
-[`Modus_X_2.0.0/V2_1_0_PAPER_RESTRUCTURE.md`](Modus_X_2.0.0/V2_1_0_PAPER_RESTRUCTURE.md).
+[`roadmap/V2_1_0_PAPER_RESTRUCTURE.md`](roadmap/V2_1_0_PAPER_RESTRUCTURE.md).
 It will make the transition from v1.1.1 to the v2 mechanisms and evidence
 visually and narratively explicit.
 
