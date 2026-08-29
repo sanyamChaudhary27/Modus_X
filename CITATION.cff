@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this research release, cite the Modus_X 2.1.0 version DOI."
+title: "Modus_X 2.1.0: Coordinated Dual Memory and Matched Language Scaling"
+type: software
+version: 2.1.0
+date-released: 2026-07-26
+authors:
+  - family-names: Chaudhary
+    given-names: Sanyam
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.21590445
+    description: Reserved Modus_X v2.1.0 version DOI
+  - type: doi
+    value: 10.5281/zenodo.20923248
+    description: Published Modus_X v1.1.1 predecessor
+repository-code: "https://github.com/sanyamChaudhary27/Modus_X"
+license: MIT

@@ -1,67 +1,47 @@
-# Modus_X Architecture
+# Modus_X 2.1.0 Architecture
 
-Modus_X is a dual-stream recurrent language model. Each layer keeps two constant-size states:
+## Design objective
 
-- matrix state `H`, shaped approximately `R x R`, for associative memory,
-- vector state `s`, shaped approximately `R`, for selective recurrence.
+Modus_X 2.1.0 asks whether a bounded associative matrix can supply durable,
+content-addressed information to a strong recurrent computation without
+growing a token-by-token inference cache.
 
-There is no attention operation and no KV cache.
+## MemoryFeedbackArchive
 
-## Layer Sketch
-
-```mermaid
-flowchart TD
-    E["token representation e_t"] --> M["matrix delta stream"]
-    E --> V["selective vector stream"]
-    M --> MO["modus_out"]
-    V --> VO["mamba_out"]
-    E --> R["input-dependent router r_t"]
-    MO --> F["r_t * modus_out + (1-r_t) * mamba_out"]
-    VO --> F
-    R --> F
-    F --> Y["layer output"]
-```
-
-## Matrix Delta Stream
-
-The matrix stream writes by a delta rule:
+MemoryFeedbackArchive is the language-model lead. Each layer maintains current
+and archive matrix state. Retrieved matrix context is compressed through a
+low-rank path and conservatively gated into the vector-stream input:
 
 ```text
-old_t = H_{t-1} @ k_t
-H_t = retain_t * H_{t-1} + eta_t * write_t * outer(v_t - old_t, k_t)
-read_t = H_t @ q_t
+token representation
+    -> bounded matrix update and retrieval
+    -> low-rank feedback projection
+    -> learned bounded gate
+    -> vector recurrence
+    -> residual output
 ```
 
-The key idea is content-addressed overwrite. The update does not merely append; it computes what the current key would retrieve, subtracts that from the desired value, and writes the residual.
+The important coordination change is causal: matrix retrieval modifies what
+the recurrent stream reasons over. It is not merely added as a second large
+output expert.
 
-## Vector Stream
+## CurrentArchiveDelta
 
-The vector stream follows the Mamba-like selective recurrence idea:
+CurrentArchiveDelta is the controlled-memory lead. It separates rapidly
+updated current state from durable archive state and uses version-aware
+addressing and disciplined delta writes. The design is evaluated on clean,
+updated, conflicting, and distractor-heavy bindings.
 
-```text
-s_t = retain_s_t * s_{t-1} + delta_t * u_t
-```
+## Bounded state
 
-This stream is cheap and strong for local/sequential dynamics, but it has less associative capacity than a matrix memory. Modus_X keeps both.
+For fixed matrix and vector dimensions, recurrent state does not grow with
+sequence length. Weight storage, activations, computation, batching, and
+hardware efficiency remain separate costs.
 
-## Router
+## Research boundary
 
-The router computes a context-dependent mixture:
-
-```text
-out_t = r_t * modus_out_t + (1 - r_t) * mamba_out_t
-```
-
-This lets the model choose between associative matrix memory and vector recurrence at every token and every layer.
-
-## Complexity
-
-For a fixed state size `R`, inference memory is independent of context length:
-
-```text
-Modus_X state memory: O(R^2 + R)
-Transformer KV cache: O(L * d * layers)
-```
-
-The practical claim is not that Modus_X is faster in the current prototype. The claim is that its memory does not grow with generated length.
-
+The two promoted variants demonstrate complementary strengths. This release
+does not claim that their advantages have been merged into one final model.
+Rejected attention-to-write, adaptive-preconditioning, erase/write, latest
+shadow, and official-Mamba insertion variants remain documented negative
+results.

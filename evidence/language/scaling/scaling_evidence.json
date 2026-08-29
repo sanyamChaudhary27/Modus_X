@@ -1,0 +1,154 @@
+{
+  "interpretation": {
+    "fixed_budget_panel": "Three MemoryFeedbackArchive scales at 102.4M processed characters.",
+    "historical_panel": "Context only; points used different architectures and/or budgets.",
+    "claim_limit": "A monotonic three-point curve is scaling evidence, not a universal law."
+  },
+  "rows": [
+    {
+      "family": "MemoryFeedbackArchive",
+      "label": "MemoryFeedbackArchive",
+      "params": 47437768,
+      "processed_characters": 102400000,
+      "dense_validation_bpc": 1.459723,
+      "dense_test_bpc": 1.465006,
+      "schedule": "6e-4 to 81.92M; 3e-4 to 102.4M",
+      "evidence": "Modus_X_2.0.0/experiments/enwik8_current_archive/MEMORY_FEEDBACK_ARCHIVE_V0_2026-07-12.md",
+      "comparison_class": "fixed_budget_scaling",
+      "approximate": false,
+      "metric_type": "dense_test_bpc"
+    },
+    {
+      "family": "MemoryFeedbackArchive",
+      "label": "MemoryFeedbackArchive",
+      "params": 81486728,
+      "non_embedding_params": 81314696,
+      "processed_characters": 102400000,
+      "optimizer_steps": 25000,
+      "seed": 1,
+      "schedule": "0.0004 through 81.92M; 0.0002 through 102.4M",
+      "elapsed_s": 26162.743491256995,
+      "sparse_validation_bpc": 1.3797222442866284,
+      "dense_train_tail_bpc": 1.3601648211479187,
+      "dense_validation_bpc": 1.4331383109092712,
+      "dense_test_bpc": 1.4438726902008057,
+      "dense_audit_elapsed_s": 1155.1554276280003,
+      "dataset_bytes": 100000000,
+      "dataset_sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
+      "evaluation_protocol": {
+        "split": "85M-90M train-tail; 90M-95M validation; 95M-100M test",
+        "context": 512,
+        "dense_offsets": [
+          0,
+          256
+        ],
+        "dense_stride": 512
+      },
+      "config": {
+        "embed_dim": 672,
+        "hidden_dim": 2016,
+        "state_dim": 672,
+        "n_layers": 12,
+        "router_hidden": 64,
+        "seq_len": 512,
+        "matrix_states_per_layer": 2
+      },
+      "comparison_class": "fixed_budget_scaling",
+      "approximate": false,
+      "metric_type": "dense_test_bpc",
+      "evidence": "Modus_X_2.0.0\\release_candidate\\evidence\\language\\scaling\\memory_feedback_81m_scaling_point.json"
+    },
+    {
+      "family": "MemoryFeedbackArchive",
+      "label": "MemoryFeedbackArchive",
+      "params": 99438920,
+      "non_embedding_params": 99242312,
+      "processed_characters": 102400000,
+      "optimizer_steps": 25000,
+      "seed": 1,
+      "schedule": "0.0004 through 81.92M; 0.0002 through 102.4M",
+      "elapsed_s": 27223.781990962,
+      "sparse_validation_bpc": 1.3798583309335815,
+      "dense_train_tail_bpc": 1.355060636997223,
+      "dense_validation_bpc": 1.4342829585075378,
+      "dense_test_bpc": 1.4420339465141296,
+      "dense_audit_elapsed_s": 1163.7301554139995,
+      "dataset_bytes": 100000000,
+      "dataset_sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
+      "evaluation_protocol": {
+        "split": "85M-90M train-tail; 90M-95M validation; 95M-100M test",
+        "context": 512,
+        "dense_offsets": [
+          0,
+          256
+        ],
+        "dense_stride": 512
+      },
+      "config": {
+        "embed_dim": 768,
+        "hidden_dim": 2304,
+        "state_dim": 704,
+        "n_layers": 12,
+        "router_hidden": 64,
+        "seq_len": 512,
+        "matrix_states_per_layer": 2
+      },
+      "comparison_class": "fixed_budget_scaling",
+      "approximate": false,
+      "metric_type": "dense_test_bpc",
+      "evidence": "Modus_X_2.0.0\\release_candidate\\evidence\\language\\scaling\\memory_feedback_99m_scaling_point.json"
+    },
+    {
+      "family": "Modus X v1.1.1",
+      "label": "Modus X v1.1.1 long run",
+      "params": 42692772,
+      "processed_characters": 500000000,
+      "dense_validation_bpc": 1.389,
+      "dense_test_bpc": 1.4106,
+      "schedule": "historical long-run recipe",
+      "evidence": "Modus_X_v1.0.1/TPU_optim/BPC_1_1_PUSH_MEMORY.md",
+      "comparison_class": "historical_endpoint",
+      "approximate": true,
+      "metric_type": "dense_test_bpc"
+    },
+    {
+      "family": "Modus X v1.1.1",
+      "label": "Modus X v1.1.1",
+      "params": 82764964,
+      "processed_characters": 163840000,
+      "dense_validation_bpc": 1.378681,
+      "dense_test_bpc": 1.38418,
+      "schedule": "published v1.1.1 recipe",
+      "evidence": "Modus_X_v1.1.1/evidence/RESULTS_LEDGER.md",
+      "comparison_class": "historical_endpoint",
+      "approximate": false,
+      "metric_type": "dense_test_bpc"
+    },
+    {
+      "family": "Official Mamba",
+      "label": "Official Mamba",
+      "params": 81462656,
+      "processed_characters": 163840000,
+      "dense_validation_bpc": 1.350538,
+      "dense_test_bpc": 1.34578,
+      "schedule": "matched 80M-tier baseline protocol",
+      "evidence": "Modus_X_v1.1.1/evidence/RESULTS_LEDGER.md",
+      "comparison_class": "historical_endpoint",
+      "approximate": false,
+      "metric_type": "dense_test_bpc"
+    },
+    {
+      "family": "Official xLSTM",
+      "label": "Official xLSTM",
+      "params": 76649664,
+      "processed_characters": 163840000,
+      "dense_validation_bpc": 1.435132,
+      "dense_test_bpc": 1.41962,
+      "schedule": "matched 80M-tier baseline protocol",
+      "evidence": "Modus_X_v1.1.1/evidence/RESULTS_LEDGER.md",
+      "comparison_class": "historical_endpoint",
+      "approximate": false,
+      "metric_type": "dense_test_bpc"
+    }
+  ]
+}

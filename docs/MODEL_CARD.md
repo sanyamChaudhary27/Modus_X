@@ -1,37 +1,57 @@
-# Modus_X Model Card
+# Modus_X 2.1.0 Model Card
 
-## Model
+## Model family
 
-Modus_X is an experimental attention-free causal sequence architecture with a
-selective recurrent stream, content-addressed matrix memory, and learned
-routing between them.
+Modus_X 2.1.0 is an experimental family of causal recurrent language and
+memory models. It combines a bounded vector recurrence with associative matrix
+state. This release contains two promoted research configurations:
 
-## Intended Use
+- **MemoryFeedbackArchive**, the generic-language lead, feeds compressed
+  matrix retrieval back into the vector computation.
+- **CurrentArchiveDelta**, the controlled-memory lead, separates current and
+  archived matrix state for versioned binding and update experiments.
 
-- research on efficient sequence architectures;
-- associative memory and overwrite experiments;
-- constant-state language-model research;
-- scaling studies toward open attention-free language models.
+These are related research models, not one checkpoint that owns every reported
+advantage.
 
-## Out Of Scope
+## Intended use
 
-- production deployment;
-- safety-critical decisions;
-- claims of general superiority over established architectures;
-- use of synthetic recall results as a substitute for natural-language
-  evaluation.
+- research on bounded-state sequence models;
+- associative binding, update, conflict, and distractor studies;
+- byte-level language-model scaling and dense evaluation;
+- systems studies of recurrent-state memory and long-context serving.
 
-## Current Strengths
+## Out of scope
 
-- content-addressed retrieval;
-- same-key overwrite;
-- length extrapolation on the recovered synthetic protocol;
-- fixed inference-state size with sequence length.
+- production or safety-critical deployment;
+- treating synthetic retrieval as general reasoning;
+- claiming state of the art or universal superiority;
+- representing the exact 1B systems smoke as a trained 1B model.
 
-## Current Weaknesses
+## Measured strengths
 
-- lower enwik8 BPC than the tested official Mamba baseline;
-- slower research implementation;
-- incomplete natural-language long-context evaluation;
-- limited large-scale training evidence.
+- MemoryFeedbackArchive improves the matched CurrentArchive dense enwik8 result
+  at approximately 47M parameters.
+- Scaling MemoryFeedbackArchive from 47.44M to 81.49M parameters improves dense
+  test BPC at the measured 102.4M-character endpoint.
+- CurrentArchiveDelta retains clean and versioned bindings under a constrained
+  recurrent-state budget where the tested truncated Transformer KV baseline
+  cannot retain the full context.
+- The inference state is bounded in sequence length for a fixed configuration.
 
+## Measured weaknesses
+
+- Official Mamba remains better on the available matched dense enwik8 endpoint.
+- The 81M-to-99M MemoryFeedback scaling interval is saturated at the measured
+  data and schedule budget.
+- CurrentArchiveDelta still exhibits stale latest-value recall.
+- The research kernels are not production-optimized.
+- Broad downstream capability, instruction following, and natural-language
+  long-context memory are not established.
+
+## Evaluation boundaries
+
+Use dense validation and dense test BPC for language conclusions. Sparse
+checkpoint BPC is a progress metric. Synthetic memory results must name the
+task, recurrent-state budget, parameter count, seeds, and whether the
+Transformer comparator retained the full context.
