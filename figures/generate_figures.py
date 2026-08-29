@@ -2,6 +2,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.patches import FancyBboxPatch
 
 
 OUT = Path(__file__).resolve().parent
@@ -172,6 +173,90 @@ def component_ablation():
     save("component_ablation.png")
 
 
+def v2_architecture():
+    fig, ax = plt.subplots(figsize=(11.2, 6.4))
+    ax.set_xlim(0, 12)
+    ax.set_ylim(0, 8)
+    ax.axis("off")
+
+    def box(x, y, w, h, title, detail, color, fill="#F7F9FC"):
+        patch = FancyBboxPatch(
+            (x, y),
+            w,
+            h,
+            boxstyle="round,pad=0.03,rounding_size=0.08",
+            linewidth=1.8,
+            edgecolor=color,
+            facecolor=fill,
+        )
+        ax.add_patch(patch)
+        ax.text(x + w / 2, y + h * 0.66, title, ha="center", va="center",
+                fontsize=10, weight="bold", color=color)
+        ax.text(x + w / 2, y + h * 0.30, detail, ha="center", va="center",
+                fontsize=8, color="#384152")
+
+    def arrow(x1, y1, x2, y2, color="#667085", style="-|>", width=1.6):
+        ax.annotate(
+            "",
+            xy=(x2, y2),
+            xytext=(x1, y1),
+            arrowprops={"arrowstyle": style, "lw": width, "color": color},
+        )
+
+    box(0.25, 3.25, 1.55, 1.0, "Input", r"$x_t$", COLORS["muted"], "#FFFFFF")
+    box(2.25, 5.65, 2.0, 1.25, "Shared addressing",
+        r"$k_t,q_t,v_t$ + write/read gates", COLORS["modus"])
+    box(4.85, 6.20, 2.2, 1.15, "Current matrix",
+        r"fast delta update $C_t$", "#167D9A")
+    box(4.85, 4.60, 2.2, 1.15, "Archive matrix",
+        r"gated delta update $A_t$", "#3A7D44")
+    box(7.65, 5.35, 2.05, 1.35, "Mixed retrieval",
+        r"$c_t=\mu_t C_tq_t+(1-\mu_t)A_tq_t$", "#6B5CA5")
+    box(7.65, 2.85, 2.05, 1.35, "Low-rank feedback",
+        r"$f_t=W_{up}\tanh(W_{down}c_t)$", "#9A5B13")
+    box(4.85, 2.20, 2.2, 1.25, "Gated recurrent input",
+        r"$\tilde{x}_t=LN(x_t+g_tf_t)$", "#9A5B13")
+    box(4.85, 0.45, 2.2, 1.15, "Vector recurrence",
+        r"$s_t$ updated from $\tilde{x}_t$", COLORS["mamba"])
+    box(8.15, 0.45, 1.7, 1.15, "Final router",
+        "matrix + vector outputs", "#4C5C8A")
+    box(10.35, 0.45, 1.4, 1.15, "Layer output",
+        r"$y_t$", COLORS["muted"], "#FFFFFF")
+
+    arrow(1.80, 3.75, 2.25, 6.15)
+    arrow(4.25, 6.28, 4.85, 6.78, COLORS["modus"])
+    arrow(4.25, 6.05, 4.85, 5.18, COLORS["modus"])
+    arrow(7.05, 6.78, 7.65, 6.10, "#167D9A")
+    arrow(7.05, 5.18, 7.65, 5.82, "#3A7D44")
+    arrow(8.68, 5.35, 8.68, 4.20, "#6B5CA5")
+    arrow(7.65, 3.52, 7.05, 2.82, "#9A5B13")
+    arrow(1.80, 3.55, 4.85, 2.82, COLORS["muted"])
+    arrow(5.95, 2.20, 5.95, 1.60, COLORS["mamba"])
+    arrow(7.05, 1.02, 8.15, 1.02, COLORS["mamba"])
+    arrow(9.85, 1.02, 10.35, 1.02, "#4C5C8A")
+    arrow(8.68, 5.35, 8.95, 1.60, "#6B5CA5")
+
+    ax.text(
+        6,
+        7.80,
+        "Modus_X 2.0 MemoryFeedbackArchive: retrieval conditions recurrence",
+        ha="center",
+        va="center",
+        fontsize=14,
+        weight="bold",
+        color="#202838",
+    )
+    ax.text(
+        6,
+        0.08,
+        "All recurrent state is fixed for a chosen configuration; matrix work remains quadratic in matrix width per token.",
+        ha="center",
+        fontsize=8.5,
+        color=COLORS["muted"],
+    )
+    save("modus_x_v2_architecture.png")
+
+
 if __name__ == "__main__":
     dense_bpc()
     recall()
@@ -180,4 +265,5 @@ if __name__ == "__main__":
     observed_scaling()
     evidence_map()
     component_ablation()
+    v2_architecture()
     print("Generated figures in", OUT)

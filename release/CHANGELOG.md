@@ -1,27 +1,35 @@
 # Changelog
 
-## v1.1.1 - In Development
+## 2.1.0 - matched endpoint and paper restructure
 
-- Added a three-seed router/component ablation across no-overwrite and 50%
-  same-key-overwrite conditions.
-- Corrected the router interpretation: the matrix stream carries the tested
-  associative recall; vector-only output is near chance; the lean router is a
-  compact retained variant, not a demonstrated universal advantage.
-- Added exact component-ablation commands, aggregate evidence, parameter
-  disclosures, and raw-archive promotion requirements.
+### Added
 
-## v1.1.0
+- coordinated matrix-to-vector MemoryFeedback;
+- version-aware current/archive bounded memory;
+- dense 47M, 81M, and 99M MemoryFeedback scaling evidence;
+- mixed clean/update, equal-state, distractor, operation, and stale-recall
+  diagnostics;
+- exact 1B systems-readiness appendices;
+- full paper, model card, benchmark protocol, provenance, reproducibility,
+  release validation, and archival metadata.
+- matched 81.49M MemoryFeedback endpoint at 163.84M characters;
+- publication-grade coordinated-dual-memory architecture figure;
+- explicit contribution lineage and result-provenance labels.
 
-- Added official xLSTM and official Mamba matched baselines.
-- Added dense reset-window evaluation.
-- Added balanced-KV associative-recall comparison against official Mamba.
-- Added same-key overwrite comparison.
-- Added vector-router evidence.
-- Expanded claim boundaries, limitations, provenance, and reproducibility
-  documentation.
-- Rebuilt the whitepaper as a 24-page publication artifact while preserving
-  the original architecture, complexity, and FineWeb evidence.
-- Added measured scaling, dense BPC, recall, overwrite, and evidence-summary
-  figures plus a clearly labeled analytical memory-scaling figure.
-- Added a full limitations matrix that pairs each positive claim with its
-  strongest counterevidence.
+### Changed
+
+- v1.1.1 late fusion is no longer the only coordination design;
+- language and controlled-memory leads are explicitly separated;
+- all competitor chart endpoints are labeled by dense versus sparse protocol;
+- scaling claims now disclose the 81M-to-99M saturation and schedule mismatch.
+- the paper now leads with the v2 mechanisms and separates generic language,
+  controlled memory, systems readiness, and inherited v1.1.1 evidence.
+
+### Rejected or frozen
+
+- adaptive preconditioning;
+- attention-to-write and its MemoryFeedback combination;
+- independent erase/write;
+- latest-shadow refresh;
+- unmatched official-Mamba matrix insertion;
+- further gate-scale tuning of capped official-Mamba feedback.

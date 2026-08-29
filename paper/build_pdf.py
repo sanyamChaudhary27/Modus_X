@@ -4,6 +4,7 @@ import subprocess
 import sys
 import html
 import urllib.request
+import shutil
 
 def code_to_html(code_text):
     if code_text.startswith("```"):
@@ -123,6 +124,15 @@ def build():
     # Fetch and inline KaTeX CSS for robust rendering
     katex_css_block = get_katex_css()
     print("Constructing styled HTML template...")
+    doi = os.environ.get("MODUS_X_DOI", "10.5281/zenodo.21590445").strip()
+    if doi:
+        doi_html = (
+            f'<a href="https://doi.org/{doi}" style="color: #4a5568; '
+            'text-decoration: none; border-bottom: 1px solid #cbd5e1;">'
+            f"{doi}</a>"
+        )
+    else:
+        doi_html = '<span style="color: #718096;">DOI pending</span>'
     
     # Style template matching premium LaTeX / ACM journals
     html_content = f"""<!DOCTYPE html>
@@ -381,8 +391,8 @@ def build():
         <div class="authors">
             <strong>Sanyam Chaudhary</strong><br>
             Independent Researcher, India<br>
-            <span style="color: #718096; font-size: 9.5pt;">June 2026 &nbsp;|&nbsp; Modus Research Project</span><br>
-            <span style="margin-top: 5px; display: inline-block; font-size: 9.5pt; font-family: 'JetBrains Mono', monospace;"><a href="https://doi.org/10.5281/zenodo.20443699" style="color: #4a5568; text-decoration: none; border-bottom: 1px solid #cbd5e1;">doi.org/10.5281/zenodo.20443699</a> &nbsp;|&nbsp; <a href="https://github.com/sanyamChaudhary27/Modus_X" style="color: #4a5568; text-decoration: none; border-bottom: 1px solid #cbd5e1;">github.com/sanyamChaudhary27/Modus_X</a></span>
+            <span style="color: #718096; font-size: 9.5pt;">July 2026 &nbsp;|&nbsp; Modus Research Project</span><br>
+            <span style="margin-top: 5px; display: inline-block; font-size: 9.5pt; font-family: 'JetBrains Mono', monospace;">{doi_html} &nbsp;|&nbsp; <a href="https://github.com/sanyamChaudhary27/Modus_X" style="color: #4a5568; text-decoration: none; border-bottom: 1px solid #cbd5e1;">github.com/sanyamChaudhary27/Modus_X</a></span>
         </div>
     </div>
     <!-- Centered Abstract -->
@@ -414,13 +424,25 @@ def build():
     
     # 6. Call headless Chrome to render and print to PDF!
     print("Calling headless Google Chrome for PDF generation...")
-    chrome_path = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
-    if not os.path.exists(chrome_path):
-        chrome_path = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+    chrome_candidates = [
+        shutil.which("google-chrome"),
+        shutil.which("chrome"),
+        shutil.which("chromium"),
+        shutil.which("chromium-browser"),
+        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+        "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+    ]
+    chrome_path = next(
+        (candidate for candidate in chrome_candidates if candidate and os.path.exists(candidate)),
+        None,
+    )
+    if chrome_path is None:
+        print("Error: no Chrome or Chromium executable found.")
+        sys.exit(1)
     
     # Absolute paths are required for Chrome headless to open files correctly on Windows
     abs_html_path = os.path.abspath(html_path)
-    abs_pdf_path = os.path.join(base_dir, "whitepaper.pdf")
+    abs_pdf_path = os.path.join(base_dir, "Modus_X_2.1.0_whitepaper.pdf")
     
     cmd = [
         chrome_path,
