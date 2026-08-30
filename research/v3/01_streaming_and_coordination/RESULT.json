@@ -1,6 +1,17 @@
 {
   "status": "completed_with_bounded_claim",
   "three_seed_mean_full_carry_benefit_bpc": 0.022442,
+  "detached_carry_training": {
+    "seed1_carry_eval_gain_bpc": 0.019785,
+    "seed2_carry_eval_gain_bpc": -0.002478,
+    "seed3_carry_eval_gain_bpc": -0.002488,
+    "mean_carry_eval_gain_bpc": 0.00494,
+    "mean_carry_training_interaction_bpc": 0.025606,
+    "individual_gate_passes": 1,
+    "individual_gate_total": 3,
+    "aggregate_promotion_pass": false,
+    "decision": "Persistent-state training reliably increases state dependence but does not reliably improve final carry-evaluated BPC."
+  },
   "effective_horizon_90_percent_segments": 16,
   "effective_horizon_90_percent_bytes": 8192,
   "seed2_component_horizon": {
