@@ -1,0 +1,19 @@
+{
+  "status": "leading_v3_candidate",
+  "three_seed_short_screen": {
+    "mean_control_minus_candidate_validation_bpc": 0.0015283847374145676,
+    "mean_archive_retention_improvement_ratio": 9682.009390728075,
+    "mean_all_state_patch_gain_bpc": 0.0013391697332281183
+  },
+  "over_retention_seed2": {
+    "full_carry_benefit_vs_reset_bpc": 0.056618505144226505,
+    "archive_incremental_stream_benefit_bpc": 0.032092880865818296,
+    "consistent_mean_archive_contribution_bpc": 0.013177217310194049,
+    "conflicting_mean_archive_contribution_bpc": 0.15695388958961187,
+    "conflicting_long_very_long_mean_archive_contribution_bpc": 0.1900554369798113,
+    "very_long_mean_distance_bytes": 80223.5,
+    "very_long_archive_contribution_bpc": 0.256972650305227,
+    "severely_harmful_conflicting_bands": 0,
+    "pass": true
+  }
+}

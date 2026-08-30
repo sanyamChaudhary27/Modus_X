@@ -1,0 +1,24 @@
+{
+  "status": "completed_with_bounded_claim",
+  "three_seed_mean_full_carry_benefit_bpc": 0.022442,
+  "effective_horizon_90_percent_segments": 16,
+  "effective_horizon_90_percent_bytes": 8192,
+  "seed2_component_horizon": {
+    "matrix_only_full_carry_benefit_bpc": 0.010951453021285529,
+    "vector_only_full_carry_benefit_bpc": 0.015646220058875393,
+    "durable_matrix_interpretation_supported": false
+  },
+  "simplification_losses_bpc": {
+    "half_archive": 0.014660220367257226,
+    "feedback_only_without_direct_matrix_router": 0.06358465712952666
+  },
+  "counterfactual_seed2_persistent_regret_bpc": {
+    "read_off": 2.694821,
+    "write_off": 2.876409,
+    "neutral_router": 0.074779,
+    "matrix_only_router": 3.469595,
+    "vector_only_router": 6.329836,
+    "feedback_off": 0.002047
+  },
+  "claim": "Persistent state and both computational paths are causally useful; the proposed matrix-durable/vector-local division is not established."
+}

@@ -1,0 +1,26 @@
+{
+  "status": "two_of_two_development_confirmation",
+  "rows": [
+    {
+      "seed": 1,
+      "candidate_dense_validation_bpc": 1.4328895986576113,
+      "control_dense_validation_bpc": 1.459723,
+      "gain_bpc": 0.026833401342388763,
+      "candidate_dense_test_bpc_report_only": 1.4344876219722105,
+      "runtime_ratio": 0.9988289569465426
+    },
+    {
+      "seed": 2,
+      "candidate_dense_validation_bpc": 1.4346890949555928,
+      "control_dense_validation_bpc": 1.441670000553131,
+      "gain_bpc": 0.006980905597538278,
+      "candidate_dense_test_bpc_report_only": 1.4361443790926178,
+      "runtime_ratio": 1.0005232953935836
+    }
+  ],
+  "aggregate": {
+    "mean_dense_validation_gain_bpc": 0.01690715346996352,
+    "validation_wins": 2,
+    "mean_runtime_ratio": 0.9996761261700631
+  }
+}

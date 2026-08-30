@@ -1,0 +1,13 @@
+{
+  "track": "language_endpoints",
+  "model": "Modus_X_MemoryFeedbackSegmentRetention_DeepSupervision",
+  "params": 47437768,
+  "seeds": [1, 2],
+  "training_schedule": [
+    {"through_characters": 81920000, "learning_rate": 0.0006},
+    {"through_characters": 102400000, "learning_rate": 0.0003}
+  ],
+  "primary_metric": "mean dense validation BPC across offsets 0 and 256",
+  "test_policy": "read only after the frozen endpoint and report only",
+  "publication_closure": "run seed 3 unchanged"
+}
