@@ -31,3 +31,19 @@ The later three-seed decision is preserved separately at
 replicate the endpoint gain, so the aggregate quality gate failed even though
 the increased dependence on carried state replicated tightly in all seeds.
 Neither document should be read without the other.
+
+## Seed-1 endpoint coordination closure
+
+At matched 102.4M-character endpoints, the segment-retention candidate reached
+`1.372293` full-stream validation BPC versus `1.410296` for canonical
+MemoryFeedbackArchive. Instrumented and ordinary forward passes matched
+exactly. Removing feedback, matrix read, matrix write, or learned routing made
+the candidate worse, and neither matrix-only nor vector-only routing was
+sufficient. Feedback activation also became more predictive of its causal
+utility, with Pearson/Spearman correlations increasing from `0.2779/0.2615`
+to `0.5296/0.5515`.
+
+This supports a coordinated-memory interpretation of the candidate. It does
+not establish semantic recall. Router-confidence calibration remained
+negative, so controller calibration is still open even though learned routing
+itself is necessary.
