@@ -213,7 +213,15 @@ def train_model(
         label_logits = logits[row, y]
         wrong_versions = kv.jnp.stack([latest_y, previous_y, first_y], axis=1)
         wrong_logits = logits[row[:, None], wrong_versions]
-        distinct_wrong = wrong_versions != y[:, None]
+        is_first_occurrence = kv.jnp.stack(
+            [
+                kv.jnp.ones_like(y, dtype=bool),
+                previous_y != latest_y,
+                (first_y != latest_y) & (first_y != previous_y),
+            ],
+            axis=1,
+        )
+        distinct_wrong = (wrong_versions != y[:, None]) & is_first_occurrence
         penalties = kv.jax.nn.softplus(wrong_logits - label_logits[:, None] + wrong_version_margin)
         denom = kv.jnp.maximum(1.0, kv.jnp.sum(distinct_wrong))
         wrong_version_loss = kv.jnp.sum(kv.jnp.where(distinct_wrong, penalties, 0.0)) / denom

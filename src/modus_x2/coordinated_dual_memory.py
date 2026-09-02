@@ -88,7 +88,8 @@ def init_params(key: jax.Array, cfg: CoordinatedMemoryConfig, *, vector_router: 
         jnp.eye(min(ax, cfg.key_dim), min(d, cfg.key_dim))
     )
     for i in range(min(ax, cfg.n_values)):
-        wv = wv.at[i, cfg.key_dim + i].set(1.0)
+        if cfg.key_dim + i < d:
+            wv = wv.at[i, cfg.key_dim + i].set(1.0)
         read_w = read_w.at[i, i].set(1.0)
 
     # Role order is [latest, previous, first]. Facts can be tagged as first or
@@ -300,8 +301,9 @@ def local_attention_query_read(p: dict, cfg: CoordinatedMemoryConfig, seq: jax.A
     final query position to earlier tokens inside a fixed window; it is not a
     growing global KV cache.
     """
-    window = min(cfg.local_attention_window, seq.shape[0])
-    local = seq[-window:]
+    local_seq = seq[:-1]
+    window = min(cfg.local_attention_window, local_seq.shape[0])
+    local = local_seq[-window:]
     query = seq[-1]
     d_head = cfg.d_model // cfg.local_attention_heads
     q = jnp.einsum("d,hdk->hk", query, p["attn_wq"])

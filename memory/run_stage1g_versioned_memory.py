@@ -136,7 +136,7 @@ def make_versioned_kv(
         overwrite_count = int(round(cfg.n_pairs * cfg.overwrite_rate))
         overwritten_sources: list[int] = []
         if overwrite_count:
-            for source_raw in rng.choice(cfg.n_pairs, size=overwrite_count, replace=False):
+            for source_raw in rng.choice(cfg.n_pairs, size=overwrite_count, replace=True):
                 source = int(source_raw)
                 available = [
                     position
@@ -147,9 +147,22 @@ def make_versioned_kv(
                     continue
                 overwrite_pos = int(rng.choice(available))
                 occupied.add(overwrite_pos)
-                new_value = int(rng.integers(0, cfg.n_values))
+                excluded_values = {int(current_per_key[source]), int(first_per_key[source])}
+                candidates = [
+                    value
+                    for value in range(cfg.n_values)
+                    if value not in excluded_values
+                ]
+                if not candidates:
+                    candidates = [
+                        value
+                        for value in range(cfg.n_values)
+                        if value != int(current_per_key[source])
+                    ]
+                new_value = int(rng.choice(candidates)) if candidates else int(current_per_key[source])
                 previous_per_key[source] = current_per_key[source]
                 current_per_key[source] = new_value
+                positions[source] = overwrite_pos
                 overwritten_sources.append(source)
 
                 seqs[i, overwrite_pos, :] = 0.0
@@ -162,7 +175,7 @@ def make_versioned_kv(
         overwrite_counts[i] = len(overwritten_sources)
         overwritten_set = set(overwritten_sources)
         if target_mode == "overwritten" and overwritten_sources:
-            target = int(rng.choice(overwritten_sources))
+            target = int(rng.choice(sorted(overwritten_set)))
         elif target_mode == "clean":
             clean_sources = [idx for idx in range(cfg.n_pairs) if idx not in overwritten_set]
             target = int(rng.choice(clean_sources)) if clean_sources else int(rng.integers(0, cfg.n_pairs))

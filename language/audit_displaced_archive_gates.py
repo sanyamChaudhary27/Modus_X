@@ -123,19 +123,19 @@ def main() -> None:
                         # Most variants report all model layers. Sparse
                         # mechanisms such as AttentionToWrite report only the
                         # layers that contain that mechanism (3 of 12).
-                        "sum": np.zeros(np.asarray(value).shape[1], dtype=np.float64),
-                        "sumsq": np.zeros(np.asarray(value).shape[1], dtype=np.float64),
+                        "sum": np.zeros(np.asarray(value).shape[2], dtype=np.float64),
+                        "sumsq": np.zeros(np.asarray(value).shape[2], dtype=np.float64),
                         "above_half": np.zeros(
-                            np.asarray(value).shape[1], dtype=np.float64
+                            np.asarray(value).shape[2], dtype=np.float64
                         ),
                     }
                     for name, value in values.items()
                 }
             for name, value in values.items():
                 value = np.asarray(value[:real_count])
-                accumulators[name]["sum"] += value.sum(axis=(0, 2))
-                accumulators[name]["sumsq"] += np.square(value).sum(axis=(0, 2))
-                accumulators[name]["above_half"] += (value > 0.5).sum(axis=(0, 2))
+                accumulators[name]["sum"] += value.sum(axis=(0, 1))
+                accumulators[name]["sumsq"] += np.square(value).sum(axis=(0, 1))
+                accumulators[name]["above_half"] += (value > 0.5).sum(axis=(0, 1))
             count += real_count * cfg.seq_len
 
         split_report = {}

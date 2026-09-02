@@ -1,0 +1,15 @@
+{
+  "track": "streaming_and_coordination",
+  "model": "Modus_X_MemoryFeedbackArchive_DeepSupervision",
+  "params": 47437768,
+  "dataset": "enwik8",
+  "selection_split": "validation 90M:95M",
+  "test_data_used_for_selection": false,
+  "experiments": [
+    "reset versus contiguous full-state carry",
+    "current/archive/vector state attribution",
+    "effective horizon by reset interval",
+    "counterfactual read/write/router/feedback interventions"
+  ],
+  "claim_rule": "Report causal component utility only when baseline parity and finite-state checks pass. Do not infer semantic storage from state persistence."
+}

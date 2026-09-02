@@ -34,7 +34,7 @@ def layer_norm(x: jax.Array, g: jax.Array, b: jax.Array) -> jax.Array:
 
 
 def normalize(x: jax.Array) -> jax.Array:
-    return x / jnp.sqrt(jnp.sum(jnp.square(x)) + 1e-8)
+    return x / (jnp.linalg.norm(x) + 1e-8)
 
 
 def init_embed(key: jax.Array, cfg: ModelConfig) -> jax.Array:

@@ -1,0 +1,67 @@
+{
+  "status": "completed_with_bounded_claim",
+  "three_seed_mean_full_carry_benefit_bpc": 0.022442,
+  "detached_carry_training": {
+    "seed1_carry_eval_gain_bpc": 0.019785,
+    "seed2_carry_eval_gain_bpc": -0.002478,
+    "seed3_carry_eval_gain_bpc": -0.002488,
+    "mean_carry_eval_gain_bpc": 0.00494,
+    "mean_carry_training_interaction_bpc": 0.025606,
+    "individual_gate_passes": 1,
+    "individual_gate_total": 3,
+    "aggregate_promotion_pass": false,
+    "decision": "Persistent-state training reliably increases state dependence but does not reliably improve final carry-evaluated BPC."
+  },
+  "effective_horizon_90_percent_segments": 16,
+  "effective_horizon_90_percent_bytes": 8192,
+  "seed2_component_horizon": {
+    "matrix_only_full_carry_benefit_bpc": 0.010951453021285529,
+    "vector_only_full_carry_benefit_bpc": 0.015646220058875393,
+    "durable_matrix_interpretation_supported": false
+  },
+  "simplification_losses_bpc": {
+    "half_archive": 0.014660220367257226,
+    "feedback_only_without_direct_matrix_router": 0.06358465712952666
+  },
+  "counterfactual_seed2_persistent_regret_bpc": {
+    "read_off": 2.694821,
+    "write_off": 2.876409,
+    "neutral_router": 0.074779,
+    "matrix_only_router": 3.469595,
+    "vector_only_router": 6.329836,
+    "feedback_off": 0.002047
+  },
+  "seed1_paired_endpoint_coordination": {
+    "status": "passed",
+    "parameters_each": 47437768,
+    "processed_characters_each": 102400000,
+    "canonical_full_validation_bpc": 1.4102963191977265,
+    "segment_retention_full_validation_bpc": 1.37229311921512,
+    "candidate_minus_canonical_bpc": -0.038003199982606484,
+    "candidate_local_regret_bpc": {
+      "feedback_off": 0.0248907568,
+      "read_off": 2.1406886576,
+      "write_off": 1.936478679,
+      "router_neutral": 0.4707990584,
+      "matrix_only": 7.6670700052,
+      "vector_only": 3.8555779877
+    },
+    "candidate_persistent_regret_bpc": {
+      "feedback_off": 0.0263861269,
+      "router_neutral": 0.5138259205
+    },
+    "feedback_calibration_pearson": 0.529595,
+    "feedback_calibration_spearman": 0.551536,
+    "router_confidence_calibration_remains_negative": true,
+    "forward_parity_max_error": 0.0,
+    "all_values_finite": true,
+    "test_data_read": false
+  },
+  "final_seed1_closure": {
+    "over_retention_screen_pass": true,
+    "coordination_closure_pass": true,
+    "all_closure_gates_pass": true,
+    "test_data_read": false
+  },
+  "claim": "Persistent state and both computational paths are causally useful; segment-scale retention improves matched streaming BPC and strengthens matrix-to-vector coordination. The proposed matrix-durable/vector-local division is not established, and router-confidence calibration remains unresolved."
+}
