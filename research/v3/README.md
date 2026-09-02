@@ -22,10 +22,11 @@ publication replication. Second-corpus generalization and semantic fact
 revision are still open. Negative experiments are indexed separately so they
 cannot quietly return as new proposals.
 
-The current closure run is frozen in `CLOSURE_PROTOCOL_2026-08-31.json`. It
-replicates the over-retention audit on seed 1 and compares the matched
+The closure run frozen in `CLOSURE_PROTOCOL_2026-08-31.json` completed and
+passed both lanes. It replicated the over-retention audit on seed 1 and compared the matched
 canonical and segment-retention endpoints under feedback, read, write, and
-router interventions. The runnable Kaggle TPU cell is
+router interventions. All closure gates passed, the candidate improved matched
+streaming validation by `0.038003 BPC`, and test data was not read. The runnable Kaggle TPU cell is
 `03_language_endpoints/src/generated_cells/KAGGLE_TPU_V3_CLOSURE.py`; it reads
 validation only and performs no training or tuning.
 

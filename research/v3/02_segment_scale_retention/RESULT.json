@@ -15,5 +15,12 @@
     "very_long_archive_contribution_bpc": 0.256972650305227,
     "severely_harmful_conflicting_bands": 0,
     "pass": true
+  },
+  "final_seed1_closure": {
+    "over_retention_screen_pass": true,
+    "coordination_closure_pass": true,
+    "all_closure_gates_pass": true,
+    "candidate_minus_canonical_baseline_bpc": -0.038003199982606484,
+    "test_data_read": false
   }
 }

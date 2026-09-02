@@ -57,5 +57,11 @@
     "all_values_finite": true,
     "test_data_read": false
   },
+  "final_seed1_closure": {
+    "over_retention_screen_pass": true,
+    "coordination_closure_pass": true,
+    "all_closure_gates_pass": true,
+    "test_data_read": false
+  },
   "claim": "Persistent state and both computational paths are causally useful; segment-scale retention improves matched streaming BPC and strengthens matrix-to-vector coordination. The proposed matrix-durable/vector-local division is not established, and router-confidence calibration remains unresolved."
 }
