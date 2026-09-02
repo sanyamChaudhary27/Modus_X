@@ -277,18 +277,25 @@ def loss_fn(
 def evaluate(params, fwd_fn, data, seq_len, chunks, batch_size, batch_sharding, loss_tail=None):
     @jax.jit
     def eval_batch(x, y):
-        return loss_fn(params, fwd_fn, x, y, 0.0, loss_tail)
+        outputs = jax.vmap(lambda sequence: fwd_fn(params, sequence))(x)
+        logits = outputs[0] if isinstance(outputs, tuple) else outputs
+        logp = jax.nn.log_softmax(logits.astype(jnp.float32), axis=-1)
+        nll = -jnp.take_along_axis(logp, y[..., None], axis=-1)[..., 0]
+        if loss_tail is not None:
+            nll = nll[:, -loss_tail:]
+        return nll.mean(axis=1)
 
     losses = []
     max_start = len(data) - seq_len - 1
     starts = np.linspace(0, max_start, chunks, dtype=np.int64)
     for offset in range(0, chunks, batch_size):
         selected = starts[offset : offset + batch_size]
-        if len(selected) < batch_size:
-            selected = np.pad(selected, (0, batch_size - len(selected)), mode="edge")
+        real = len(selected)
+        if real < batch_size:
+            selected = np.pad(selected, (0, batch_size - real), mode="edge")
         x, y = batch_at(data, selected, seq_len)
-        value = eval_batch(jax.device_put(x, batch_sharding), jax.device_put(y, batch_sharding))
-        losses.append(float(value))
+        values = eval_batch(jax.device_put(x, batch_sharding), jax.device_put(y, batch_sharding))
+        losses.extend(np.asarray(values[:real]))
     return float(np.mean(losses) / math.log(2))
 
 

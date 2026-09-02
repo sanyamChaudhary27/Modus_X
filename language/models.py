@@ -34,7 +34,7 @@ def layer_norm(x: jax.Array, g: jax.Array, b: jax.Array) -> jax.Array:
 
 
 def normalize(x: jax.Array) -> jax.Array:
-    return x / (jnp.linalg.norm(x) + 1e-8)
+    return x / jnp.sqrt(jnp.sum(jnp.square(x)) + 1e-8)
 
 
 def init_embed(key: jax.Array, cfg: ModelConfig) -> jax.Array:
@@ -1572,6 +1572,8 @@ def init_modus_x_attention_to_write_archive_lm(
     """Seed-paired CurrentArchive plus three bounded write controllers."""
     params = init_modus_x_lm(key, cfg)
     module_count = cfg.n_layers // ATTENTION_TO_WRITE_LAYER_STRIDE
+    if module_count == 0:
+        return params
     attention_keys = random.split(random.fold_in(key, 0xA77E), module_count)
     modules = [
         init_attention_to_write_module(attention_key, cfg)
@@ -1591,6 +1593,8 @@ def init_modus_x_feedback_attention_to_write_archive_lm(
     """Exact MemoryFeedback initialization plus bounded write controllers."""
     params = init_modus_x_memory_feedback_archive_lm(key, cfg)
     module_count = cfg.n_layers // ATTENTION_TO_WRITE_LAYER_STRIDE
+    if module_count == 0:
+        return params
     attention_keys = random.split(random.fold_in(key, 0xA77E), module_count)
     modules = [
         init_attention_to_write_module(attention_key, cfg)
@@ -1666,6 +1670,8 @@ def modus_x_attention_to_write_archive_lm_fwd(
     x_ids: jax.Array,
     cfg: ModelConfig,
 ) -> jax.Array:
+    if "attention_to_write" not in p:
+        return modus_x_current_archive_lm_fwd(p, x_ids, cfg)
     x = p["embed"][x_ids]
 
     def scan_layer(x_in, inputs):
@@ -1705,6 +1711,8 @@ def modus_x_feedback_attention_to_write_archive_lm_fwd(
     x_ids: jax.Array,
     cfg: ModelConfig,
 ) -> jax.Array:
+    if "attention_to_write" not in p:
+        return modus_x_memory_feedback_archive_lm_fwd(p, x_ids, cfg)
     x = p["embed"][x_ids]
 
     def scan_layer(x_in, inputs):
@@ -2043,6 +2051,15 @@ def modus_x_attention_to_write_archive_lm_fwd_deep_supervision(
     dropout_key: jax.Array | None = None,
     dropout_rate: float = 0.0,
 ):
+    if "attention_to_write" not in p:
+        return modus_x_current_archive_lm_fwd_deep_supervision(
+            p,
+            x_ids,
+            cfg,
+            auxiliary_layers,
+            dropout_key,
+            dropout_rate,
+        )
     x = p["embed"][x_ids]
 
     def scan_layer(x_in, inputs):
@@ -2113,6 +2130,15 @@ def modus_x_feedback_attention_to_write_archive_lm_fwd_deep_supervision(
     dropout_key: jax.Array | None = None,
     dropout_rate: float = 0.0,
 ):
+    if "attention_to_write" not in p:
+        return modus_x_memory_feedback_archive_lm_fwd_deep_supervision(
+            p,
+            x_ids,
+            cfg,
+            auxiliary_layers,
+            dropout_key,
+            dropout_rate,
+        )
     x = p["embed"][x_ids]
 
     def scan_layer(x_in, inputs):
@@ -2278,6 +2304,10 @@ def make_model(
     future_target_count: int = 0,
     dropout_rate: float = 0.0,
 ) -> tuple[dict, Callable]:
+    deep_supervision = name.endswith("_DeepSupervision")
+    if deep_supervision:
+        name = name.removesuffix("_DeepSupervision")
+
     if name == "Modus_X_Scalar":
         cfg = replace(cfg, vector_router=False)
         name = "Modus_X"
@@ -2344,66 +2374,6 @@ def make_model(
             vector_router=True,
             router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
         )
-    deep_supervision = name.endswith("_DeepSupervision")
-    if deep_supervision:
-        name = name.removesuffix("_DeepSupervision")
-        if name == "Modus_X_Scalar_PM":
-            cfg = replace(
-                cfg,
-                vector_router=False,
-                router_hidden=cfg.embed_dim,
-            )
-            name = "Modus_X"
-        elif name == "Modus_X_Scalar_Lean":
-            cfg = replace(
-                cfg,
-                vector_router=False,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-            name = "Modus_X"
-        elif name == "Modus_X_Vector_Lean":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-            name = "Modus_X"
-        elif name == "Modus_X_CurrentArchive":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-        elif name == "Modus_X_MemoryFeedbackArchive":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-        elif name == "Modus_X_AdaptivePreconditionedArchive":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-        elif name == "Modus_X_AttentionToWriteArchive":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-        elif name == "Modus_X_FeedbackAttentionToWriteArchive":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-        elif name == "Modus_X_DisplacedArchive":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
     if name not in MODEL_REGISTRY:
         options = sorted([*MODEL_REGISTRY, "Modus_X_Scalar", "Modus_X_Vector", "Modus_X_Scalar_PM", "Modus_X_Scalar_Lean", "Modus_X_Vector_PM", "Modus_X_Vector_Lean"])
         raise ValueError(f"Unknown model {name}. Options: {options}")
@@ -2498,7 +2468,11 @@ def lm_loss(
     auxiliary_weight: float = 0.3,
 ) -> jax.Array:
     outputs = jax.vmap(lambda xi: fwd_fn(params, xi))(x)
-    logits, auxiliary_logits = outputs if isinstance(outputs, tuple) else (outputs, None)
+    if isinstance(outputs, tuple):
+        logits = outputs[0]
+        auxiliary_logits = outputs[1] if len(outputs) > 1 else None
+    else:
+        logits, auxiliary_logits = outputs, None
     logp = jax.nn.log_softmax(logits, axis=-1)
     b, t = x.shape
     nll = -logp[jnp.arange(b)[:, None], jnp.arange(t)[None, :], y]

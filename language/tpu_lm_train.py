@@ -277,18 +277,27 @@ def loss_fn(
 def evaluate(params, fwd_fn, data, seq_len, chunks, batch_size, batch_sharding, loss_tail=None):
     @jax.jit
     def eval_batch(x, y):
-        return loss_fn(params, fwd_fn, x, y, 0.0, loss_tail)
+        outputs = jax.vmap(lambda sequence: fwd_fn(params, sequence))(x)
+        logits = outputs[0] if isinstance(outputs, tuple) else outputs
+        logits = logits.astype(jnp.float32)
+        if loss_tail is not None:
+            logits = logits[:, -loss_tail:]
+            y = y[:, -loss_tail:]
+        logp = jax.nn.log_softmax(logits, axis=-1)
+        nll = -jnp.take_along_axis(logp, y[..., None], axis=-1)[..., 0]
+        return nll.mean(axis=1)
 
     losses = []
     max_start = len(data) - seq_len - 1
     starts = np.linspace(0, max_start, chunks, dtype=np.int64)
     for offset in range(0, chunks, batch_size):
         selected = starts[offset : offset + batch_size]
+        real_count = len(selected)
         if len(selected) < batch_size:
             selected = np.pad(selected, (0, batch_size - len(selected)), mode="edge")
         x, y = batch_at(data, selected, seq_len)
-        value = eval_batch(jax.device_put(x, batch_sharding), jax.device_put(y, batch_sharding))
-        losses.append(float(value))
+        values = eval_batch(jax.device_put(x, batch_sharding), jax.device_put(y, batch_sharding))
+        losses.extend(np.asarray(values[:real_count]))
     return float(np.mean(losses) / math.log(2))
 
 
@@ -397,7 +406,7 @@ def main() -> None:
             init_value=args.lr * 0.05,
             peak_value=args.lr,
             warmup_steps=args.warmup_steps,
-            decay_steps=total_steps,
+            decay_steps=max(1, total_steps - args.warmup_steps),
             end_value=args.lr * args.end_lr_ratio,
         )
     elif args.schedule == "late_cosine":
