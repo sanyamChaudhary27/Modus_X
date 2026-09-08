@@ -1,0 +1,22 @@
+{
+  "status": "single_seed_execution_screen_pass",
+  "provenance": "Transcribed from user-provided REAL_GATE_DECISION; original result JSON and both new endpoint checkpoint hashes pending archival",
+  "source_checkpoint": "/kaggle/input/datasets/sanyamchoudhary27/seed2-segment-retention-3sep/checkpoint.pkl",
+  "source_sha256": "fc7b93248de3c8e7b47568e42eee6ecc48d327528bcd6e7c0df6e15314d8379c",
+  "start_step": 25000,
+  "updates": 500,
+  "added_characters": 2048000,
+  "precision": "highest",
+  "jax": "0.10.2",
+  "optax": "0.2.8",
+  "initial_dense_validation": 1.434691927912781,
+  "dense_validation": {"canonical": 1.432000855177534, "two_stage": 1.4319939393418541},
+  "median_update_seconds": {"canonical": 0.8968588374999626, "two_stage": 0.30683240600001227},
+  "speedup": 2.9229599610802737,
+  "validation_delta": -0.000006915835679910387,
+  "screen_pass": true,
+  "test_evaluated": false,
+  "endpoint_checkpoints_archived": false,
+  "prior_failed_gate": "Synthetic independent optimizer trajectories exceeded 0.001 loss delta at update14 (0.0012140274). Retained, not relabeled PASS.",
+  "followup_same_state_diagnostics": {"comparisons": 6, "max_loss_delta": 0.0, "max_relative_gradient_error": 0.000003935710423, "max_relative_update_error": 0.0000006173298871}
+}

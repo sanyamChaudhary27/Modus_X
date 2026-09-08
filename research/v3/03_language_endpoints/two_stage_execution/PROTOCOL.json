@@ -1,0 +1,20 @@
+{
+  "completed_screen": {
+    "updates": 500, "batch": 8, "sequence_length": 512,
+    "parameters": 47437768, "matmul_precision": "highest",
+    "optimizer": "restore original clipped AdamW state and constant LR from config",
+    "sampling": "restore checkpoint RNG, identical batches for both implementations",
+    "evaluation": "canonical primary-head evaluator, validation bytes90M:95M, reset512, stride512, offsets0/256, all complete windows including final partial batch",
+    "max_candidate_minus_control_bpc": 0.002, "minimum_update_speedup": 1.2,
+    "test_evaluated": false
+  },
+  "next_gate_plan_not_yet_executed": {
+    "seed": 1, "updates": 2000,
+    "source": "original trained v3 SegmentRetention endpoint with config, AdamW, RNG and verified hash; not seed2 continuation",
+    "other_settings": "unchanged from completed_screen",
+    "max_candidate_minus_control_bpc": 0.002,
+    "minimum_update_speedup": 1.2,
+    "require": ["finite losses", "checkpoint reload reproduces next update within each backend", "source and endpoint hashes", "dense validation before and after", "raw timings and outputs archived"],
+    "decision": "do not make default until independent-seed gate and artifact review pass"
+  }
+}

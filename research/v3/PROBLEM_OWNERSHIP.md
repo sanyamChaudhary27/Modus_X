@@ -1,7 +1,12 @@
 # Problem ownership
 
 Owner: Sanyam Chaudhary
-Branch: `research/sanyam-v3-retention-coordination`
+Branch: `research/v3-two-stage-execution` (based on `b5b3b25`)
+
+Execution-efficiency subtrack: preserve the model equations and validate
+two-stage chunk32 as opt-in only. Evidence and next-gate ownership remain with
+Sanyam; see `03_language_endpoints/two_stage_execution/`. Do not merge the
+reviewed `e915409` fixes into frozen sources as part of this optimization.
 
 This branch owns three rows from the ten-problem research review.
 

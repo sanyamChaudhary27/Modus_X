@@ -1,5 +1,14 @@
 # Modus_X v3 retention and coordination research
 
+## Execution optimization branch
+
+`research/v3-two-stage-execution` starts at Sanyam's `b5b3b25`, excluding
+the reviewed `e915409` changes. New execution evidence is isolated under
+`03_language_endpoints/two_stage_execution/`, using the same six-file evidence
+layout. It reports a one-seed 2.923x update-speed screen, not a new architecture
+or a default backend change. Raw endpoint archival and independent-seed
+continuation remain open. Existing results and frozen source files are intact.
+
 This branch collects the three parts of the v3 work that currently matter most.
 The model benefits from persistent state, both memory bodies do useful work,
 and the archive was forgetting useful information too quickly. Changing the
