@@ -9,6 +9,7 @@
     "test_evaluated": false
   },
   "next_gate_plan_not_yet_executed": {
+    "status_update": "Completed: REPLICATION_RESULT.json records PASS. Original plan key and thresholds retained for traceability.",
     "seed": 1, "updates": 2000,
     "source": "original trained v3 SegmentRetention endpoint with config, AdamW, RNG and verified hash; not seed2 continuation",
     "other_settings": "unchanged from completed_screen",

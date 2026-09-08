@@ -1,5 +1,7 @@
 {
   "status": "single_seed_execution_screen_pass",
+  "campaign_status": "independent_seed_replication_pass",
+  "replication_record": "REPLICATION_RESULT.json",
   "provenance": "Transcribed from user-provided REAL_GATE_DECISION; original result JSON and both new endpoint checkpoint hashes pending archival",
   "source_checkpoint": "/kaggle/input/datasets/sanyamchoudhary27/seed2-segment-retention-3sep/checkpoint.pkl",
   "source_sha256": "fc7b93248de3c8e7b47568e42eee6ecc48d327528bcd6e7c0df6e15314d8379c",

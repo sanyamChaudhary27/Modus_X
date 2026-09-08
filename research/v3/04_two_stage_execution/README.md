@@ -11,6 +11,16 @@ One seed-2 500-update real-enwik8 continuation passed its frozen screen:
 2.923x median update speedup, dense validation 1.432001 versus 1.431994.
 Read RESULT.json for provenance limitations. No default backend was changed.
 
+Independent seed-1 replication also passed: 2,000 paired updates, 2.923x
+median update speedup, dense validation 1.421511 versus 1.421549 (candidate
+minus control +0.00003736 BPC). Both backend checkpoint-reload checks reproduced
+the next update exactly. See REPLICATION_RESULT.json for reported source and
+endpoint hashes. Raw artifact retrieval remains separate from this result.
+
+Two-stage chunk32 is now recommended for the tested 47M/highest-precision TPU
+configuration; the code remains opt-in with canonical as reference/fallback.
+This evidence does not generalize the recommendation to other configurations.
+
 Contents follow the project evidence format: PROTOCOL.json, RESULT.json,
 REPRODUCE.md, CLAIM_BOUNDARY.md, and src/. Historical source copies in adjacent
 directories and all released versions remain untouched.
