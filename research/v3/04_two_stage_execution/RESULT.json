@@ -17,6 +17,8 @@
   "screen_pass": true,
   "test_evaluated": false,
   "endpoint_checkpoints_archived": false,
+  "saved_notebook_version_user_reported": "https://www.kaggle.com/code/sanyamchoudhary27/notebook3cb7995c6e?scriptVersionId=348163508",
+  "saved_output_status": "User confirms Save and Run All; notebook output inventory and endpoint hashes not independently retrieved. Local archive pending.",
   "prior_failed_gate": "Synthetic independent optimizer trajectories exceeded 0.001 loss delta at update14 (0.0012140274). Retained, not relabeled PASS.",
   "followup_same_state_diagnostics": {"comparisons": 6, "max_loss_delta": 0.0, "max_relative_gradient_error": 0.000003935710423, "max_relative_update_error": 0.0000006173298871}
 }

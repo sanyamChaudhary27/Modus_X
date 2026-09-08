@@ -4,7 +4,7 @@
 
 `research/v3-two-stage-execution` starts at Sanyam's `b5b3b25`, excluding
 the reviewed `e915409` changes. New execution evidence is isolated under
-`03_language_endpoints/two_stage_execution/`, using the same six-file evidence
+`04_two_stage_execution/`, using the same six-file evidence
 layout. It reports a one-seed 2.923x update-speed screen, not a new architecture
 or a default backend change. Raw endpoint archival and independent-seed
 continuation remain open. Existing results and frozen source files are intact.
