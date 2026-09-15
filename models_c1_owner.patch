@@ -1,0 +1,270 @@
+--- /mnt/data/models.py	2026-09-14 19:14:41.338756983 +0000
++++ /mnt/data/models_c1_owner.py	2026-09-14 19:19:48.603822323 +0000
+@@ -21,6 +21,9 @@
+     mamba_state_dim: int = 256
+     vector_router: bool = False
+     router_hidden: int = 0
++    # Native Q/K factorization ranks; 0 preserves the dense legacy variants.
++    q_rank: int = 0
++    k_rank: int = 0
+ 
+ 
+ def count_params(tree) -> int:
+@@ -483,6 +486,68 @@
+ # ---------------------------------------------------------------------------
+ 
+ 
++def init_modus_x_c1_layer(key: jax.Array, cfg: ModelConfig) -> dict:
++    """Initialize the frozen C1 MemoryFeedbackArchive layer natively.
++
++    C1: ax_res=512, q_rank=k_rank=128, hidden_dim=1664,
++    mamba_state_dim=608, vector router with router_hidden=32.
++    """
++    if cfg.q_rank <= 0 or cfg.k_rank <= 0:
++        raise ValueError("C1 requires positive q_rank and k_rank")
++    keys = random.split(key, 27)
++    d, r, n = cfg.embed_dim, cfg.ax_res, cfg.mamba_state_dim
++    q_rank, k_rank = cfg.q_rank, cfg.k_rank
++    router_hidden = cfg.router_hidden or d
++    feedback_rank = min(32, r, n)
++    return {
++        "pre_g": jnp.ones(d),
++        "pre_b": jnp.zeros(d),
++        "m_wk_A": random.normal(keys[0], (r, k_rank)) * 0.02,
++        "m_wk_B": random.normal(keys[1], (k_rank, d)) * 0.02,
++        "m_wq_A": random.normal(keys[2], (r, q_rank)) * 0.02,
++        "m_wq_B": random.normal(keys[3], (q_rank, d)) * 0.02,
++        "m_wv": random.normal(keys[4], (r, d)) * 0.02,
++        "m_w_eta": random.normal(keys[5], (1, d)) * 0.01,
++        "m_b_eta": jnp.zeros(1),
++        "m_w_write": random.normal(keys[6], (1, d)) * 0.01,
++        "m_b_write": jnp.ones(1) * 1.0,
++        "m_w_ret": random.normal(keys[7], (1, d)) * 0.01,
++        "m_b_ret": jnp.ones(1) * 3.0,
++        "m_w_read": random.normal(keys[8], (r, d)) * 0.01,
++        "m_b_read": jnp.ones(r),
++        "m_w_out": random.normal(keys[9], (d, d)) * 0.01,
++        "m_b_out": jnp.zeros(d),
++        "m_proj_w": random.normal(keys[10], (d, d + r)) * 0.02,
++        "m_proj_b": jnp.zeros(d),
++        "m_ln_g": jnp.ones(r),
++        "m_ln_b": jnp.zeros(r),
++        "m_w_archive_write": random.normal(keys[20], (1, d)) * 0.01,
++        "m_b_archive_write": jnp.ones(1) * -1.0,
++        "m_w_archive_ret": random.normal(keys[21], (1, d)) * 0.01,
++        "m_b_archive_ret": jnp.ones(1) * 4.0,
++        "m_w_archive_mix": random.normal(keys[22], (r, d)) * 0.01,
++        "m_b_archive_mix": jnp.zeros(r),
++        "s_wu": random.normal(keys[11], (n, d)) * 0.02,
++        "s_w_delta": random.normal(keys[12], (n, d)) * 0.01,
++        "s_b_delta": jnp.zeros(n),
++        "s_w_ret": random.normal(keys[13], (n, d)) * 0.01,
++        "s_b_ret": jnp.ones(n) * 2.0,
++        "s_w_c": random.normal(keys[14], (n, d)) * 0.02,
++        "s_w_gate": random.normal(keys[15], (d, d)) * 0.01,
++        "s_b_gate": jnp.ones(d),
++        "s_proj_w": random.normal(keys[16], (d, n)) * 0.02,
++        "s_proj_b": jnp.zeros(d),
++        "r_w": random.normal(keys[17], (router_hidden, d)) * 0.01,
++        "r_b": jnp.zeros(router_hidden),
++        "r_proj": random.normal(keys[18], (d if getattr(cfg, "vector_router", False) else 1, router_hidden)) * 0.01,
++        "r_proj_b": jnp.zeros(d if getattr(cfg, "vector_router", False) else 1),
++        "s_memory_down": random.normal(keys[23], (feedback_rank, r)) * 0.02,
++        "s_memory_up": random.normal(keys[24], (d, feedback_rank)) * 0.02,
++        "s_w_memory_feedback": random.normal(keys[25], (1, d)) * 0.01,
++        "s_b_memory_feedback": jnp.ones(1) * -2.0,
++    }
++
++
+ def init_modus_x_layer(key: jax.Array, cfg: ModelConfig) -> dict:
+     keys = random.split(key, 24)
+     d, r, n = cfg.embed_dim, cfg.ax_res, cfg.mamba_state_dim
+@@ -672,6 +737,63 @@
+ 
+ 
+ @jax.checkpoint
++@jax.checkpoint
++def modus_x_c1_layer_fwd_stateful(
++    layer: dict,
++    x_seq: jax.Array,
++    initial_state: tuple[jax.Array, jax.Array, jax.Array] | None = None,
++) -> tuple[tuple[jax.Array, jax.Array, jax.Array], jax.Array]:
++    """C1 MemoryFeedbackArchive forward with direct factorized Q/K matmuls."""
++    r = layer["m_wk_A"].shape[0]
++    def step(carry, e_raw):
++        H_current, H_archive, s = carry
++        e = layer_norm(e_raw, layer["pre_g"], layer["pre_b"])
++        k = normalize(layer["m_wk_A"] @ (layer["m_wk_B"] @ e))
++        q = normalize(layer["m_wq_A"] @ (layer["m_wq_B"] @ e))
++        val = jnp.tanh(layer["m_wv"] @ e)
++        eta = jax.nn.sigmoid((layer["m_w_eta"] @ e + layer["m_b_eta"])[0])
++        write = jax.nn.sigmoid((layer["m_w_write"] @ e + layer["m_b_write"])[0])
++        retain = jax.nn.sigmoid((layer["m_w_ret"] @ e + layer["m_b_ret"])[0])
++        old_current = H_current @ k
++        H_current = retain * H_current + (eta * write) * jnp.outer(val - old_current, k)
++        archive_write = jax.nn.sigmoid((layer["m_w_archive_write"] @ e + layer["m_b_archive_write"])[0])
++        archive_retain = jax.nn.sigmoid((layer["m_w_archive_ret"] @ e + layer["m_b_archive_ret"])[0])
++        old_archive = H_archive @ k
++        H_archive = archive_retain * H_archive + (eta * write * archive_write) * jnp.outer(val - old_archive, k)
++        read_gate = jax.nn.sigmoid(layer["m_w_read"] @ e + layer["m_b_read"])
++        current_context = layer_norm(H_current @ q, layer["m_ln_g"], layer["m_ln_b"])
++        archive_context = layer_norm(H_archive @ q, layer["m_ln_g"], layer["m_ln_b"])
++        archive_mix = jax.nn.sigmoid(layer["m_w_archive_mix"] @ e + layer["m_b_archive_mix"])
++        context = read_gate * (archive_mix * current_context + (1.0 - archive_mix) * archive_context)
++        proposal = layer["m_proj_w"] @ jnp.concatenate([e_raw, context]) + layer["m_proj_b"]
++        out_gate = jax.nn.sigmoid(layer["m_w_out"] @ e + layer["m_b_out"])
++        modus_out = out_gate * proposal
++        feedback_gate = jax.nn.sigmoid((layer["s_w_memory_feedback"] @ e + layer["s_b_memory_feedback"])[0])
++        compressed_memory = jnp.tanh(layer["s_memory_down"] @ context)
++        memory_feedback = layer["s_memory_up"] @ compressed_memory
++        e_vector = layer_norm(e_raw + feedback_gate * memory_feedback, layer["pre_g"], layer["pre_b"])
++        u = jnp.tanh(layer["s_wu"] @ e_vector)
++        delta = jax.nn.sigmoid(layer["s_w_delta"] @ e_vector + layer["s_b_delta"])
++        ret_s = jax.nn.sigmoid(layer["s_w_ret"] @ e_vector + layer["s_b_ret"])
++        s = ret_s * s + delta * u
++        c = jax.nn.sigmoid(layer["s_w_c"] @ e_vector)
++        y_s = c * s
++        gate_s = jax.nn.sigmoid(layer["s_w_gate"] @ e_vector + layer["s_b_gate"])
++        mamba_out = gate_s * (layer["s_proj_w"] @ y_s + layer["s_proj_b"])
++        r_hidden = jax.nn.gelu(layer["r_w"] @ e + layer["r_b"])
++        r_logits = layer["r_proj"] @ r_hidden + layer["r_proj_b"]
++        router = jax.nn.sigmoid(r_logits[0])
++        return (H_current, H_archive, s), router * modus_out + (1.0 - router) * mamba_out
++    if initial_state is None:
++        initial_state = (jnp.zeros((r, r)), jnp.zeros((r, r)), jnp.zeros(layer["s_wu"].shape[0]))
++    return lax.scan(step, initial_state, x_seq)
++
++
++def modus_x_c1_layer_fwd(layer: dict, x_seq: jax.Array) -> jax.Array:
++    _, out = modus_x_c1_layer_fwd_stateful(layer, x_seq)
++    return out
++
++
+ def modus_x_memory_feedback_archive_layer_fwd_stateful(
+     layer: dict,
+     x_seq: jax.Array,
+@@ -1531,6 +1653,44 @@
+     }
+ 
+ 
++def init_modus_x_c1_lm(key: jax.Array, cfg: ModelConfig) -> dict:
++    """Initialize C1 with the MemoryFeedbackArchive tree schema."""
++    keys = random.split(key, cfg.n_layers + 2)
++    layers = [init_modus_x_c1_layer(keys[i], cfg) for i in range(cfg.n_layers)]
++    return {
++        "embed": init_embed(keys[-2], cfg),
++        "layers": jax.tree_util.tree_map(lambda *xs: jnp.stack(xs), *layers),
++        "head": init_lm_head(keys[-1], cfg.embed_dim, cfg),
++    }
++
++
++def modus_x_c1_lm_fwd(p: dict, x_ids: jax.Array, cfg: ModelConfig) -> jax.Array:
++    x = p["embed"][x_ids]
++    def scan_layer(x_in, layer):
++        return x_in + modus_x_c1_layer_fwd(layer, x_in), None
++    x, _ = lax.scan(scan_layer, x, p["layers"])
++    return lm_head_fwd(p["head"], x)
++
++
++def modus_x_c1_lm_fwd_stateful(
++    p: dict, x_ids: jax.Array, cfg: ModelConfig,
++    initial_state: tuple[jax.Array, jax.Array, jax.Array] | None = None,
++) -> tuple[jax.Array, tuple[jax.Array, jax.Array, jax.Array]]:
++    x = p["embed"][x_ids]
++    if initial_state is None:
++        initial_state = (jnp.zeros((cfg.n_layers, cfg.ax_res, cfg.ax_res)),
++                         jnp.zeros((cfg.n_layers, cfg.ax_res, cfg.ax_res)),
++                         jnp.zeros((cfg.n_layers, cfg.mamba_state_dim)))
++    def scan_layer(x_in, inputs):
++        layer, H_current, H_archive, s = inputs
++        (next_H_current, next_H_archive, next_s), layer_out = modus_x_c1_layer_fwd_stateful(
++            layer, x_in, (H_current, H_archive, s)
++        )
++        return x_in + layer_out, (next_H_current, next_H_archive, next_s)
++    x, final_state = lax.scan(scan_layer, x, (p["layers"], *initial_state))
++    return lm_head_fwd(p["head"], x), final_state
++
++
+ def init_modus_x_memory_feedback_archive_lm(key: jax.Array, cfg: ModelConfig) -> dict:
+     """Seed-paired CurrentArchive plus a rank-32 matrix-to-vector bridge."""
+     keys = random.split(key, cfg.n_layers + 2)
+@@ -1954,6 +2114,35 @@
+     return final_logits, auxiliary_logits
+ 
+ 
++def modus_x_c1_lm_fwd_deep_supervision(
++    p: dict, x_ids: jax.Array, cfg: ModelConfig,
++    auxiliary_layers: tuple[int, ...] | None = None,
++    dropout_key: jax.Array | None = None, dropout_rate: float = 0.0,
++):
++    x = p["embed"][x_ids]
++    def scan_layer(x_in, layer):
++        x_out = x_in + modus_x_c1_layer_fwd(layer, x_in)
++        return x_out, x_out
++    x, layer_outputs = lax.scan(scan_layer, x, p["layers"])
++    if auxiliary_layers is None:
++        auxiliary_layers = (cfg.n_layers // 2,)
++    layer_indexes = jnp.array([layer - 1 for layer in auxiliary_layers], dtype=jnp.int32)
++    selected_outputs = layer_outputs[layer_indexes]
++    if dropout_key is not None and dropout_rate > 0.0:
++        final_key, aux_key = random.split(dropout_key)
++        x_for_head = apply_dropout(x, final_key, dropout_rate)
++        selected_for_heads = apply_dropout(selected_outputs, aux_key, dropout_rate)
++    else:
++        x_for_head, selected_for_heads = x, selected_outputs
++    final_logits = lm_head_fwd(p["head"], x_for_head)
++    auxiliary_logits = jax.vmap(lambda h: lm_head_fwd(p["head"], h))(selected_for_heads)
++    if "future_heads" in p:
++        future_logits = jax.vmap(lambda head: lm_head_fwd(head, x_for_head))(p["future_heads"])
++        auxiliary_future_logits = jax.vmap(lambda head: jax.vmap(lambda h: lm_head_fwd(head, h))(selected_for_heads))(p["future_heads"])
++        return final_logits, auxiliary_logits, future_logits, auxiliary_future_logits
++    return final_logits, auxiliary_logits
++
++
+ def modus_x_memory_feedback_archive_lm_fwd_deep_supervision(
+     p: dict,
+     x_ids: jax.Array,
+@@ -2244,6 +2433,7 @@
+     "Modus_M2": (init_modus_m2_lm, modus_m2_lm_fwd),
+     "Modus_M3": (init_modus_m3_lm, modus_m3_lm_fwd),
+     "Modus_X": (init_modus_x_lm, modus_x_lm_fwd),
++    "Modus_X_C1": (init_modus_x_c1_lm, modus_x_c1_lm_fwd),
+     "Modus_X_CurrentArchive": (init_modus_x_lm, modus_x_current_archive_lm_fwd),
+     "Modus_X_MemoryFeedbackArchive": (
+         init_modus_x_memory_feedback_archive_lm,
+@@ -2278,7 +2468,10 @@
+     future_target_count: int = 0,
+     dropout_rate: float = 0.0,
+ ) -> tuple[dict, Callable]:
+-    if name == "Modus_X_Scalar":
++    if name == "Modus_X_C1":
++        cfg = replace(cfg, hidden_dim=1664, mamba_state_dim=608, ax_res=512,
++                      vector_router=True, router_hidden=32, q_rank=128, k_rank=128)
++    elif name == "Modus_X_Scalar":
+         cfg = replace(cfg, vector_router=False)
+         name = "Modus_X"
+     elif name == "Modus_X_Vector":
+@@ -2409,8 +2602,12 @@
+         raise ValueError(f"Unknown model {name}. Options: {options}")
+     init_fn, fwd_fn = MODEL_REGISTRY[name]
+     if deep_supervision:
++        if name == "Modus_X_C1":
++            cfg = replace(cfg, hidden_dim=1664, mamba_state_dim=608, ax_res=512,
++                          vector_router=True, router_hidden=32, q_rank=128, k_rank=128)
+         if name not in (
+             "Modus_X",
++            "Modus_X_C1",
+             "Modus_X_CurrentArchive",
+             "Modus_X_DisplacedArchive",
+             "Modus_X_MemoryFeedbackArchive",
+@@ -2422,6 +2619,10 @@
+         keys = random.split(key, 2)
+         params = init_fn(keys[0], cfg)
+         params = add_future_heads(params, keys[1], cfg, future_target_count)
++        if name == "Modus_X_C1":
++            return params, lambda p, x, dropout_key=None: modus_x_c1_lm_fwd_deep_supervision(
++                p, x, cfg, auxiliary_layers, dropout_key, dropout_rate
++            )
+         if name == "Modus_X_CurrentArchive":
+             return params, lambda p, x, dropout_key=None: modus_x_current_archive_lm_fwd_deep_supervision(
+                 p,

@@ -1,0 +1,75 @@
+{
+  "analysis": "Modus_X Parameter Allocation Stage 1 Structured Analysis",
+  "project_root": "E:\\Modus_X",
+  "inputs": {
+    "b0_parameter_census_json": "E:\\Modus_X\\research\\parameter_allocation\\outputs\\b0_parameter_census.json",
+    "b0_parameter_leaves_csv": "E:\\Modus_X\\research\\parameter_allocation\\outputs\\b0_parameter_leaves.csv"
+  },
+  "detected_columns": {
+    "path": "path",
+    "parameter_count": "elements",
+    "component": "component"
+  },
+  "classification_policy": "canonical_b0_component_column",
+  "parameter_accounting": {
+    "expected_total_parameters": null,
+    "measured_total_parameters": 47437768,
+    "difference": null
+  },
+  "components": [
+    {
+      "component": "matrix_memory",
+      "parameter_count": 22069284,
+      "percentage": 46.522601990886244,
+      "leaf_count": 17
+    },
+    {
+      "component": "vector_recurrence",
+      "parameter_count": 18898944,
+      "percentage": 39.83944607174604,
+      "leaf_count": 10
+    },
+    {
+      "component": "archive_memory_control",
+      "parameter_count": 3164184,
+      "percentage": 6.670178917355471,
+      "leaf_count": 6
+    },
+    {
+      "component": "future_prediction_head",
+      "parameter_count": 1181440,
+      "percentage": 2.490505033879334,
+      "leaf_count": 4
+    },
+    {
+      "component": "output_head",
+      "parameter_count": 1181440,
+      "percentage": 2.490505033879334,
+      "leaf_count": 4
+    },
+    {
+      "component": "router",
+      "parameter_count": 399744,
+      "percentage": 0.842670338115402,
+      "leaf_count": 4
+    },
+    {
+      "component": "feedback_bridge",
+      "parameter_count": 399372,
+      "percentage": 0.8418861528223671,
+      "leaf_count": 4
+    },
+    {
+      "component": "embedding",
+      "parameter_count": 131072,
+      "percentage": 0.2763030503458763,
+      "leaf_count": 1
+    },
+    {
+      "component": "normalization",
+      "parameter_count": 12288,
+      "percentage": 0.025903410969925905,
+      "leaf_count": 2
+    }
+  ]
+}

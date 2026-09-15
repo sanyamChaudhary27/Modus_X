@@ -1,0 +1,10 @@
+component,display_name,seed1_parameters,seed2_parameters,absolute_difference,relative_difference_percent,topology_consistent
+matrix_memory,Matrix Memory,25233468,25233468,0,0.0,True
+vector_mamba,Vector / Mamba Pathway,18898944,18898944,0,0.0,True
+router,Router,399744,399744,0,0.0,True
+feedback_bridge,Feedback Bridge,6156,6156,0,0.0,True
+embeddings,Embeddings,131072,131072,0,0.0,True
+output_head,Output Head,1181440,1181440,0,0.0,True
+normalization,Normalization,12288,12288,0,0.0,True
+auxiliary,Auxiliary,1181440,1181440,0,0.0,True
+other,Other,393216,393216,0,0.0,True

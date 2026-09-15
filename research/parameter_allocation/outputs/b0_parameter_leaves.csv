@@ -1,0 +1,53 @@
+path,shape,dtype,elements,bytes,component
+embed,"[256, 512]",float32,131072,524288,embedding
+future_heads.b1,"[1, 1536]",float32,1536,6144,future_prediction_head
+future_heads.b2,"[1, 256]",float32,256,1024,future_prediction_head
+future_heads.w1,"[1, 1536, 512]",float32,786432,3145728,future_prediction_head
+future_heads.w2,"[1, 256, 1536]",float32,393216,1572864,future_prediction_head
+head.b1,[1536],float32,1536,6144,output_head
+head.b2,[256],float32,256,1024,output_head
+head.w1,"[1536, 512]",float32,786432,3145728,output_head
+head.w2,"[256, 1536]",float32,393216,1572864,output_head
+layers.m_b_archive_mix,"[12, 512]",float32,6144,24576,archive_memory_control
+layers.m_b_archive_ret,"[12, 1]",float32,12,48,archive_memory_control
+layers.m_b_archive_write,"[12, 1]",float32,12,48,archive_memory_control
+layers.m_b_eta,"[12, 1]",float32,12,48,matrix_memory
+layers.m_b_out,"[12, 512]",float32,6144,24576,matrix_memory
+layers.m_b_read,"[12, 512]",float32,6144,24576,matrix_memory
+layers.m_b_ret,"[12, 1]",float32,12,48,matrix_memory
+layers.m_b_write,"[12, 1]",float32,12,48,matrix_memory
+layers.m_ln_b,"[12, 512]",float32,6144,24576,matrix_memory
+layers.m_ln_g,"[12, 512]",float32,6144,24576,matrix_memory
+layers.m_proj_b,"[12, 512]",float32,6144,24576,matrix_memory
+layers.m_proj_w,"[12, 512, 1024]",float32,6291456,25165824,matrix_memory
+layers.m_w_archive_mix,"[12, 512, 512]",float32,3145728,12582912,archive_memory_control
+layers.m_w_archive_ret,"[12, 1, 512]",float32,6144,24576,archive_memory_control
+layers.m_w_archive_write,"[12, 1, 512]",float32,6144,24576,archive_memory_control
+layers.m_w_eta,"[12, 1, 512]",float32,6144,24576,matrix_memory
+layers.m_w_out,"[12, 512, 512]",float32,3145728,12582912,matrix_memory
+layers.m_w_read,"[12, 512, 512]",float32,3145728,12582912,matrix_memory
+layers.m_w_ret,"[12, 1, 512]",float32,6144,24576,matrix_memory
+layers.m_w_write,"[12, 1, 512]",float32,6144,24576,matrix_memory
+layers.m_wk,"[12, 512, 512]",float32,3145728,12582912,matrix_memory
+layers.m_wq,"[12, 512, 512]",float32,3145728,12582912,matrix_memory
+layers.m_wv,"[12, 512, 512]",float32,3145728,12582912,matrix_memory
+layers.pre_b,"[12, 512]",float32,6144,24576,normalization
+layers.pre_g,"[12, 512]",float32,6144,24576,normalization
+layers.r_b,"[12, 32]",float32,384,1536,router
+layers.r_proj,"[12, 512, 32]",float32,196608,786432,router
+layers.r_proj_b,"[12, 512]",float32,6144,24576,router
+layers.r_w,"[12, 32, 512]",float32,196608,786432,router
+layers.s_b_delta,"[12, 512]",float32,6144,24576,vector_recurrence
+layers.s_b_gate,"[12, 512]",float32,6144,24576,vector_recurrence
+layers.s_b_memory_feedback,"[12, 1]",float32,12,48,feedback_bridge
+layers.s_b_ret,"[12, 512]",float32,6144,24576,vector_recurrence
+layers.s_memory_down,"[12, 32, 512]",float32,196608,786432,feedback_bridge
+layers.s_memory_up,"[12, 512, 32]",float32,196608,786432,feedback_bridge
+layers.s_proj_b,"[12, 512]",float32,6144,24576,vector_recurrence
+layers.s_proj_w,"[12, 512, 512]",float32,3145728,12582912,vector_recurrence
+layers.s_w_c,"[12, 512, 512]",float32,3145728,12582912,vector_recurrence
+layers.s_w_delta,"[12, 512, 512]",float32,3145728,12582912,vector_recurrence
+layers.s_w_gate,"[12, 512, 512]",float32,3145728,12582912,vector_recurrence
+layers.s_w_memory_feedback,"[12, 1, 512]",float32,6144,24576,feedback_bridge
+layers.s_w_ret,"[12, 512, 512]",float32,3145728,12582912,vector_recurrence
+layers.s_wu,"[12, 512, 512]",float32,3145728,12582912,vector_recurrence

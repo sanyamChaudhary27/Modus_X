@@ -1,0 +1,639 @@
+{
+  "generated_at_utc": "2026-09-09T15:55:02.910318+00:00",
+  "project_root": "E:\\Modus_X",
+  "models_path": "E:\\Modus_X\\language\\models.py",
+  "model_name": "Modus_X_MemoryFeedbackArchive",
+  "scope": "Exact parameter-tree recount through the actual Modus_X initializer. No model source, checkpoint, dataset, or training run modified.",
+  "selected_pb0_g_candidate": {
+    "source_index": 0,
+    "matrix_rank_r": 512,
+    "vector_dimension_n": 512,
+    "router_hidden_h": 32,
+    "pb0_g_feedback_rank_f": 32,
+    "actual_initializer_feedback_rank": 32,
+    "pb0_g_predicted_parameter_count": 47437768,
+    "pb0_g_parameter_error": 0,
+    "pb0_g_exact_match": true
+  },
+  "architecture_configuration": {
+    "vocab_size": 256,
+    "embed_dim": 512,
+    "hidden_dim": 1536,
+    "ax_res": 512,
+    "n_layers": 12,
+    "n_heads_attn": 8,
+    "seq_len": 512,
+    "mamba_state_dim": 512,
+    "vector_router": true,
+    "router_hidden": 32,
+    "auxiliary_layers": [
+      11
+    ],
+    "future_target_count": 1
+  },
+  "parameter_counts": {
+    "b0_frozen_parameter_count": 47437768,
+    "pb0_g_predicted_parameter_count": 47437768,
+    "pb0_h_tree_recount_parameter_count": 47437768,
+    "models_count_params_parameter_count": 47437768,
+    "tree_vs_pb0_g_difference": 0,
+    "tree_vs_b0_difference": 0,
+    "count_params_vs_tree_difference": 0
+  },
+  "verification": {
+    "tree_matches_pb0_g_prediction": true,
+    "tree_matches_b0_budget": true,
+    "models_count_params_matches_tree": true,
+    "feedback_rank_matches_pb0_g": true,
+    "all_exact": true
+  },
+  "tree": {
+    "leaf_count": 52,
+    "fingerprint_sha256": "ccd7c701c46de892f258d3abe73ef4d1adf15730b898fe6e1f7c1be550f2c7c0",
+    "components": {
+      "matrix_memory": {
+        "parameters": 22069284,
+        "leaf_count": 17
+      },
+      "vector_mamba_pathway": {
+        "parameters": 18898944,
+        "leaf_count": 10
+      },
+      "archive_memory_control": {
+        "parameters": 3164184,
+        "leaf_count": 6
+      },
+      "auxiliary": {
+        "parameters": 1181440,
+        "leaf_count": 4
+      },
+      "output_head": {
+        "parameters": 1181440,
+        "leaf_count": 4
+      },
+      "router": {
+        "parameters": 399744,
+        "leaf_count": 4
+      },
+      "feedback_bridge": {
+        "parameters": 399372,
+        "leaf_count": 4
+      },
+      "embeddings": {
+        "parameters": 131072,
+        "leaf_count": 1
+      },
+      "normalization": {
+        "parameters": 12288,
+        "leaf_count": 2
+      }
+    },
+    "parameter_leaves": [
+      {
+        "path": "embed",
+        "component": "embeddings",
+        "shape": [
+          256,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 131072
+      },
+      {
+        "path": "future_heads.b1",
+        "component": "auxiliary",
+        "shape": [
+          1,
+          1536
+        ],
+        "dtype": "float32",
+        "parameter_count": 1536
+      },
+      {
+        "path": "future_heads.b2",
+        "component": "auxiliary",
+        "shape": [
+          1,
+          256
+        ],
+        "dtype": "float32",
+        "parameter_count": 256
+      },
+      {
+        "path": "future_heads.w1",
+        "component": "auxiliary",
+        "shape": [
+          1,
+          1536,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 786432
+      },
+      {
+        "path": "future_heads.w2",
+        "component": "auxiliary",
+        "shape": [
+          1,
+          256,
+          1536
+        ],
+        "dtype": "float32",
+        "parameter_count": 393216
+      },
+      {
+        "path": "head.b1",
+        "component": "output_head",
+        "shape": [
+          1536
+        ],
+        "dtype": "float32",
+        "parameter_count": 1536
+      },
+      {
+        "path": "head.b2",
+        "component": "output_head",
+        "shape": [
+          256
+        ],
+        "dtype": "float32",
+        "parameter_count": 256
+      },
+      {
+        "path": "head.w1",
+        "component": "output_head",
+        "shape": [
+          1536,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 786432
+      },
+      {
+        "path": "head.w2",
+        "component": "output_head",
+        "shape": [
+          256,
+          1536
+        ],
+        "dtype": "float32",
+        "parameter_count": 393216
+      },
+      {
+        "path": "layers.m_b_archive_mix",
+        "component": "archive_memory_control",
+        "shape": [
+          12,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.m_b_archive_ret",
+        "component": "archive_memory_control",
+        "shape": [
+          12,
+          1
+        ],
+        "dtype": "float32",
+        "parameter_count": 12
+      },
+      {
+        "path": "layers.m_b_archive_write",
+        "component": "archive_memory_control",
+        "shape": [
+          12,
+          1
+        ],
+        "dtype": "float32",
+        "parameter_count": 12
+      },
+      {
+        "path": "layers.m_b_eta",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          1
+        ],
+        "dtype": "float32",
+        "parameter_count": 12
+      },
+      {
+        "path": "layers.m_b_out",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.m_b_read",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.m_b_ret",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          1
+        ],
+        "dtype": "float32",
+        "parameter_count": 12
+      },
+      {
+        "path": "layers.m_b_write",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          1
+        ],
+        "dtype": "float32",
+        "parameter_count": 12
+      },
+      {
+        "path": "layers.m_ln_b",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.m_ln_g",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.m_proj_b",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.m_proj_w",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          512,
+          1024
+        ],
+        "dtype": "float32",
+        "parameter_count": 6291456
+      },
+      {
+        "path": "layers.m_w_archive_mix",
+        "component": "archive_memory_control",
+        "shape": [
+          12,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 3145728
+      },
+      {
+        "path": "layers.m_w_archive_ret",
+        "component": "archive_memory_control",
+        "shape": [
+          12,
+          1,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.m_w_archive_write",
+        "component": "archive_memory_control",
+        "shape": [
+          12,
+          1,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.m_w_eta",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          1,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.m_w_out",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 3145728
+      },
+      {
+        "path": "layers.m_w_read",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 3145728
+      },
+      {
+        "path": "layers.m_w_ret",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          1,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.m_w_write",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          1,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.m_wk",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 3145728
+      },
+      {
+        "path": "layers.m_wq",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 3145728
+      },
+      {
+        "path": "layers.m_wv",
+        "component": "matrix_memory",
+        "shape": [
+          12,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 3145728
+      },
+      {
+        "path": "layers.pre_b",
+        "component": "normalization",
+        "shape": [
+          12,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.pre_g",
+        "component": "normalization",
+        "shape": [
+          12,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.r_b",
+        "component": "router",
+        "shape": [
+          12,
+          32
+        ],
+        "dtype": "float32",
+        "parameter_count": 384
+      },
+      {
+        "path": "layers.r_proj",
+        "component": "router",
+        "shape": [
+          12,
+          512,
+          32
+        ],
+        "dtype": "float32",
+        "parameter_count": 196608
+      },
+      {
+        "path": "layers.r_proj_b",
+        "component": "router",
+        "shape": [
+          12,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.r_w",
+        "component": "router",
+        "shape": [
+          12,
+          32,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 196608
+      },
+      {
+        "path": "layers.s_b_delta",
+        "component": "vector_mamba_pathway",
+        "shape": [
+          12,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.s_b_gate",
+        "component": "vector_mamba_pathway",
+        "shape": [
+          12,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.s_b_memory_feedback",
+        "component": "feedback_bridge",
+        "shape": [
+          12,
+          1
+        ],
+        "dtype": "float32",
+        "parameter_count": 12
+      },
+      {
+        "path": "layers.s_b_ret",
+        "component": "vector_mamba_pathway",
+        "shape": [
+          12,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.s_memory_down",
+        "component": "feedback_bridge",
+        "shape": [
+          12,
+          32,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 196608
+      },
+      {
+        "path": "layers.s_memory_up",
+        "component": "feedback_bridge",
+        "shape": [
+          12,
+          512,
+          32
+        ],
+        "dtype": "float32",
+        "parameter_count": 196608
+      },
+      {
+        "path": "layers.s_proj_b",
+        "component": "vector_mamba_pathway",
+        "shape": [
+          12,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.s_proj_w",
+        "component": "vector_mamba_pathway",
+        "shape": [
+          12,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 3145728
+      },
+      {
+        "path": "layers.s_w_c",
+        "component": "vector_mamba_pathway",
+        "shape": [
+          12,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 3145728
+      },
+      {
+        "path": "layers.s_w_delta",
+        "component": "vector_mamba_pathway",
+        "shape": [
+          12,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 3145728
+      },
+      {
+        "path": "layers.s_w_gate",
+        "component": "vector_mamba_pathway",
+        "shape": [
+          12,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 3145728
+      },
+      {
+        "path": "layers.s_w_memory_feedback",
+        "component": "feedback_bridge",
+        "shape": [
+          12,
+          1,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 6144
+      },
+      {
+        "path": "layers.s_w_ret",
+        "component": "vector_mamba_pathway",
+        "shape": [
+          12,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 3145728
+      },
+      {
+        "path": "layers.s_wu",
+        "component": "vector_mamba_pathway",
+        "shape": [
+          12,
+          512,
+          512
+        ],
+        "dtype": "float32",
+        "parameter_count": 3145728
+      }
+    ]
+  },
+  "status": "passed",
+  "next_gate": "PB0-H exact tree recount completed. Do not train yet until the research objective distinguishes whether an exact parameter-preserving architecture change is still required. If PB0-H passes and the selected candidate is identical to baseline dimensions, the next gate must search for a non-baseline architecture under explicit architectural constraints."
+}

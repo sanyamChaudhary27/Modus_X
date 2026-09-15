@@ -1,0 +1,446 @@
+{
+  "analysis": "B3 matrix memory structural analysis",
+  "project_root": "E:\\Modus_X",
+  "inputs": {
+    "b0_parameter_census_json": "E:\\Modus_X\\research\\parameter_allocation\\outputs\\b0_parameter_census.json",
+    "b0_parameter_leaves_csv": "E:\\Modus_X\\research\\parameter_allocation\\outputs\\b0_parameter_leaves.csv"
+  },
+  "detected_columns": {
+    "path": "path",
+    "parameter_count": "elements",
+    "component": "component",
+    "shape": "shape"
+  },
+  "total_model_parameters": 47437768,
+  "reported_total_parameters": null,
+  "matrix_memory_parameters": 22069284,
+  "reported_matrix_memory_parameters": null,
+  "matrix_memory_share_percent": 46.522601990886244,
+  "matrix_memory_leaf_count": 17,
+  "role_summary": [
+    {
+      "role": "memory_input_projection",
+      "leaf_count": 1,
+      "parameters": 6291456,
+      "share_of_matrix_memory_percent": 28.50774859755305,
+      "share_of_total_model_percent": 13.262546416602063
+    },
+    {
+      "role": "key_projection",
+      "leaf_count": 1,
+      "parameters": 3145728,
+      "share_of_matrix_memory_percent": 14.253874298776525,
+      "share_of_total_model_percent": 6.631273208301032
+    },
+    {
+      "role": "memory_output_projection",
+      "leaf_count": 1,
+      "parameters": 3145728,
+      "share_of_matrix_memory_percent": 14.253874298776525,
+      "share_of_total_model_percent": 6.631273208301032
+    },
+    {
+      "role": "memory_read_projection",
+      "leaf_count": 1,
+      "parameters": 3145728,
+      "share_of_matrix_memory_percent": 14.253874298776525,
+      "share_of_total_model_percent": 6.631273208301032
+    },
+    {
+      "role": "query_projection",
+      "leaf_count": 1,
+      "parameters": 3145728,
+      "share_of_matrix_memory_percent": 14.253874298776525,
+      "share_of_total_model_percent": 6.631273208301032
+    },
+    {
+      "role": "value_projection",
+      "leaf_count": 1,
+      "parameters": 3145728,
+      "share_of_matrix_memory_percent": 14.253874298776525,
+      "share_of_total_model_percent": 6.631273208301032
+    },
+    {
+      "role": "other_matrix_memory_parameter",
+      "leaf_count": 11,
+      "parameters": 49188,
+      "share_of_matrix_memory_percent": 0.22287990856431952,
+      "share_of_total_model_percent": 0.10368953277902956
+    }
+  ],
+  "shape_summary": [
+    {
+      "shape_signature": "12x512x512",
+      "leaf_count": 5,
+      "parameters": 15728640,
+      "share_of_matrix_memory_percent": 71.26937149388263,
+      "share_of_total_model_percent": 33.15636604150516
+    },
+    {
+      "shape_signature": "12x512x1024",
+      "leaf_count": 1,
+      "parameters": 6291456,
+      "share_of_matrix_memory_percent": 28.50774859755305,
+      "share_of_total_model_percent": 13.262546416602063
+    },
+    {
+      "shape_signature": "12x512",
+      "leaf_count": 5,
+      "parameters": 30720,
+      "share_of_matrix_memory_percent": 0.1391979911989895,
+      "share_of_total_model_percent": 0.06475852742481476
+    },
+    {
+      "shape_signature": "12x1x512",
+      "leaf_count": 3,
+      "parameters": 18432,
+      "share_of_matrix_memory_percent": 0.0835187947193937,
+      "share_of_total_model_percent": 0.03885511645488886
+    },
+    {
+      "shape_signature": "12x1",
+      "leaf_count": 3,
+      "parameters": 36,
+      "share_of_matrix_memory_percent": 0.00016312264593631583,
+      "share_of_total_model_percent": 7.58888993259548e-05
+    }
+  ],
+  "largest_matrix_leaves": [
+    {
+      "path": "layers.m_proj_w",
+      "component": "matrix_memory",
+      "shape": "[12, 512, 1024]",
+      "shape_dimensions": [
+        12,
+        512,
+        1024
+      ],
+      "shape_signature": "12x512x1024",
+      "parameters": 6291456,
+      "role": "memory_input_projection",
+      "family": "m_proj_w",
+      "tensor_kind": "layer_stacked_matrix",
+      "share_of_matrix_memory_percent": 28.50774859755305,
+      "share_of_total_model_percent": 13.262546416602063
+    },
+    {
+      "path": "layers.m_w_out",
+      "component": "matrix_memory",
+      "shape": "[12, 512, 512]",
+      "shape_dimensions": [
+        12,
+        512,
+        512
+      ],
+      "shape_signature": "12x512x512",
+      "parameters": 3145728,
+      "role": "memory_output_projection",
+      "family": "m_w_out",
+      "tensor_kind": "layer_stacked_matrix",
+      "share_of_matrix_memory_percent": 14.253874298776525,
+      "share_of_total_model_percent": 6.631273208301032
+    },
+    {
+      "path": "layers.m_w_read",
+      "component": "matrix_memory",
+      "shape": "[12, 512, 512]",
+      "shape_dimensions": [
+        12,
+        512,
+        512
+      ],
+      "shape_signature": "12x512x512",
+      "parameters": 3145728,
+      "role": "memory_read_projection",
+      "family": "m_w_read",
+      "tensor_kind": "layer_stacked_matrix",
+      "share_of_matrix_memory_percent": 14.253874298776525,
+      "share_of_total_model_percent": 6.631273208301032
+    },
+    {
+      "path": "layers.m_wk",
+      "component": "matrix_memory",
+      "shape": "[12, 512, 512]",
+      "shape_dimensions": [
+        12,
+        512,
+        512
+      ],
+      "shape_signature": "12x512x512",
+      "parameters": 3145728,
+      "role": "key_projection",
+      "family": "m_wk",
+      "tensor_kind": "layer_stacked_matrix",
+      "share_of_matrix_memory_percent": 14.253874298776525,
+      "share_of_total_model_percent": 6.631273208301032
+    },
+    {
+      "path": "layers.m_wq",
+      "component": "matrix_memory",
+      "shape": "[12, 512, 512]",
+      "shape_dimensions": [
+        12,
+        512,
+        512
+      ],
+      "shape_signature": "12x512x512",
+      "parameters": 3145728,
+      "role": "query_projection",
+      "family": "m_wq",
+      "tensor_kind": "layer_stacked_matrix",
+      "share_of_matrix_memory_percent": 14.253874298776525,
+      "share_of_total_model_percent": 6.631273208301032
+    },
+    {
+      "path": "layers.m_wv",
+      "component": "matrix_memory",
+      "shape": "[12, 512, 512]",
+      "shape_dimensions": [
+        12,
+        512,
+        512
+      ],
+      "shape_signature": "12x512x512",
+      "parameters": 3145728,
+      "role": "value_projection",
+      "family": "m_wv",
+      "tensor_kind": "layer_stacked_matrix",
+      "share_of_matrix_memory_percent": 14.253874298776525,
+      "share_of_total_model_percent": 6.631273208301032
+    },
+    {
+      "path": "layers.m_b_out",
+      "component": "matrix_memory",
+      "shape": "[12, 512]",
+      "shape_dimensions": [
+        12,
+        512
+      ],
+      "shape_signature": "12x512",
+      "parameters": 6144,
+      "role": "other_matrix_memory_parameter",
+      "family": "m_b_out",
+      "tensor_kind": "matrix",
+      "share_of_matrix_memory_percent": 0.0278395982397979,
+      "share_of_total_model_percent": 0.012951705484962953
+    },
+    {
+      "path": "layers.m_b_read",
+      "component": "matrix_memory",
+      "shape": "[12, 512]",
+      "shape_dimensions": [
+        12,
+        512
+      ],
+      "shape_signature": "12x512",
+      "parameters": 6144,
+      "role": "other_matrix_memory_parameter",
+      "family": "m_b_read",
+      "tensor_kind": "matrix",
+      "share_of_matrix_memory_percent": 0.0278395982397979,
+      "share_of_total_model_percent": 0.012951705484962953
+    },
+    {
+      "path": "layers.m_ln_b",
+      "component": "matrix_memory",
+      "shape": "[12, 512]",
+      "shape_dimensions": [
+        12,
+        512
+      ],
+      "shape_signature": "12x512",
+      "parameters": 6144,
+      "role": "other_matrix_memory_parameter",
+      "family": "m_ln_b",
+      "tensor_kind": "matrix",
+      "share_of_matrix_memory_percent": 0.0278395982397979,
+      "share_of_total_model_percent": 0.012951705484962953
+    },
+    {
+      "path": "layers.m_ln_g",
+      "component": "matrix_memory",
+      "shape": "[12, 512]",
+      "shape_dimensions": [
+        12,
+        512
+      ],
+      "shape_signature": "12x512",
+      "parameters": 6144,
+      "role": "other_matrix_memory_parameter",
+      "family": "m_ln_g",
+      "tensor_kind": "matrix",
+      "share_of_matrix_memory_percent": 0.0278395982397979,
+      "share_of_total_model_percent": 0.012951705484962953
+    },
+    {
+      "path": "layers.m_proj_b",
+      "component": "matrix_memory",
+      "shape": "[12, 512]",
+      "shape_dimensions": [
+        12,
+        512
+      ],
+      "shape_signature": "12x512",
+      "parameters": 6144,
+      "role": "other_matrix_memory_parameter",
+      "family": "m_proj_b",
+      "tensor_kind": "matrix",
+      "share_of_matrix_memory_percent": 0.0278395982397979,
+      "share_of_total_model_percent": 0.012951705484962953
+    },
+    {
+      "path": "layers.m_w_eta",
+      "component": "matrix_memory",
+      "shape": "[12, 1, 512]",
+      "shape_dimensions": [
+        12,
+        1,
+        512
+      ],
+      "shape_signature": "12x1x512",
+      "parameters": 6144,
+      "role": "other_matrix_memory_parameter",
+      "family": "m_w_eta",
+      "tensor_kind": "layer_stacked_matrix",
+      "share_of_matrix_memory_percent": 0.0278395982397979,
+      "share_of_total_model_percent": 0.012951705484962953
+    },
+    {
+      "path": "layers.m_w_ret",
+      "component": "matrix_memory",
+      "shape": "[12, 1, 512]",
+      "shape_dimensions": [
+        12,
+        1,
+        512
+      ],
+      "shape_signature": "12x1x512",
+      "parameters": 6144,
+      "role": "other_matrix_memory_parameter",
+      "family": "m_w_ret",
+      "tensor_kind": "layer_stacked_matrix",
+      "share_of_matrix_memory_percent": 0.0278395982397979,
+      "share_of_total_model_percent": 0.012951705484962953
+    },
+    {
+      "path": "layers.m_w_write",
+      "component": "matrix_memory",
+      "shape": "[12, 1, 512]",
+      "shape_dimensions": [
+        12,
+        1,
+        512
+      ],
+      "shape_signature": "12x1x512",
+      "parameters": 6144,
+      "role": "other_matrix_memory_parameter",
+      "family": "m_w_write",
+      "tensor_kind": "layer_stacked_matrix",
+      "share_of_matrix_memory_percent": 0.0278395982397979,
+      "share_of_total_model_percent": 0.012951705484962953
+    },
+    {
+      "path": "layers.m_b_eta",
+      "component": "matrix_memory",
+      "shape": "[12, 1]",
+      "shape_dimensions": [
+        12,
+        1
+      ],
+      "shape_signature": "12x1",
+      "parameters": 12,
+      "role": "other_matrix_memory_parameter",
+      "family": "m_b_eta",
+      "tensor_kind": "matrix",
+      "share_of_matrix_memory_percent": 5.4374215312105274e-05,
+      "share_of_total_model_percent": 2.5296299775318267e-05
+    },
+    {
+      "path": "layers.m_b_ret",
+      "component": "matrix_memory",
+      "shape": "[12, 1]",
+      "shape_dimensions": [
+        12,
+        1
+      ],
+      "shape_signature": "12x1",
+      "parameters": 12,
+      "role": "other_matrix_memory_parameter",
+      "family": "m_b_ret",
+      "tensor_kind": "matrix",
+      "share_of_matrix_memory_percent": 5.4374215312105274e-05,
+      "share_of_total_model_percent": 2.5296299775318267e-05
+    },
+    {
+      "path": "layers.m_b_write",
+      "component": "matrix_memory",
+      "shape": "[12, 1]",
+      "shape_dimensions": [
+        12,
+        1
+      ],
+      "shape_signature": "12x1",
+      "parameters": 12,
+      "role": "other_matrix_memory_parameter",
+      "family": "m_b_write",
+      "tensor_kind": "matrix",
+      "share_of_matrix_memory_percent": 5.4374215312105274e-05,
+      "share_of_total_model_percent": 2.5296299775318267e-05
+    }
+  ],
+  "same_shape_groups": [
+    {
+      "shape_signature": "12x512x512",
+      "leaf_count": 5,
+      "parameters": 15728640,
+      "share_of_matrix_memory_percent": 71.26937149388263,
+      "paths": [
+        "layers.m_w_out",
+        "layers.m_w_read",
+        "layers.m_wk",
+        "layers.m_wq",
+        "layers.m_wv"
+      ]
+    },
+    {
+      "shape_signature": "12x512",
+      "leaf_count": 5,
+      "parameters": 30720,
+      "share_of_matrix_memory_percent": 0.1391979911989895,
+      "paths": [
+        "layers.m_b_out",
+        "layers.m_b_read",
+        "layers.m_ln_b",
+        "layers.m_ln_g",
+        "layers.m_proj_b"
+      ]
+    },
+    {
+      "shape_signature": "12x1x512",
+      "leaf_count": 3,
+      "parameters": 18432,
+      "share_of_matrix_memory_percent": 0.0835187947193937,
+      "paths": [
+        "layers.m_w_eta",
+        "layers.m_w_ret",
+        "layers.m_w_write"
+      ]
+    },
+    {
+      "shape_signature": "12x1",
+      "leaf_count": 3,
+      "parameters": 36,
+      "share_of_matrix_memory_percent": 0.00016312264593631583,
+      "paths": [
+        "layers.m_b_eta",
+        "layers.m_b_ret",
+        "layers.m_b_write"
+      ]
+    }
+  ],
+  "validation": {
+    "csv_total_matches_b0_json": true,
+    "matrix_memory_matches_b0_json": true
+  },
+  "interpretation_boundary": "This analysis identifies structural concentration and repeated shape groups. It does not claim that same-shape matrices are functionally redundant or safe to remove."
+}

@@ -1,4 +1,19 @@
-.gitignore
+# Local Python virtual environment
+.venv/
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local/editor files
+.vscode/
+.idea/
+
+# Existing local project notes
 benchmark_plan.md
 submission_note.md
 results.md
+
+# Temporary local repository inspection files
+folder_structure.txt

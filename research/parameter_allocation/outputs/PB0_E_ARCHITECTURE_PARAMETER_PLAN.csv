@@ -1,0 +1,49 @@
+component,parameter_path,per_layer_parameters,total_parameters,formula,shape_description
+matrix_memory,layers.m_wk,86016,1032192,r * d,"[168, 512]"
+matrix_memory,layers.m_wq,86016,1032192,r * d,"[168, 512]"
+matrix_memory,layers.m_wv,86016,1032192,r * d,"[168, 512]"
+matrix_memory,layers.m_w_read,86016,1032192,r * d,"[168, 512]"
+matrix_memory,layers.m_w_out,262144,3145728,d * d,"[512, 512]"
+matrix_memory,layers.m_proj_w,348160,4177920,d * (d + r),"[512, 680]"
+matrix_memory,layers.m_b_read,168,2016,r,[168]
+matrix_memory,layers.m_b_out,512,6144,d,[512]
+matrix_memory,layers.m_proj_b,512,6144,d,[512]
+matrix_memory,layers.m_ln_g,168,2016,r,[168]
+matrix_memory,layers.m_ln_b,168,2016,r,[168]
+matrix_memory,layers.m_w_eta,512,6144,1 * d,"[1, 512]"
+matrix_memory,layers.m_b_eta,1,12,1,[1]
+matrix_memory,layers.m_w_write,512,6144,1 * d,"[1, 512]"
+matrix_memory,layers.m_b_write,1,12,1,[1]
+matrix_memory,layers.m_w_ret,512,6144,1 * d,"[1, 512]"
+matrix_memory,layers.m_b_ret,1,12,1,[1]
+archive_memory_control,layers.m_w_archive_write,512,6144,1 * d,"[1, 512]"
+archive_memory_control,layers.m_b_archive_write,1,12,1,[1]
+archive_memory_control,layers.m_w_archive_ret,512,6144,1 * d,"[1, 512]"
+archive_memory_control,layers.m_b_archive_ret,1,12,1,[1]
+archive_memory_control,layers.m_w_archive_mix,86016,1032192,r * d,"[168, 512]"
+archive_memory_control,layers.m_b_archive_mix,168,2016,r,[168]
+vector_mamba_pathway,layers.s_wu,196608,2359296,n * d,"[384, 512]"
+vector_mamba_pathway,layers.s_w_delta,196608,2359296,n * d,"[384, 512]"
+vector_mamba_pathway,layers.s_b_delta,384,4608,n,[384]
+vector_mamba_pathway,layers.s_w_ret,196608,2359296,n * d,"[384, 512]"
+vector_mamba_pathway,layers.s_b_ret,384,4608,n,[384]
+vector_mamba_pathway,layers.s_w_c,196608,2359296,n * d,"[384, 512]"
+vector_mamba_pathway,layers.s_w_gate,262144,3145728,d * d,"[512, 512]"
+vector_mamba_pathway,layers.s_b_gate,512,6144,d,[512]
+vector_mamba_pathway,layers.s_proj_w,196608,2359296,d * n,"[512, 384]"
+vector_mamba_pathway,layers.s_proj_b,512,6144,d,[512]
+feedback_bridge,layers.s_w_memory_feedback,512,6144,1 * d,"[1, 512]"
+feedback_bridge,layers.s_b_memory_feedback,1,12,1,[1]
+feedback_bridge,layers.s_memory_down,1176,14112,feedback_rank * r,"[7, 168]"
+feedback_bridge,layers.s_memory_up,3584,43008,d * feedback_rank,"[512, 7]"
+router,layers.r_w,10240,122880,router_hidden * d,"[20, 512]"
+router,layers.r_b,20,240,router_hidden,[20]
+router,layers.r_proj,10240,122880,router_outputs * router_hidden,"[512, 20]"
+router,layers.r_proj_b,512,6144,router_outputs,[512]
+normalization,layers.pre_g,512,6144,d,[512]
+normalization,layers.pre_b,512,6144,d,[512]
+embeddings,embed,131072,131072,vocab_size * d,"[256, 512]"
+output_head,head.w1,786432,786432,(3 * d) * d,"[1536, 512]"
+output_head,head.w2,393216,393216,vocab_size * (3 * d),"[256, 1536]"
+auxiliary,future_heads.w1,786432,786432,1 * (3 * d) * d,"[1, 1536, 512]"
+auxiliary,future_heads.w2,393216,393216,1 * vocab_size * (3 * d),"[1, 256, 1536]"

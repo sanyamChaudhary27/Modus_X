@@ -1,0 +1,18 @@
+path,role,family,shape,shape_signature,tensor_kind,parameters,share_of_matrix_memory_percent,share_of_total_model_percent
+layers.m_proj_w,memory_input_projection,m_proj_w,"[12, 512, 1024]",12x512x1024,layer_stacked_matrix,6291456,28.50774860,13.26254642
+layers.m_w_out,memory_output_projection,m_w_out,"[12, 512, 512]",12x512x512,layer_stacked_matrix,3145728,14.25387430,6.63127321
+layers.m_w_read,memory_read_projection,m_w_read,"[12, 512, 512]",12x512x512,layer_stacked_matrix,3145728,14.25387430,6.63127321
+layers.m_wk,key_projection,m_wk,"[12, 512, 512]",12x512x512,layer_stacked_matrix,3145728,14.25387430,6.63127321
+layers.m_wq,query_projection,m_wq,"[12, 512, 512]",12x512x512,layer_stacked_matrix,3145728,14.25387430,6.63127321
+layers.m_wv,value_projection,m_wv,"[12, 512, 512]",12x512x512,layer_stacked_matrix,3145728,14.25387430,6.63127321
+layers.m_b_out,other_matrix_memory_parameter,m_b_out,"[12, 512]",12x512,matrix,6144,0.02783960,0.01295171
+layers.m_b_read,other_matrix_memory_parameter,m_b_read,"[12, 512]",12x512,matrix,6144,0.02783960,0.01295171
+layers.m_ln_b,other_matrix_memory_parameter,m_ln_b,"[12, 512]",12x512,matrix,6144,0.02783960,0.01295171
+layers.m_ln_g,other_matrix_memory_parameter,m_ln_g,"[12, 512]",12x512,matrix,6144,0.02783960,0.01295171
+layers.m_proj_b,other_matrix_memory_parameter,m_proj_b,"[12, 512]",12x512,matrix,6144,0.02783960,0.01295171
+layers.m_w_eta,other_matrix_memory_parameter,m_w_eta,"[12, 1, 512]",12x1x512,layer_stacked_matrix,6144,0.02783960,0.01295171
+layers.m_w_ret,other_matrix_memory_parameter,m_w_ret,"[12, 1, 512]",12x1x512,layer_stacked_matrix,6144,0.02783960,0.01295171
+layers.m_w_write,other_matrix_memory_parameter,m_w_write,"[12, 1, 512]",12x1x512,layer_stacked_matrix,6144,0.02783960,0.01295171
+layers.m_b_eta,other_matrix_memory_parameter,m_b_eta,"[12, 1]",12x1,matrix,12,0.00005437,0.00002530
+layers.m_b_ret,other_matrix_memory_parameter,m_b_ret,"[12, 1]",12x1,matrix,12,0.00005437,0.00002530
+layers.m_b_write,other_matrix_memory_parameter,m_b_write,"[12, 1]",12x1,matrix,12,0.00005437,0.00002530

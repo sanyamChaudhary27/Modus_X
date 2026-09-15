@@ -1,0 +1,466 @@
+{
+  "analysis_name": "Modus_X PB0-E Candidate Architecture Mapping",
+  "generated_at_utc": "2026-09-07T15:23:30.241653+00:00",
+  "project_root": "E:\\Modus_X",
+  "inputs": {
+    "pb0_d_fixed_budget_allocation": "E:\\Modus_X\\research\\parameter_allocation\\outputs\\PB0_FIXED_BUDGET_ALLOCATION.json",
+    "pb0_candidate_a_dimension_mapping": "E:\\Modus_X\\research\\parameter_allocation\\outputs\\PB0_CANDIDATE_A_DIMENSION_MAPPING.json"
+  },
+  "selected_candidate": {
+    "candidate_id": "A",
+    "pb0_d_candidate_total": 47437768,
+    "baseline_parameter_count": 47437768,
+    "frozen_parameter_count": 2899456
+  },
+  "architecture_dimensions": {
+    "d": 512,
+    "r": 168,
+    "n": 384,
+    "router_hidden": 20,
+    "feedback_rank": 7,
+    "n_layers": 12,
+    "vocab_size": 256
+  },
+  "parameter_accounting": {
+    "pb0_mapping_reported_total": 47437888,
+    "pb0_e_computed_total": 30317528,
+    "difference_from_pb0_d_candidate": -17120240,
+    "difference_from_baseline": -17120240,
+    "exact_match_to_pb0_d_candidate": false,
+    "exact_match_to_baseline": false
+  },
+  "component_summary": [
+    {
+      "component": "vector_mamba_pathway",
+      "parameters": 14963712,
+      "percent_of_model": 49.356636200682324
+    },
+    {
+      "component": "matrix_memory",
+      "parameters": 11489220,
+      "percent_of_model": 37.896295502720406
+    },
+    {
+      "component": "auxiliary",
+      "parameters": 1179648,
+      "percent_of_model": 3.8909768632851596
+    },
+    {
+      "component": "output_head",
+      "parameters": 1179648,
+      "percent_of_model": 3.8909768632851596
+    },
+    {
+      "component": "archive_memory_control",
+      "parameters": 1046520,
+      "percent_of_model": 3.4518645451568477
+    },
+    {
+      "component": "router",
+      "parameters": 252144,
+      "percent_of_model": 0.8316773056167376
+    },
+    {
+      "component": "embeddings",
+      "parameters": 131072,
+      "percent_of_model": 0.43233076258723996
+    },
+    {
+      "component": "feedback_bridge",
+      "parameters": 63276,
+      "percent_of_model": 0.2087109476735702
+    },
+    {
+      "component": "normalization",
+      "parameters": 12288,
+      "percent_of_model": 0.04053100899255375
+    }
+  ],
+  "parameter_plan": [
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_wk",
+      "per_layer_parameters": 86016,
+      "total_parameters": 1032192,
+      "formula": "r * d",
+      "shape_description": "[168, 512]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_wq",
+      "per_layer_parameters": 86016,
+      "total_parameters": 1032192,
+      "formula": "r * d",
+      "shape_description": "[168, 512]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_wv",
+      "per_layer_parameters": 86016,
+      "total_parameters": 1032192,
+      "formula": "r * d",
+      "shape_description": "[168, 512]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_w_read",
+      "per_layer_parameters": 86016,
+      "total_parameters": 1032192,
+      "formula": "r * d",
+      "shape_description": "[168, 512]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_w_out",
+      "per_layer_parameters": 262144,
+      "total_parameters": 3145728,
+      "formula": "d * d",
+      "shape_description": "[512, 512]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_proj_w",
+      "per_layer_parameters": 348160,
+      "total_parameters": 4177920,
+      "formula": "d * (d + r)",
+      "shape_description": "[512, 680]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_b_read",
+      "per_layer_parameters": 168,
+      "total_parameters": 2016,
+      "formula": "r",
+      "shape_description": "[168]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_b_out",
+      "per_layer_parameters": 512,
+      "total_parameters": 6144,
+      "formula": "d",
+      "shape_description": "[512]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_proj_b",
+      "per_layer_parameters": 512,
+      "total_parameters": 6144,
+      "formula": "d",
+      "shape_description": "[512]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_ln_g",
+      "per_layer_parameters": 168,
+      "total_parameters": 2016,
+      "formula": "r",
+      "shape_description": "[168]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_ln_b",
+      "per_layer_parameters": 168,
+      "total_parameters": 2016,
+      "formula": "r",
+      "shape_description": "[168]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_w_eta",
+      "per_layer_parameters": 512,
+      "total_parameters": 6144,
+      "formula": "1 * d",
+      "shape_description": "[1, 512]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_b_eta",
+      "per_layer_parameters": 1,
+      "total_parameters": 12,
+      "formula": "1",
+      "shape_description": "[1]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_w_write",
+      "per_layer_parameters": 512,
+      "total_parameters": 6144,
+      "formula": "1 * d",
+      "shape_description": "[1, 512]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_b_write",
+      "per_layer_parameters": 1,
+      "total_parameters": 12,
+      "formula": "1",
+      "shape_description": "[1]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_w_ret",
+      "per_layer_parameters": 512,
+      "total_parameters": 6144,
+      "formula": "1 * d",
+      "shape_description": "[1, 512]"
+    },
+    {
+      "component": "matrix_memory",
+      "parameter_path": "layers.m_b_ret",
+      "per_layer_parameters": 1,
+      "total_parameters": 12,
+      "formula": "1",
+      "shape_description": "[1]"
+    },
+    {
+      "component": "archive_memory_control",
+      "parameter_path": "layers.m_w_archive_write",
+      "per_layer_parameters": 512,
+      "total_parameters": 6144,
+      "formula": "1 * d",
+      "shape_description": "[1, 512]"
+    },
+    {
+      "component": "archive_memory_control",
+      "parameter_path": "layers.m_b_archive_write",
+      "per_layer_parameters": 1,
+      "total_parameters": 12,
+      "formula": "1",
+      "shape_description": "[1]"
+    },
+    {
+      "component": "archive_memory_control",
+      "parameter_path": "layers.m_w_archive_ret",
+      "per_layer_parameters": 512,
+      "total_parameters": 6144,
+      "formula": "1 * d",
+      "shape_description": "[1, 512]"
+    },
+    {
+      "component": "archive_memory_control",
+      "parameter_path": "layers.m_b_archive_ret",
+      "per_layer_parameters": 1,
+      "total_parameters": 12,
+      "formula": "1",
+      "shape_description": "[1]"
+    },
+    {
+      "component": "archive_memory_control",
+      "parameter_path": "layers.m_w_archive_mix",
+      "per_layer_parameters": 86016,
+      "total_parameters": 1032192,
+      "formula": "r * d",
+      "shape_description": "[168, 512]"
+    },
+    {
+      "component": "archive_memory_control",
+      "parameter_path": "layers.m_b_archive_mix",
+      "per_layer_parameters": 168,
+      "total_parameters": 2016,
+      "formula": "r",
+      "shape_description": "[168]"
+    },
+    {
+      "component": "vector_mamba_pathway",
+      "parameter_path": "layers.s_wu",
+      "per_layer_parameters": 196608,
+      "total_parameters": 2359296,
+      "formula": "n * d",
+      "shape_description": "[384, 512]"
+    },
+    {
+      "component": "vector_mamba_pathway",
+      "parameter_path": "layers.s_w_delta",
+      "per_layer_parameters": 196608,
+      "total_parameters": 2359296,
+      "formula": "n * d",
+      "shape_description": "[384, 512]"
+    },
+    {
+      "component": "vector_mamba_pathway",
+      "parameter_path": "layers.s_b_delta",
+      "per_layer_parameters": 384,
+      "total_parameters": 4608,
+      "formula": "n",
+      "shape_description": "[384]"
+    },
+    {
+      "component": "vector_mamba_pathway",
+      "parameter_path": "layers.s_w_ret",
+      "per_layer_parameters": 196608,
+      "total_parameters": 2359296,
+      "formula": "n * d",
+      "shape_description": "[384, 512]"
+    },
+    {
+      "component": "vector_mamba_pathway",
+      "parameter_path": "layers.s_b_ret",
+      "per_layer_parameters": 384,
+      "total_parameters": 4608,
+      "formula": "n",
+      "shape_description": "[384]"
+    },
+    {
+      "component": "vector_mamba_pathway",
+      "parameter_path": "layers.s_w_c",
+      "per_layer_parameters": 196608,
+      "total_parameters": 2359296,
+      "formula": "n * d",
+      "shape_description": "[384, 512]"
+    },
+    {
+      "component": "vector_mamba_pathway",
+      "parameter_path": "layers.s_w_gate",
+      "per_layer_parameters": 262144,
+      "total_parameters": 3145728,
+      "formula": "d * d",
+      "shape_description": "[512, 512]"
+    },
+    {
+      "component": "vector_mamba_pathway",
+      "parameter_path": "layers.s_b_gate",
+      "per_layer_parameters": 512,
+      "total_parameters": 6144,
+      "formula": "d",
+      "shape_description": "[512]"
+    },
+    {
+      "component": "vector_mamba_pathway",
+      "parameter_path": "layers.s_proj_w",
+      "per_layer_parameters": 196608,
+      "total_parameters": 2359296,
+      "formula": "d * n",
+      "shape_description": "[512, 384]"
+    },
+    {
+      "component": "vector_mamba_pathway",
+      "parameter_path": "layers.s_proj_b",
+      "per_layer_parameters": 512,
+      "total_parameters": 6144,
+      "formula": "d",
+      "shape_description": "[512]"
+    },
+    {
+      "component": "feedback_bridge",
+      "parameter_path": "layers.s_w_memory_feedback",
+      "per_layer_parameters": 512,
+      "total_parameters": 6144,
+      "formula": "1 * d",
+      "shape_description": "[1, 512]"
+    },
+    {
+      "component": "feedback_bridge",
+      "parameter_path": "layers.s_b_memory_feedback",
+      "per_layer_parameters": 1,
+      "total_parameters": 12,
+      "formula": "1",
+      "shape_description": "[1]"
+    },
+    {
+      "component": "feedback_bridge",
+      "parameter_path": "layers.s_memory_down",
+      "per_layer_parameters": 1176,
+      "total_parameters": 14112,
+      "formula": "feedback_rank * r",
+      "shape_description": "[7, 168]"
+    },
+    {
+      "component": "feedback_bridge",
+      "parameter_path": "layers.s_memory_up",
+      "per_layer_parameters": 3584,
+      "total_parameters": 43008,
+      "formula": "d * feedback_rank",
+      "shape_description": "[512, 7]"
+    },
+    {
+      "component": "router",
+      "parameter_path": "layers.r_w",
+      "per_layer_parameters": 10240,
+      "total_parameters": 122880,
+      "formula": "router_hidden * d",
+      "shape_description": "[20, 512]"
+    },
+    {
+      "component": "router",
+      "parameter_path": "layers.r_b",
+      "per_layer_parameters": 20,
+      "total_parameters": 240,
+      "formula": "router_hidden",
+      "shape_description": "[20]"
+    },
+    {
+      "component": "router",
+      "parameter_path": "layers.r_proj",
+      "per_layer_parameters": 10240,
+      "total_parameters": 122880,
+      "formula": "router_outputs * router_hidden",
+      "shape_description": "[512, 20]"
+    },
+    {
+      "component": "router",
+      "parameter_path": "layers.r_proj_b",
+      "per_layer_parameters": 512,
+      "total_parameters": 6144,
+      "formula": "router_outputs",
+      "shape_description": "[512]"
+    },
+    {
+      "component": "normalization",
+      "parameter_path": "layers.pre_g",
+      "per_layer_parameters": 512,
+      "total_parameters": 6144,
+      "formula": "d",
+      "shape_description": "[512]"
+    },
+    {
+      "component": "normalization",
+      "parameter_path": "layers.pre_b",
+      "per_layer_parameters": 512,
+      "total_parameters": 6144,
+      "formula": "d",
+      "shape_description": "[512]"
+    },
+    {
+      "component": "embeddings",
+      "parameter_path": "embed",
+      "per_layer_parameters": 131072,
+      "total_parameters": 131072,
+      "formula": "vocab_size * d",
+      "shape_description": "[256, 512]"
+    },
+    {
+      "component": "output_head",
+      "parameter_path": "head.w1",
+      "per_layer_parameters": 786432,
+      "total_parameters": 786432,
+      "formula": "(3 * d) * d",
+      "shape_description": "[1536, 512]"
+    },
+    {
+      "component": "output_head",
+      "parameter_path": "head.w2",
+      "per_layer_parameters": 393216,
+      "total_parameters": 393216,
+      "formula": "vocab_size * (3 * d)",
+      "shape_description": "[256, 1536]"
+    },
+    {
+      "component": "auxiliary",
+      "parameter_path": "future_heads.w1",
+      "per_layer_parameters": 786432,
+      "total_parameters": 786432,
+      "formula": "1 * (3 * d) * d",
+      "shape_description": "[1, 1536, 512]"
+    },
+    {
+      "component": "auxiliary",
+      "parameter_path": "future_heads.w2",
+      "per_layer_parameters": 393216,
+      "total_parameters": 393216,
+      "formula": "1 * vocab_size * (3 * d)",
+      "shape_description": "[1, 256, 1536]"
+    }
+  ],
+  "next_gate": "Create an isolated experimental architecture configuration, instantiate the actual JAX parameter tree, and perform an exact parameter recount before training or checkpoint loading."
+}

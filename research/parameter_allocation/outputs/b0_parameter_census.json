@@ -1,0 +1,673 @@
+{
+  "actual_parameter_count": 47437768,
+  "baseline_model_name": "Modus_X_MemoryFeedbackArchive_DeepSupervision",
+  "component_summary": {
+    "archive_memory_control": {
+      "bytes": 12656736,
+      "leaf_count": 6,
+      "parameters": 3164184,
+      "percentage": 6.670178917355471
+    },
+    "embedding": {
+      "bytes": 524288,
+      "leaf_count": 1,
+      "parameters": 131072,
+      "percentage": 0.2763030503458763
+    },
+    "feedback_bridge": {
+      "bytes": 1597488,
+      "leaf_count": 4,
+      "parameters": 399372,
+      "percentage": 0.8418861528223671
+    },
+    "future_prediction_head": {
+      "bytes": 4725760,
+      "leaf_count": 4,
+      "parameters": 1181440,
+      "percentage": 2.490505033879334
+    },
+    "matrix_memory": {
+      "bytes": 88277136,
+      "leaf_count": 17,
+      "parameters": 22069284,
+      "percentage": 46.522601990886244
+    },
+    "normalization": {
+      "bytes": 49152,
+      "leaf_count": 2,
+      "parameters": 12288,
+      "percentage": 0.025903410969925905
+    },
+    "output_head": {
+      "bytes": 4725760,
+      "leaf_count": 4,
+      "parameters": 1181440,
+      "percentage": 2.490505033879334
+    },
+    "router": {
+      "bytes": 1598976,
+      "leaf_count": 4,
+      "parameters": 399744,
+      "percentage": 0.842670338115402
+    },
+    "vector_recurrence": {
+      "bytes": 75595776,
+      "leaf_count": 10,
+      "parameters": 18898944,
+      "percentage": 39.83944607174604
+    }
+  },
+  "config": {
+    "ax_res": 512,
+    "embed_dim": 512,
+    "hidden_dim": 1536,
+    "mamba_state_dim": 512,
+    "n_heads_attn": 8,
+    "n_layers": 12,
+    "router_hidden": 32,
+    "seq_len": 512,
+    "vector_router": false,
+    "vocab_size": 256
+  },
+  "constructor_key": "Modus_X_MemoryFeedbackArchive",
+  "expected_parameter_count": 47437768,
+  "generated_at_utc": "2026-09-08T15:52:03.097529+00:00",
+  "parameter_leaves": [
+    {
+      "bytes": 524288,
+      "component": "embedding",
+      "dtype": "float32",
+      "elements": 131072,
+      "path": "embed",
+      "shape": [
+        256,
+        512
+      ]
+    },
+    {
+      "bytes": 6144,
+      "component": "future_prediction_head",
+      "dtype": "float32",
+      "elements": 1536,
+      "path": "future_heads.b1",
+      "shape": [
+        1,
+        1536
+      ]
+    },
+    {
+      "bytes": 1024,
+      "component": "future_prediction_head",
+      "dtype": "float32",
+      "elements": 256,
+      "path": "future_heads.b2",
+      "shape": [
+        1,
+        256
+      ]
+    },
+    {
+      "bytes": 3145728,
+      "component": "future_prediction_head",
+      "dtype": "float32",
+      "elements": 786432,
+      "path": "future_heads.w1",
+      "shape": [
+        1,
+        1536,
+        512
+      ]
+    },
+    {
+      "bytes": 1572864,
+      "component": "future_prediction_head",
+      "dtype": "float32",
+      "elements": 393216,
+      "path": "future_heads.w2",
+      "shape": [
+        1,
+        256,
+        1536
+      ]
+    },
+    {
+      "bytes": 6144,
+      "component": "output_head",
+      "dtype": "float32",
+      "elements": 1536,
+      "path": "head.b1",
+      "shape": [
+        1536
+      ]
+    },
+    {
+      "bytes": 1024,
+      "component": "output_head",
+      "dtype": "float32",
+      "elements": 256,
+      "path": "head.b2",
+      "shape": [
+        256
+      ]
+    },
+    {
+      "bytes": 3145728,
+      "component": "output_head",
+      "dtype": "float32",
+      "elements": 786432,
+      "path": "head.w1",
+      "shape": [
+        1536,
+        512
+      ]
+    },
+    {
+      "bytes": 1572864,
+      "component": "output_head",
+      "dtype": "float32",
+      "elements": 393216,
+      "path": "head.w2",
+      "shape": [
+        256,
+        1536
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "archive_memory_control",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.m_b_archive_mix",
+      "shape": [
+        12,
+        512
+      ]
+    },
+    {
+      "bytes": 48,
+      "component": "archive_memory_control",
+      "dtype": "float32",
+      "elements": 12,
+      "path": "layers.m_b_archive_ret",
+      "shape": [
+        12,
+        1
+      ]
+    },
+    {
+      "bytes": 48,
+      "component": "archive_memory_control",
+      "dtype": "float32",
+      "elements": 12,
+      "path": "layers.m_b_archive_write",
+      "shape": [
+        12,
+        1
+      ]
+    },
+    {
+      "bytes": 48,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 12,
+      "path": "layers.m_b_eta",
+      "shape": [
+        12,
+        1
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.m_b_out",
+      "shape": [
+        12,
+        512
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.m_b_read",
+      "shape": [
+        12,
+        512
+      ]
+    },
+    {
+      "bytes": 48,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 12,
+      "path": "layers.m_b_ret",
+      "shape": [
+        12,
+        1
+      ]
+    },
+    {
+      "bytes": 48,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 12,
+      "path": "layers.m_b_write",
+      "shape": [
+        12,
+        1
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.m_ln_b",
+      "shape": [
+        12,
+        512
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.m_ln_g",
+      "shape": [
+        12,
+        512
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.m_proj_b",
+      "shape": [
+        12,
+        512
+      ]
+    },
+    {
+      "bytes": 25165824,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 6291456,
+      "path": "layers.m_proj_w",
+      "shape": [
+        12,
+        512,
+        1024
+      ]
+    },
+    {
+      "bytes": 12582912,
+      "component": "archive_memory_control",
+      "dtype": "float32",
+      "elements": 3145728,
+      "path": "layers.m_w_archive_mix",
+      "shape": [
+        12,
+        512,
+        512
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "archive_memory_control",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.m_w_archive_ret",
+      "shape": [
+        12,
+        1,
+        512
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "archive_memory_control",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.m_w_archive_write",
+      "shape": [
+        12,
+        1,
+        512
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.m_w_eta",
+      "shape": [
+        12,
+        1,
+        512
+      ]
+    },
+    {
+      "bytes": 12582912,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 3145728,
+      "path": "layers.m_w_out",
+      "shape": [
+        12,
+        512,
+        512
+      ]
+    },
+    {
+      "bytes": 12582912,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 3145728,
+      "path": "layers.m_w_read",
+      "shape": [
+        12,
+        512,
+        512
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.m_w_ret",
+      "shape": [
+        12,
+        1,
+        512
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.m_w_write",
+      "shape": [
+        12,
+        1,
+        512
+      ]
+    },
+    {
+      "bytes": 12582912,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 3145728,
+      "path": "layers.m_wk",
+      "shape": [
+        12,
+        512,
+        512
+      ]
+    },
+    {
+      "bytes": 12582912,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 3145728,
+      "path": "layers.m_wq",
+      "shape": [
+        12,
+        512,
+        512
+      ]
+    },
+    {
+      "bytes": 12582912,
+      "component": "matrix_memory",
+      "dtype": "float32",
+      "elements": 3145728,
+      "path": "layers.m_wv",
+      "shape": [
+        12,
+        512,
+        512
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "normalization",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.pre_b",
+      "shape": [
+        12,
+        512
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "normalization",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.pre_g",
+      "shape": [
+        12,
+        512
+      ]
+    },
+    {
+      "bytes": 1536,
+      "component": "router",
+      "dtype": "float32",
+      "elements": 384,
+      "path": "layers.r_b",
+      "shape": [
+        12,
+        32
+      ]
+    },
+    {
+      "bytes": 786432,
+      "component": "router",
+      "dtype": "float32",
+      "elements": 196608,
+      "path": "layers.r_proj",
+      "shape": [
+        12,
+        512,
+        32
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "router",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.r_proj_b",
+      "shape": [
+        12,
+        512
+      ]
+    },
+    {
+      "bytes": 786432,
+      "component": "router",
+      "dtype": "float32",
+      "elements": 196608,
+      "path": "layers.r_w",
+      "shape": [
+        12,
+        32,
+        512
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "vector_recurrence",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.s_b_delta",
+      "shape": [
+        12,
+        512
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "vector_recurrence",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.s_b_gate",
+      "shape": [
+        12,
+        512
+      ]
+    },
+    {
+      "bytes": 48,
+      "component": "feedback_bridge",
+      "dtype": "float32",
+      "elements": 12,
+      "path": "layers.s_b_memory_feedback",
+      "shape": [
+        12,
+        1
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "vector_recurrence",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.s_b_ret",
+      "shape": [
+        12,
+        512
+      ]
+    },
+    {
+      "bytes": 786432,
+      "component": "feedback_bridge",
+      "dtype": "float32",
+      "elements": 196608,
+      "path": "layers.s_memory_down",
+      "shape": [
+        12,
+        32,
+        512
+      ]
+    },
+    {
+      "bytes": 786432,
+      "component": "feedback_bridge",
+      "dtype": "float32",
+      "elements": 196608,
+      "path": "layers.s_memory_up",
+      "shape": [
+        12,
+        512,
+        32
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "vector_recurrence",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.s_proj_b",
+      "shape": [
+        12,
+        512
+      ]
+    },
+    {
+      "bytes": 12582912,
+      "component": "vector_recurrence",
+      "dtype": "float32",
+      "elements": 3145728,
+      "path": "layers.s_proj_w",
+      "shape": [
+        12,
+        512,
+        512
+      ]
+    },
+    {
+      "bytes": 12582912,
+      "component": "vector_recurrence",
+      "dtype": "float32",
+      "elements": 3145728,
+      "path": "layers.s_w_c",
+      "shape": [
+        12,
+        512,
+        512
+      ]
+    },
+    {
+      "bytes": 12582912,
+      "component": "vector_recurrence",
+      "dtype": "float32",
+      "elements": 3145728,
+      "path": "layers.s_w_delta",
+      "shape": [
+        12,
+        512,
+        512
+      ]
+    },
+    {
+      "bytes": 12582912,
+      "component": "vector_recurrence",
+      "dtype": "float32",
+      "elements": 3145728,
+      "path": "layers.s_w_gate",
+      "shape": [
+        12,
+        512,
+        512
+      ]
+    },
+    {
+      "bytes": 24576,
+      "component": "feedback_bridge",
+      "dtype": "float32",
+      "elements": 6144,
+      "path": "layers.s_w_memory_feedback",
+      "shape": [
+        12,
+        1,
+        512
+      ]
+    },
+    {
+      "bytes": 12582912,
+      "component": "vector_recurrence",
+      "dtype": "float32",
+      "elements": 3145728,
+      "path": "layers.s_w_ret",
+      "shape": [
+        12,
+        512,
+        512
+      ]
+    },
+    {
+      "bytes": 12582912,
+      "component": "vector_recurrence",
+      "dtype": "float32",
+      "elements": 3145728,
+      "path": "layers.s_wu",
+      "shape": [
+        12,
+        512,
+        512
+      ]
+    }
+  ],
+  "report": "B0 Parameter Allocation Census"
+}

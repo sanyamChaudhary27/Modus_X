@@ -1,0 +1,10 @@
+component,parameter_count,percentage,leaf_count
+matrix_memory,22069284,46.522602,17
+vector_recurrence,18898944,39.839446,10
+archive_memory_control,3164184,6.670179,6
+future_prediction_head,1181440,2.490505,4
+output_head,1181440,2.490505,4
+router,399744,0.842670,4
+feedback_bridge,399372,0.841886,4
+embedding,131072,0.276303,1
+normalization,12288,0.025903,2

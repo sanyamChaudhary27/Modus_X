@@ -1,0 +1,1371 @@
+{
+  "experiment": "PB0-Candidate-A-Dimension-Mapping",
+  "purpose": "Map PB0-D Candidate A parameter targets to integer architecture dimensions without training or reading dataset splits.",
+  "dataset_access": {
+    "training": "not_read",
+    "validation": "not_read",
+    "test": "not_read"
+  },
+  "frozen_architecture": {
+    "vocabulary_size": 256,
+    "layer_count": 12,
+    "embedding_width": 512,
+    "hidden_width": 1536,
+    "matrix_vector_state_width": 512
+  },
+  "result": {
+    "expected_total_parameters": 47437768,
+    "frozen_parameter_count": 2899456,
+    "candidate_a_targets": [
+      {
+        "component": "matrix_memory",
+        "baseline_parameters": 23448400,
+        "target_parameters": 23448400,
+        "delta_parameters": 0
+      },
+      {
+        "component": "vector_mamba_pathway",
+        "baseline_parameters": 20616253,
+        "target_parameters": 20616253,
+        "delta_parameters": 0
+      },
+      {
+        "component": "router",
+        "baseline_parameters": 464332,
+        "target_parameters": 464332,
+        "delta_parameters": 0
+      },
+      {
+        "component": "feedback_bridge",
+        "baseline_parameters": 9327,
+        "target_parameters": 9327,
+        "delta_parameters": 0
+      },
+      {
+        "component": "embeddings",
+        "baseline_parameters": 131072,
+        "target_parameters": 131072,
+        "delta_parameters": 0
+      },
+      {
+        "component": "output_head",
+        "baseline_parameters": 1181440,
+        "target_parameters": 1181440,
+        "delta_parameters": 0
+      },
+      {
+        "component": "normalization",
+        "baseline_parameters": 12288,
+        "target_parameters": 12288,
+        "delta_parameters": 0
+      },
+      {
+        "component": "auxiliary",
+        "baseline_parameters": 1181440,
+        "target_parameters": 1181440,
+        "delta_parameters": 0
+      },
+      {
+        "component": "other",
+        "baseline_parameters": 393216,
+        "target_parameters": 393216,
+        "delta_parameters": 0
+      }
+    ],
+    "selected_dimensions": {
+      "matrix_rank": 168,
+      "vector_expansion": 384,
+      "router_hidden_width": 20,
+      "feedback_rank": 7
+    },
+    "selected_counts": {
+      "matrix_memory": 20643840,
+      "vector_mamba_pathway": 23003136,
+      "router": 756204,
+      "feedback_bridge": 135252,
+      "frozen_components": 2899456,
+      "total_parameters": 47437888
+    },
+    "selected_mapping": {
+      "rank": 1,
+      "dimensions": {
+        "matrix_rank": 168,
+        "vector_expansion": 384,
+        "router_hidden_width": 20,
+        "feedback_rank": 7
+      },
+      "counts": {
+        "matrix_memory": 20643840,
+        "vector_mamba_pathway": 23003136,
+        "router": 756204,
+        "feedback_bridge": 135252,
+        "frozen_components": 2899456,
+        "total_parameters": 47437888
+      },
+      "matrix_error": 2804560,
+      "vector_error": 2386883,
+      "router_error": 291872,
+      "feedback_error": 125925,
+      "total_component_absolute_error": 5609240,
+      "total_budget_error": 120,
+      "score": 125609240,
+      "exact_budget_match": false
+    },
+    "exact_budget_match": false,
+    "target_component_match": false,
+    "searched_candidate_count": 3600,
+    "retained_candidate_count": 50
+  },
+  "top_candidates": [
+    {
+      "rank": 1,
+      "dimensions": {
+        "matrix_rank": 168,
+        "vector_expansion": 384,
+        "router_hidden_width": 20,
+        "feedback_rank": 7
+      },
+      "counts": {
+        "matrix_memory": 20643840,
+        "vector_mamba_pathway": 23003136,
+        "router": 756204,
+        "feedback_bridge": 135252,
+        "frozen_components": 2899456,
+        "total_parameters": 47437888
+      },
+      "matrix_error": 2804560,
+      "vector_error": 2386883,
+      "router_error": 291872,
+      "feedback_error": 125925,
+      "total_component_absolute_error": 5609240,
+      "total_budget_error": 120,
+      "score": 125609240,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 2,
+      "dimensions": {
+        "matrix_rank": 200,
+        "vector_expansion": 320,
+        "router_hidden_width": 24,
+        "feedback_rank": 7
+      },
+      "counts": {
+        "matrix_memory": 24576000,
+        "vector_mamba_pathway": 18923520,
+        "router": 903756,
+        "feedback_bridge": 135252,
+        "frozen_components": 2899456,
+        "total_parameters": 47437984
+      },
+      "matrix_error": 1127600,
+      "vector_error": 1692733,
+      "router_error": 439424,
+      "feedback_error": 125925,
+      "total_component_absolute_error": 3385682,
+      "total_budget_error": 216,
+      "score": 219385682,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 3,
+      "dimensions": {
+        "matrix_rank": 216,
+        "vector_expansion": 288,
+        "router_hidden_width": 24,
+        "feedback_rank": 9
+      },
+      "counts": {
+        "matrix_memory": 26542080,
+        "vector_mamba_pathway": 16920576,
+        "router": 903756,
+        "feedback_bridge": 172140,
+        "frozen_components": 2899456,
+        "total_parameters": 47438008
+      },
+      "matrix_error": 3093680,
+      "vector_error": 3695677,
+      "router_error": 439424,
+      "feedback_error": 162813,
+      "total_component_absolute_error": 7391594,
+      "total_budget_error": 240,
+      "score": 247391594,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 4,
+      "dimensions": {
+        "matrix_rank": 216,
+        "vector_expansion": 288,
+        "router_hidden_width": 28,
+        "feedback_rank": 1
+      },
+      "counts": {
+        "matrix_memory": 26542080,
+        "vector_mamba_pathway": 16920576,
+        "router": 1051308,
+        "feedback_bridge": 24588,
+        "frozen_components": 2899456,
+        "total_parameters": 47438008
+      },
+      "matrix_error": 3093680,
+      "vector_error": 3695677,
+      "router_error": 586976,
+      "feedback_error": 15261,
+      "total_component_absolute_error": 7391594,
+      "total_budget_error": 240,
+      "score": 247391594,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 5,
+      "dimensions": {
+        "matrix_rank": 168,
+        "vector_expansion": 392,
+        "router_hidden_width": 8,
+        "feedback_rank": 3
+      },
+      "counts": {
+        "matrix_memory": 20643840,
+        "vector_mamba_pathway": 23520000,
+        "router": 313548,
+        "feedback_bridge": 61476,
+        "frozen_components": 2899456,
+        "total_parameters": 47438320
+      },
+      "matrix_error": 2804560,
+      "vector_error": 2903747,
+      "router_error": 150784,
+      "feedback_error": 52149,
+      "total_component_absolute_error": 5911240,
+      "total_budget_error": 552,
+      "score": 557911240,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 6,
+      "dimensions": {
+        "matrix_rank": 184,
+        "vector_expansion": 360,
+        "router_hidden_width": 8,
+        "feedback_rank": 8
+      },
+      "counts": {
+        "matrix_memory": 22609920,
+        "vector_mamba_pathway": 21461760,
+        "router": 313548,
+        "feedback_bridge": 153696,
+        "frozen_components": 2899456,
+        "total_parameters": 47438380
+      },
+      "matrix_error": 838480,
+      "vector_error": 845507,
+      "router_error": 150784,
+      "feedback_error": 144369,
+      "total_component_absolute_error": 1979140,
+      "total_budget_error": 612,
+      "score": 613979140,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 7,
+      "dimensions": {
+        "matrix_rank": 192,
+        "vector_expansion": 344,
+        "router_hidden_width": 12,
+        "feedback_rank": 2
+      },
+      "counts": {
+        "matrix_memory": 23592960,
+        "vector_mamba_pathway": 20441856,
+        "router": 461100,
+        "feedback_bridge": 43032,
+        "frozen_components": 2899456,
+        "total_parameters": 47438404
+      },
+      "matrix_error": 144560,
+      "vector_error": 174397,
+      "router_error": 3232,
+      "feedback_error": 33705,
+      "total_component_absolute_error": 355894,
+      "total_budget_error": 636,
+      "score": 636355894,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 8,
+      "dimensions": {
+        "matrix_rank": 192,
+        "vector_expansion": 344,
+        "router_hidden_width": 8,
+        "feedback_rank": 10
+      },
+      "counts": {
+        "matrix_memory": 23592960,
+        "vector_mamba_pathway": 20441856,
+        "router": 313548,
+        "feedback_bridge": 190584,
+        "frozen_components": 2899456,
+        "total_parameters": 47438404
+      },
+      "matrix_error": 144560,
+      "vector_error": 174397,
+      "router_error": 150784,
+      "feedback_error": 181257,
+      "total_component_absolute_error": 650998,
+      "total_budget_error": 636,
+      "score": 636650998,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 9,
+      "dimensions": {
+        "matrix_rank": 208,
+        "vector_expansion": 312,
+        "router_hidden_width": 12,
+        "feedback_rank": 5
+      },
+      "counts": {
+        "matrix_memory": 25559040,
+        "vector_mamba_pathway": 18420480,
+        "router": 461100,
+        "feedback_bridge": 98364,
+        "frozen_components": 2899456,
+        "total_parameters": 47438440
+      },
+      "matrix_error": 2110640,
+      "vector_error": 2195773,
+      "router_error": 3232,
+      "feedback_error": 89037,
+      "total_component_absolute_error": 4398682,
+      "total_budget_error": 672,
+      "score": 676398682,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 10,
+      "dimensions": {
+        "matrix_rank": 208,
+        "vector_expansion": 312,
+        "router_hidden_width": 8,
+        "feedback_rank": 13
+      },
+      "counts": {
+        "matrix_memory": 25559040,
+        "vector_mamba_pathway": 18420480,
+        "router": 313548,
+        "feedback_bridge": 245916,
+        "frozen_components": 2899456,
+        "total_parameters": 47438440
+      },
+      "matrix_error": 2110640,
+      "vector_error": 2195773,
+      "router_error": 150784,
+      "feedback_error": 236589,
+      "total_component_absolute_error": 4693786,
+      "total_budget_error": 672,
+      "score": 676693786,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 11,
+      "dimensions": {
+        "matrix_rank": 216,
+        "vector_expansion": 296,
+        "router_hidden_width": 12,
+        "feedback_rank": 6
+      },
+      "counts": {
+        "matrix_memory": 26542080,
+        "vector_mamba_pathway": 17419008,
+        "router": 461100,
+        "feedback_bridge": 116808,
+        "frozen_components": 2899456,
+        "total_parameters": 47438452
+      },
+      "matrix_error": 3093680,
+      "vector_error": 3197245,
+      "router_error": 3232,
+      "feedback_error": 107481,
+      "total_component_absolute_error": 6401638,
+      "total_budget_error": 684,
+      "score": 690401638,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 12,
+      "dimensions": {
+        "matrix_rank": 176,
+        "vector_expansion": 352,
+        "router_hidden_width": 48,
+        "feedback_rank": 9
+      },
+      "counts": {
+        "matrix_memory": 21626880,
+        "vector_mamba_pathway": 20951040,
+        "router": 1789068,
+        "feedback_bridge": 172140,
+        "frozen_components": 2899456,
+        "total_parameters": 47438584
+      },
+      "matrix_error": 1821520,
+      "vector_error": 334787,
+      "router_error": 1324736,
+      "feedback_error": 162813,
+      "total_component_absolute_error": 3643856,
+      "total_budget_error": 816,
+      "score": 819643856,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 13,
+      "dimensions": {
+        "matrix_rank": 176,
+        "vector_expansion": 352,
+        "router_hidden_width": 52,
+        "feedback_rank": 1
+      },
+      "counts": {
+        "matrix_memory": 21626880,
+        "vector_mamba_pathway": 20951040,
+        "router": 1936620,
+        "feedback_bridge": 24588,
+        "frozen_components": 2899456,
+        "total_parameters": 47438584
+      },
+      "matrix_error": 1821520,
+      "vector_error": 334787,
+      "router_error": 1472288,
+      "feedback_error": 15261,
+      "total_component_absolute_error": 3643856,
+      "total_budget_error": 816,
+      "score": 819643856,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 14,
+      "dimensions": {
+        "matrix_rank": 168,
+        "vector_expansion": 376,
+        "router_hidden_width": 32,
+        "feedback_rank": 11
+      },
+      "counts": {
+        "matrix_memory": 20643840,
+        "vector_mamba_pathway": 22487808,
+        "router": 1198860,
+        "feedback_bridge": 209028,
+        "frozen_components": 2899456,
+        "total_parameters": 47438992
+      },
+      "matrix_error": 2804560,
+      "vector_error": 1871555,
+      "router_error": 734528,
+      "feedback_error": 199701,
+      "total_component_absolute_error": 5610344,
+      "total_budget_error": 1224,
+      "score": 1229610344,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 15,
+      "dimensions": {
+        "matrix_rank": 168,
+        "vector_expansion": 376,
+        "router_hidden_width": 36,
+        "feedback_rank": 3
+      },
+      "counts": {
+        "matrix_memory": 20643840,
+        "vector_mamba_pathway": 22487808,
+        "router": 1346412,
+        "feedback_bridge": 61476,
+        "frozen_components": 2899456,
+        "total_parameters": 47438992
+      },
+      "matrix_error": 2804560,
+      "vector_error": 1871555,
+      "router_error": 882080,
+      "feedback_error": 52149,
+      "total_component_absolute_error": 5610344,
+      "total_budget_error": 1224,
+      "score": 1229610344,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 16,
+      "dimensions": {
+        "matrix_rank": 192,
+        "vector_expansion": 328,
+        "router_hidden_width": 36,
+        "feedback_rank": 9
+      },
+      "counts": {
+        "matrix_memory": 23592960,
+        "vector_mamba_pathway": 19428096,
+        "router": 1346412,
+        "feedback_bridge": 172140,
+        "frozen_components": 2899456,
+        "total_parameters": 47439064
+      },
+      "matrix_error": 144560,
+      "vector_error": 1188157,
+      "router_error": 882080,
+      "feedback_error": 162813,
+      "total_component_absolute_error": 2377610,
+      "total_budget_error": 1296,
+      "score": 1298377610,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 17,
+      "dimensions": {
+        "matrix_rank": 192,
+        "vector_expansion": 328,
+        "router_hidden_width": 40,
+        "feedback_rank": 1
+      },
+      "counts": {
+        "matrix_memory": 23592960,
+        "vector_mamba_pathway": 19428096,
+        "router": 1493964,
+        "feedback_bridge": 24588,
+        "frozen_components": 2899456,
+        "total_parameters": 47439064
+      },
+      "matrix_error": 144560,
+      "vector_error": 1188157,
+      "router_error": 1029632,
+      "feedback_error": 15261,
+      "total_component_absolute_error": 2377610,
+      "total_budget_error": 1296,
+      "score": 1298377610,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 18,
+      "dimensions": {
+        "matrix_rank": 216,
+        "vector_expansion": 280,
+        "router_hidden_width": 36,
+        "feedback_rank": 12
+      },
+      "counts": {
+        "matrix_memory": 26542080,
+        "vector_mamba_pathway": 16423680,
+        "router": 1346412,
+        "feedback_bridge": 227472,
+        "frozen_components": 2899456,
+        "total_parameters": 47439100
+      },
+      "matrix_error": 3093680,
+      "vector_error": 4192573,
+      "router_error": 882080,
+      "feedback_error": 218145,
+      "total_component_absolute_error": 8386478,
+      "total_budget_error": 1332,
+      "score": 1340386478,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 19,
+      "dimensions": {
+        "matrix_rank": 216,
+        "vector_expansion": 280,
+        "router_hidden_width": 40,
+        "feedback_rank": 4
+      },
+      "counts": {
+        "matrix_memory": 26542080,
+        "vector_mamba_pathway": 16423680,
+        "router": 1493964,
+        "feedback_bridge": 79920,
+        "frozen_components": 2899456,
+        "total_parameters": 47439100
+      },
+      "matrix_error": 3093680,
+      "vector_error": 4192573,
+      "router_error": 1029632,
+      "feedback_error": 70593,
+      "total_component_absolute_error": 8386478,
+      "total_budget_error": 1332,
+      "score": 1340386478,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 20,
+      "dimensions": {
+        "matrix_rank": 208,
+        "vector_expansion": 304,
+        "router_hidden_width": 24,
+        "feedback_rank": 8
+      },
+      "counts": {
+        "matrix_memory": 25559040,
+        "vector_mamba_pathway": 17918976,
+        "router": 903756,
+        "feedback_bridge": 153696,
+        "frozen_components": 2899456,
+        "total_parameters": 47434924
+      },
+      "matrix_error": 2110640,
+      "vector_error": 2697277,
+      "router_error": 439424,
+      "feedback_error": 144369,
+      "total_component_absolute_error": 5391710,
+      "total_budget_error": 2844,
+      "score": 2849391710,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 21,
+      "dimensions": {
+        "matrix_rank": 160,
+        "vector_expansion": 400,
+        "router_hidden_width": 16,
+        "feedback_rank": 12
+      },
+      "counts": {
+        "matrix_memory": 19660800,
+        "vector_mamba_pathway": 24038400,
+        "router": 608652,
+        "feedback_bridge": 227472,
+        "frozen_components": 2899456,
+        "total_parameters": 47434780
+      },
+      "matrix_error": 3787600,
+      "vector_error": 3422147,
+      "router_error": 144320,
+      "feedback_error": 218145,
+      "total_component_absolute_error": 7572212,
+      "total_budget_error": 2988,
+      "score": 2995572212,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 22,
+      "dimensions": {
+        "matrix_rank": 160,
+        "vector_expansion": 400,
+        "router_hidden_width": 20,
+        "feedback_rank": 4
+      },
+      "counts": {
+        "matrix_memory": 19660800,
+        "vector_mamba_pathway": 24038400,
+        "router": 756204,
+        "feedback_bridge": 79920,
+        "frozen_components": 2899456,
+        "total_parameters": 47434780
+      },
+      "matrix_error": 3787600,
+      "vector_error": 3422147,
+      "router_error": 291872,
+      "feedback_error": 70593,
+      "total_component_absolute_error": 7572212,
+      "total_budget_error": 2988,
+      "score": 2995572212,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 23,
+      "dimensions": {
+        "matrix_rank": 168,
+        "vector_expansion": 368,
+        "router_hidden_width": 48,
+        "feedback_rank": 7
+      },
+      "counts": {
+        "matrix_memory": 20643840,
+        "vector_mamba_pathway": 21974016,
+        "router": 1789068,
+        "feedback_bridge": 135252,
+        "frozen_components": 2899456,
+        "total_parameters": 47441632
+      },
+      "matrix_error": 2804560,
+      "vector_error": 1357763,
+      "router_error": 1324736,
+      "feedback_error": 125925,
+      "total_component_absolute_error": 5612984,
+      "total_budget_error": 3864,
+      "score": 3869612984,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 24,
+      "dimensions": {
+        "matrix_rank": 184,
+        "vector_expansion": 336,
+        "router_hidden_width": 48,
+        "feedback_rank": 11
+      },
+      "counts": {
+        "matrix_memory": 22609920,
+        "vector_mamba_pathway": 19934208,
+        "router": 1789068,
+        "feedback_bridge": 209028,
+        "frozen_components": 2899456,
+        "total_parameters": 47441680
+      },
+      "matrix_error": 838480,
+      "vector_error": 682045,
+      "router_error": 1324736,
+      "feedback_error": 199701,
+      "total_component_absolute_error": 3044962,
+      "total_budget_error": 3912,
+      "score": 3915044962,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 25,
+      "dimensions": {
+        "matrix_rank": 184,
+        "vector_expansion": 336,
+        "router_hidden_width": 52,
+        "feedback_rank": 3
+      },
+      "counts": {
+        "matrix_memory": 22609920,
+        "vector_mamba_pathway": 19934208,
+        "router": 1936620,
+        "feedback_bridge": 61476,
+        "frozen_components": 2899456,
+        "total_parameters": 47441680
+      },
+      "matrix_error": 838480,
+      "vector_error": 682045,
+      "router_error": 1472288,
+      "feedback_error": 52149,
+      "total_component_absolute_error": 3044962,
+      "total_budget_error": 3912,
+      "score": 3915044962,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 26,
+      "dimensions": {
+        "matrix_rank": 216,
+        "vector_expansion": 272,
+        "router_hidden_width": 52,
+        "feedback_rank": 7
+      },
+      "counts": {
+        "matrix_memory": 26542080,
+        "vector_mamba_pathway": 15928320,
+        "router": 1936620,
+        "feedback_bridge": 135252,
+        "frozen_components": 2899456,
+        "total_parameters": 47441728
+      },
+      "matrix_error": 3093680,
+      "vector_error": 4687933,
+      "router_error": 1472288,
+      "feedback_error": 125925,
+      "total_component_absolute_error": 9379826,
+      "total_budget_error": 3960,
+      "score": 3969379826,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 27,
+      "dimensions": {
+        "matrix_rank": 160,
+        "vector_expansion": 376,
+        "router_hidden_width": 60,
+        "feedback_rank": 8
+      },
+      "counts": {
+        "matrix_memory": 19660800,
+        "vector_mamba_pathway": 22487808,
+        "router": 2231724,
+        "feedback_bridge": 153696,
+        "frozen_components": 2899456,
+        "total_parameters": 47433484
+      },
+      "matrix_error": 3787600,
+      "vector_error": 1871555,
+      "router_error": 1767392,
+      "feedback_error": 144369,
+      "total_component_absolute_error": 7570916,
+      "total_budget_error": 4284,
+      "score": 4291570916,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 28,
+      "dimensions": {
+        "matrix_rank": 208,
+        "vector_expansion": 296,
+        "router_hidden_width": 36,
+        "feedback_rank": 11
+      },
+      "counts": {
+        "matrix_memory": 25559040,
+        "vector_mamba_pathway": 17419008,
+        "router": 1346412,
+        "feedback_bridge": 209028,
+        "frozen_components": 2899456,
+        "total_parameters": 47432944
+      },
+      "matrix_error": 2110640,
+      "vector_error": 3197245,
+      "router_error": 882080,
+      "feedback_error": 199701,
+      "total_component_absolute_error": 6389666,
+      "total_budget_error": 4824,
+      "score": 4830389666,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 29,
+      "dimensions": {
+        "matrix_rank": 208,
+        "vector_expansion": 296,
+        "router_hidden_width": 40,
+        "feedback_rank": 3
+      },
+      "counts": {
+        "matrix_memory": 25559040,
+        "vector_mamba_pathway": 17419008,
+        "router": 1493964,
+        "feedback_bridge": 61476,
+        "frozen_components": 2899456,
+        "total_parameters": 47432944
+      },
+      "matrix_error": 2110640,
+      "vector_error": 3197245,
+      "router_error": 1029632,
+      "feedback_error": 52149,
+      "total_component_absolute_error": 6389666,
+      "total_budget_error": 4824,
+      "score": 4830389666,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 30,
+      "dimensions": {
+        "matrix_rank": 200,
+        "vector_expansion": 312,
+        "router_hidden_width": 36,
+        "feedback_rank": 10
+      },
+      "counts": {
+        "matrix_memory": 24576000,
+        "vector_mamba_pathway": 18420480,
+        "router": 1346412,
+        "feedback_bridge": 190584,
+        "frozen_components": 2899456,
+        "total_parameters": 47432932
+      },
+      "matrix_error": 1127600,
+      "vector_error": 2195773,
+      "router_error": 882080,
+      "feedback_error": 181257,
+      "total_component_absolute_error": 4386710,
+      "total_budget_error": 4836,
+      "score": 4840386710,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 31,
+      "dimensions": {
+        "matrix_rank": 200,
+        "vector_expansion": 312,
+        "router_hidden_width": 40,
+        "feedback_rank": 2
+      },
+      "counts": {
+        "matrix_memory": 24576000,
+        "vector_mamba_pathway": 18420480,
+        "router": 1493964,
+        "feedback_bridge": 43032,
+        "frozen_components": 2899456,
+        "total_parameters": 47432932
+      },
+      "matrix_error": 1127600,
+      "vector_error": 2195773,
+      "router_error": 1029632,
+      "feedback_error": 33705,
+      "total_component_absolute_error": 4386710,
+      "total_budget_error": 4836,
+      "score": 4840386710,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 32,
+      "dimensions": {
+        "matrix_rank": 184,
+        "vector_expansion": 344,
+        "router_hidden_width": 36,
+        "feedback_rank": 7
+      },
+      "counts": {
+        "matrix_memory": 22609920,
+        "vector_mamba_pathway": 20441856,
+        "router": 1346412,
+        "feedback_bridge": 135252,
+        "frozen_components": 2899456,
+        "total_parameters": 47432896
+      },
+      "matrix_error": 838480,
+      "vector_error": 174397,
+      "router_error": 882080,
+      "feedback_error": 125925,
+      "total_component_absolute_error": 2020882,
+      "total_budget_error": 4872,
+      "score": 4874020882,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 33,
+      "dimensions": {
+        "matrix_rank": 176,
+        "vector_expansion": 360,
+        "router_hidden_width": 32,
+        "feedback_rank": 13
+      },
+      "counts": {
+        "matrix_memory": 21626880,
+        "vector_mamba_pathway": 21461760,
+        "router": 1198860,
+        "feedback_bridge": 245916,
+        "frozen_components": 2899456,
+        "total_parameters": 47432872
+      },
+      "matrix_error": 1821520,
+      "vector_error": 845507,
+      "router_error": 734528,
+      "feedback_error": 236589,
+      "total_component_absolute_error": 3638144,
+      "total_budget_error": 4896,
+      "score": 4899638144,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 34,
+      "dimensions": {
+        "matrix_rank": 176,
+        "vector_expansion": 360,
+        "router_hidden_width": 36,
+        "feedback_rank": 5
+      },
+      "counts": {
+        "matrix_memory": 21626880,
+        "vector_mamba_pathway": 21461760,
+        "router": 1346412,
+        "feedback_bridge": 98364,
+        "frozen_components": 2899456,
+        "total_parameters": 47432872
+      },
+      "matrix_error": 1821520,
+      "vector_error": 845507,
+      "router_error": 882080,
+      "feedback_error": 89037,
+      "total_component_absolute_error": 3638144,
+      "total_budget_error": 4896,
+      "score": 4899638144,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 35,
+      "dimensions": {
+        "matrix_rank": 160,
+        "vector_expansion": 392,
+        "router_hidden_width": 32,
+        "feedback_rank": 8
+      },
+      "counts": {
+        "matrix_memory": 19660800,
+        "vector_mamba_pathway": 23520000,
+        "router": 1198860,
+        "feedback_bridge": 153696,
+        "frozen_components": 2899456,
+        "total_parameters": 47432812
+      },
+      "matrix_error": 3787600,
+      "vector_error": 2903747,
+      "router_error": 734528,
+      "feedback_error": 144369,
+      "total_component_absolute_error": 7570244,
+      "total_budget_error": 4956,
+      "score": 4963570244,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 36,
+      "dimensions": {
+        "matrix_rank": 208,
+        "vector_expansion": 288,
+        "router_hidden_width": 52,
+        "feedback_rank": 6
+      },
+      "counts": {
+        "matrix_memory": 25559040,
+        "vector_mamba_pathway": 16920576,
+        "router": 1936620,
+        "feedback_bridge": 116808,
+        "frozen_components": 2899456,
+        "total_parameters": 47432500
+      },
+      "matrix_error": 2110640,
+      "vector_error": 3695677,
+      "router_error": 1472288,
+      "feedback_error": 107481,
+      "total_component_absolute_error": 7386086,
+      "total_budget_error": 5268,
+      "score": 5275386086,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 37,
+      "dimensions": {
+        "matrix_rank": 192,
+        "vector_expansion": 320,
+        "router_hidden_width": 48,
+        "feedback_rank": 12
+      },
+      "counts": {
+        "matrix_memory": 23592960,
+        "vector_mamba_pathway": 18923520,
+        "router": 1789068,
+        "feedback_bridge": 227472,
+        "frozen_components": 2899456,
+        "total_parameters": 47432476
+      },
+      "matrix_error": 144560,
+      "vector_error": 1692733,
+      "router_error": 1324736,
+      "feedback_error": 218145,
+      "total_component_absolute_error": 3380174,
+      "total_budget_error": 5292,
+      "score": 5295380174,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 38,
+      "dimensions": {
+        "matrix_rank": 192,
+        "vector_expansion": 320,
+        "router_hidden_width": 52,
+        "feedback_rank": 4
+      },
+      "counts": {
+        "matrix_memory": 23592960,
+        "vector_mamba_pathway": 18923520,
+        "router": 1936620,
+        "feedback_bridge": 79920,
+        "frozen_components": 2899456,
+        "total_parameters": 47432476
+      },
+      "matrix_error": 144560,
+      "vector_error": 1692733,
+      "router_error": 1472288,
+      "feedback_error": 70593,
+      "total_component_absolute_error": 3380174,
+      "total_budget_error": 5292,
+      "score": 5295380174,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 39,
+      "dimensions": {
+        "matrix_rank": 160,
+        "vector_expansion": 384,
+        "router_hidden_width": 44,
+        "feedback_rank": 12
+      },
+      "counts": {
+        "matrix_memory": 19660800,
+        "vector_mamba_pathway": 23003136,
+        "router": 1641516,
+        "feedback_bridge": 227472,
+        "frozen_components": 2899456,
+        "total_parameters": 47432380
+      },
+      "matrix_error": 3787600,
+      "vector_error": 2386883,
+      "router_error": 1177184,
+      "feedback_error": 218145,
+      "total_component_absolute_error": 7569812,
+      "total_budget_error": 5388,
+      "score": 5395569812,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 40,
+      "dimensions": {
+        "matrix_rank": 160,
+        "vector_expansion": 384,
+        "router_hidden_width": 48,
+        "feedback_rank": 4
+      },
+      "counts": {
+        "matrix_memory": 19660800,
+        "vector_mamba_pathway": 23003136,
+        "router": 1789068,
+        "feedback_bridge": 79920,
+        "frozen_components": 2899456,
+        "total_parameters": 47432380
+      },
+      "matrix_error": 3787600,
+      "vector_error": 2386883,
+      "router_error": 1324736,
+      "feedback_error": 70593,
+      "total_component_absolute_error": 7569812,
+      "total_budget_error": 5388,
+      "score": 5395569812,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 41,
+      "dimensions": {
+        "matrix_rank": 184,
+        "vector_expansion": 352,
+        "router_hidden_width": 20,
+        "feedback_rank": 12
+      },
+      "counts": {
+        "matrix_memory": 22609920,
+        "vector_mamba_pathway": 20951040,
+        "router": 756204,
+        "feedback_bridge": 227472,
+        "frozen_components": 2899456,
+        "total_parameters": 47444092
+      },
+      "matrix_error": 838480,
+      "vector_error": 334787,
+      "router_error": 291872,
+      "feedback_error": 218145,
+      "total_component_absolute_error": 1683284,
+      "total_budget_error": 6324,
+      "score": 6325683284,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 42,
+      "dimensions": {
+        "matrix_rank": 184,
+        "vector_expansion": 352,
+        "router_hidden_width": 24,
+        "feedback_rank": 4
+      },
+      "counts": {
+        "matrix_memory": 22609920,
+        "vector_mamba_pathway": 20951040,
+        "router": 903756,
+        "feedback_bridge": 79920,
+        "frozen_components": 2899456,
+        "total_parameters": 47444092
+      },
+      "matrix_error": 838480,
+      "vector_error": 334787,
+      "router_error": 439424,
+      "feedback_error": 70593,
+      "total_component_absolute_error": 1683284,
+      "total_budget_error": 6324,
+      "score": 6325683284,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 43,
+      "dimensions": {
+        "matrix_rank": 176,
+        "vector_expansion": 376,
+        "router_hidden_width": 8,
+        "feedback_rank": 6
+      },
+      "counts": {
+        "matrix_memory": 21626880,
+        "vector_mamba_pathway": 22487808,
+        "router": 313548,
+        "feedback_bridge": 116808,
+        "frozen_components": 2899456,
+        "total_parameters": 47444500
+      },
+      "matrix_error": 1821520,
+      "vector_error": 1871555,
+      "router_error": 150784,
+      "feedback_error": 107481,
+      "total_component_absolute_error": 3951340,
+      "total_budget_error": 6732,
+      "score": 6735951340,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 44,
+      "dimensions": {
+        "matrix_rank": 200,
+        "vector_expansion": 328,
+        "router_hidden_width": 12,
+        "feedback_rank": 4
+      },
+      "counts": {
+        "matrix_memory": 24576000,
+        "vector_mamba_pathway": 19428096,
+        "router": 461100,
+        "feedback_bridge": 79920,
+        "frozen_components": 2899456,
+        "total_parameters": 47444572
+      },
+      "matrix_error": 1127600,
+      "vector_error": 1188157,
+      "router_error": 3232,
+      "feedback_error": 70593,
+      "total_component_absolute_error": 2389582,
+      "total_budget_error": 6804,
+      "score": 6806389582,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 45,
+      "dimensions": {
+        "matrix_rank": 200,
+        "vector_expansion": 328,
+        "router_hidden_width": 8,
+        "feedback_rank": 12
+      },
+      "counts": {
+        "matrix_memory": 24576000,
+        "vector_mamba_pathway": 19428096,
+        "router": 313548,
+        "feedback_bridge": 227472,
+        "frozen_components": 2899456,
+        "total_parameters": 47444572
+      },
+      "matrix_error": 1127600,
+      "vector_error": 1188157,
+      "router_error": 150784,
+      "feedback_error": 218145,
+      "total_component_absolute_error": 2684686,
+      "total_budget_error": 6804,
+      "score": 6806684686,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 46,
+      "dimensions": {
+        "matrix_rank": 224,
+        "vector_expansion": 280,
+        "router_hidden_width": 12,
+        "feedback_rank": 7
+      },
+      "counts": {
+        "matrix_memory": 27525120,
+        "vector_mamba_pathway": 16423680,
+        "router": 461100,
+        "feedback_bridge": 135252,
+        "frozen_components": 2899456,
+        "total_parameters": 47444608
+      },
+      "matrix_error": 4076720,
+      "vector_error": 4192573,
+      "router_error": 3232,
+      "feedback_error": 125925,
+      "total_component_absolute_error": 8398450,
+      "total_budget_error": 6840,
+      "score": 6848398450,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 47,
+      "dimensions": {
+        "matrix_rank": 168,
+        "vector_expansion": 360,
+        "router_hidden_width": 60,
+        "feedback_rank": 11
+      },
+      "counts": {
+        "matrix_memory": 20643840,
+        "vector_mamba_pathway": 21461760,
+        "router": 2231724,
+        "feedback_bridge": 209028,
+        "frozen_components": 2899456,
+        "total_parameters": 47445808
+      },
+      "matrix_error": 2804560,
+      "vector_error": 845507,
+      "router_error": 1767392,
+      "feedback_error": 199701,
+      "total_component_absolute_error": 5617160,
+      "total_budget_error": 8040,
+      "score": 8045617160,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 48,
+      "dimensions": {
+        "matrix_rank": 176,
+        "vector_expansion": 344,
+        "router_hidden_width": 60,
+        "feedback_rank": 13
+      },
+      "counts": {
+        "matrix_memory": 21626880,
+        "vector_mamba_pathway": 20441856,
+        "router": 2231724,
+        "feedback_bridge": 245916,
+        "frozen_components": 2899456,
+        "total_parameters": 47445832
+      },
+      "matrix_error": 1821520,
+      "vector_error": 174397,
+      "router_error": 1767392,
+      "feedback_error": 236589,
+      "total_component_absolute_error": 3999898,
+      "total_budget_error": 8064,
+      "score": 8067999898,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 49,
+      "dimensions": {
+        "matrix_rank": 200,
+        "vector_expansion": 304,
+        "router_hidden_width": 48,
+        "feedback_rank": 13
+      },
+      "counts": {
+        "matrix_memory": 24576000,
+        "vector_mamba_pathway": 17918976,
+        "router": 1789068,
+        "feedback_bridge": 245916,
+        "frozen_components": 2899456,
+        "total_parameters": 47429416
+      },
+      "matrix_error": 1127600,
+      "vector_error": 2697277,
+      "router_error": 1324736,
+      "feedback_error": 236589,
+      "total_component_absolute_error": 5386202,
+      "total_budget_error": 8352,
+      "score": 8357386202,
+      "exact_budget_match": false
+    },
+    {
+      "rank": 50,
+      "dimensions": {
+        "matrix_rank": 200,
+        "vector_expansion": 304,
+        "router_hidden_width": 52,
+        "feedback_rank": 5
+      },
+      "counts": {
+        "matrix_memory": 24576000,
+        "vector_mamba_pathway": 17918976,
+        "router": 1936620,
+        "feedback_bridge": 98364,
+        "frozen_components": 2899456,
+        "total_parameters": 47429416
+      },
+      "matrix_error": 1127600,
+      "vector_error": 2697277,
+      "router_error": 1472288,
+      "feedback_error": 89037,
+      "total_component_absolute_error": 5386202,
+      "total_budget_error": 8352,
+      "score": 8357386202,
+      "exact_budget_match": false
+    }
+  ]
+}

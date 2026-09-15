@@ -1,0 +1,340 @@
+{
+  "experiment": "PB1-B factorized Q/K functional smoke test",
+  "model": "Modus_X_MemoryFeedbackArchive_DeepSupervision",
+  "canonical_parameters": 47437768,
+  "canonical_config": {
+    "vocab_size": 256,
+    "embed_dim": 512,
+    "hidden_dim": 1536,
+    "mamba_state_dim": 512,
+    "ax_res": 512,
+    "n_layers": 12,
+    "n_heads": 8,
+    "seq_len": 512,
+    "router_hidden": 32,
+    "vector_router": false,
+    "dropout": 0.0,
+    "aux_layers": [
+      6
+    ],
+    "future_target_count": 1
+  },
+  "smoke_batch": 2,
+  "smoke_sequence_length": 512,
+  "seed": 20260911,
+  "candidates": [
+    {
+      "candidate": "C1_q128_k128",
+      "hidden_dim": 1664,
+      "mamba_state_dim": 608,
+      "ax_res": 512,
+      "q_rank": 128,
+      "k_rank": 128,
+      "dense_parameter_count": 50586056,
+      "factorized_parameter_count": 47440328,
+      "canonical_budget": 47437768,
+      "budget_error": 2560,
+      "qk_savings": 3145728,
+      "q_relative_reconstruction_error": 0.61362883500482,
+      "k_relative_reconstruction_error": 0.6138230697658372,
+      "final_logits_relative_l2": 1.087486084550981,
+      "auxiliary_logits_relative_l2": 1.0460085363463878,
+      "future_logits_relative_l2": 1.0953486848749603,
+      "auxiliary_future_logits_relative_l2": 1.0444322525929077,
+      "dense_output_summary": {
+        "final_logits": {
+          "shape": [
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 30.26344108581543
+        },
+        "auxiliary_logits": {
+          "shape": [
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 18.324411392211914
+        },
+        "future_logits": {
+          "shape": [
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 30.33272361755371
+        },
+        "auxiliary_future_logits": {
+          "shape": [
+            1,
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 18.30425262451172
+        }
+      },
+      "factorized_output_summary": {
+        "final_logits": {
+          "shape": [
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 30.233549118041992
+        },
+        "auxiliary_logits": {
+          "shape": [
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 18.04970359802246
+        },
+        "future_logits": {
+          "shape": [
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 30.674375534057617
+        },
+        "auxiliary_future_logits": {
+          "shape": [
+            1,
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 18.227577209472656
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "candidate": "C2_q64_k64",
+      "hidden_dim": 2048,
+      "mamba_state_dim": 640,
+      "ax_res": 512,
+      "q_rank": 64,
+      "k_rank": 64,
+      "dense_parameter_count": 52160456,
+      "factorized_parameter_count": 47441864,
+      "canonical_budget": 47437768,
+      "budget_error": 4096,
+      "qk_savings": 4718592,
+      "q_relative_reconstruction_error": 0.7898736657270374,
+      "k_relative_reconstruction_error": 0.7896235968685974,
+      "final_logits_relative_l2": 1.1654225763001091,
+      "auxiliary_logits_relative_l2": 1.1326100341265637,
+      "future_logits_relative_l2": 1.1721500876082311,
+      "auxiliary_future_logits_relative_l2": 1.1348894561468807,
+      "dense_output_summary": {
+        "final_logits": {
+          "shape": [
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 34.366554260253906
+        },
+        "auxiliary_logits": {
+          "shape": [
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 21.158483505249023
+        },
+        "future_logits": {
+          "shape": [
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 34.50566482543945
+        },
+        "auxiliary_future_logits": {
+          "shape": [
+            1,
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 20.840232849121094
+        }
+      },
+      "factorized_output_summary": {
+        "final_logits": {
+          "shape": [
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 34.53185272216797
+        },
+        "auxiliary_logits": {
+          "shape": [
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 20.948654174804688
+        },
+        "future_logits": {
+          "shape": [
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 34.800254821777344
+        },
+        "auxiliary_future_logits": {
+          "shape": [
+            1,
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 20.869028091430664
+        }
+      },
+      "status": "PASS"
+    },
+    {
+      "candidate": "C3_q128_k64",
+      "hidden_dim": 1536,
+      "mamba_state_dim": 640,
+      "ax_res": 512,
+      "q_rank": 128,
+      "k_rank": 64,
+      "dense_parameter_count": 51373000,
+      "factorized_parameter_count": 47440840,
+      "canonical_budget": 47437768,
+      "budget_error": 3072,
+      "qk_savings": 3932160,
+      "q_relative_reconstruction_error": 0.61362883500482,
+      "k_relative_reconstruction_error": 0.7896235968685974,
+      "final_logits_relative_l2": 1.1202515686327068,
+      "auxiliary_logits_relative_l2": 1.065069223843706,
+      "future_logits_relative_l2": 1.1242034977059836,
+      "auxiliary_future_logits_relative_l2": 1.0945437904959607,
+      "dense_output_summary": {
+        "final_logits": {
+          "shape": [
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 29.77130889892578
+        },
+        "auxiliary_logits": {
+          "shape": [
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 18.294519424438477
+        },
+        "future_logits": {
+          "shape": [
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 29.447900772094727
+        },
+        "auxiliary_future_logits": {
+          "shape": [
+            1,
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 18.03249740600586
+        }
+      },
+      "factorized_output_summary": {
+        "final_logits": {
+          "shape": [
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 29.08140754699707
+        },
+        "auxiliary_logits": {
+          "shape": [
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 17.834228515625
+        },
+        "future_logits": {
+          "shape": [
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 28.932048797607422
+        },
+        "auxiliary_future_logits": {
+          "shape": [
+            1,
+            1,
+            512,
+            256
+          ],
+          "dtype": "float32",
+          "finite": true,
+          "l2": 17.840147018432617
+        }
+      },
+      "status": "PASS"
+    }
+  ],
+  "overall_status": "PASS"
+}

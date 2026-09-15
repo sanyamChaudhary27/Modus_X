@@ -1,0 +1,444 @@
+{
+  "generated_at_utc": "2026-09-08T16:05:03.297043+00:00",
+  "project_root": "E:\\Modus_X",
+  "models_path": "E:\\Modus_X\\language\\models.py",
+  "model_name": "Modus_X_MemoryFeedbackArchive",
+  "scope": "Actual architecture parameter formula calibration. No model source, checkpoint, dataset, or training run modified.",
+  "canonical_configuration": {
+    "vocab_size": 256,
+    "embed_dim": 512,
+    "hidden_dim": 1536,
+    "ax_res": 512,
+    "n_layers": 12,
+    "n_heads_attn": 8,
+    "seq_len": 512,
+    "mamba_state_dim": 512,
+    "vector_router": true,
+    "router_hidden": 32
+  },
+  "b0_expected_parameter_count": 47437768,
+  "pb0_f_actual_canonical_parameter_count": 47437768,
+  "canonical_parameter_difference": 0,
+  "canonical_exact_match": true,
+  "feedback_rank_rule": "min(32, ax_res, mamba_state_dim)",
+  "feedback_rank_independently_configurable": false,
+  "formula_coefficients": {
+    "intercept": 12011080,
+    "matrix_rank": 36912,
+    "vector_dim": 30744,
+    "router_hidden": 12300,
+    "feedback_rank_times_matrix_rank": 12,
+    "feedback_rank": 6144
+  },
+  "formula": "P = intercept + matrix_rank_coefficient * r + vector_dim_coefficient * n + router_hidden_coefficient * h + feedback_rank_times_matrix_rank_coefficient * f * r + feedback_rank_coefficient * f",
+  "formula_variables": {
+    "r": "matrix rank / ax_res",
+    "n": "vector recurrent state dimension / mamba_state_dim",
+    "h": "router hidden width",
+    "f": "min(32, r, n)"
+  },
+  "calibration_samples": [
+    {
+      "sample_id": "S001",
+      "matrix_rank": 512,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 47437768,
+      "parameter_delta_from_baseline": 0,
+      "source": "canonical_baseline"
+    },
+    {
+      "sample_id": "S002",
+      "matrix_rank": 96,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 31922632,
+      "parameter_delta_from_baseline": -15515136,
+      "source": "matrix_rank_sweep"
+    },
+    {
+      "sample_id": "S003",
+      "matrix_rank": 128,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 33116104,
+      "parameter_delta_from_baseline": -14321664,
+      "source": "matrix_rank_sweep"
+    },
+    {
+      "sample_id": "S004",
+      "matrix_rank": 168,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 34607944,
+      "parameter_delta_from_baseline": -12829824,
+      "source": "matrix_rank_sweep"
+    },
+    {
+      "sample_id": "S005",
+      "matrix_rank": 192,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 35503048,
+      "parameter_delta_from_baseline": -11934720,
+      "source": "matrix_rank_sweep"
+    },
+    {
+      "sample_id": "S006",
+      "matrix_rank": 256,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 37889992,
+      "parameter_delta_from_baseline": -9547776,
+      "source": "matrix_rank_sweep"
+    },
+    {
+      "sample_id": "S007",
+      "matrix_rank": 384,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 42663880,
+      "parameter_delta_from_baseline": -4773888,
+      "source": "matrix_rank_sweep"
+    },
+    {
+      "sample_id": "S008",
+      "matrix_rank": 512,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 47437768,
+      "parameter_delta_from_baseline": 0,
+      "source": "matrix_rank_sweep"
+    },
+    {
+      "sample_id": "S009",
+      "matrix_rank": 512,
+      "vector_dim": 96,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 34648264,
+      "parameter_delta_from_baseline": -12789504,
+      "source": "vector_dimension_sweep"
+    },
+    {
+      "sample_id": "S010",
+      "matrix_rank": 512,
+      "vector_dim": 128,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 35632072,
+      "parameter_delta_from_baseline": -11805696,
+      "source": "vector_dimension_sweep"
+    },
+    {
+      "sample_id": "S011",
+      "matrix_rank": 512,
+      "vector_dim": 192,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 37599688,
+      "parameter_delta_from_baseline": -9838080,
+      "source": "vector_dimension_sweep"
+    },
+    {
+      "sample_id": "S012",
+      "matrix_rank": 512,
+      "vector_dim": 256,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 39567304,
+      "parameter_delta_from_baseline": -7870464,
+      "source": "vector_dimension_sweep"
+    },
+    {
+      "sample_id": "S013",
+      "matrix_rank": 512,
+      "vector_dim": 384,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 43502536,
+      "parameter_delta_from_baseline": -3935232,
+      "source": "vector_dimension_sweep"
+    },
+    {
+      "sample_id": "S014",
+      "matrix_rank": 512,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 47437768,
+      "parameter_delta_from_baseline": 0,
+      "source": "vector_dimension_sweep"
+    },
+    {
+      "sample_id": "S015",
+      "matrix_rank": 512,
+      "vector_dim": 512,
+      "router_hidden": 8,
+      "feedback_rank_actual": 32,
+      "parameter_count": 47142568,
+      "parameter_delta_from_baseline": -295200,
+      "source": "router_width_sweep"
+    },
+    {
+      "sample_id": "S016",
+      "matrix_rank": 512,
+      "vector_dim": 512,
+      "router_hidden": 16,
+      "feedback_rank_actual": 32,
+      "parameter_count": 47240968,
+      "parameter_delta_from_baseline": -196800,
+      "source": "router_width_sweep"
+    },
+    {
+      "sample_id": "S017",
+      "matrix_rank": 512,
+      "vector_dim": 512,
+      "router_hidden": 20,
+      "feedback_rank_actual": 32,
+      "parameter_count": 47290168,
+      "parameter_delta_from_baseline": -147600,
+      "source": "router_width_sweep"
+    },
+    {
+      "sample_id": "S018",
+      "matrix_rank": 512,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 47437768,
+      "parameter_delta_from_baseline": 0,
+      "source": "router_width_sweep"
+    },
+    {
+      "sample_id": "S019",
+      "matrix_rank": 512,
+      "vector_dim": 512,
+      "router_hidden": 48,
+      "feedback_rank_actual": 32,
+      "parameter_count": 47634568,
+      "parameter_delta_from_baseline": 196800,
+      "source": "router_width_sweep"
+    },
+    {
+      "sample_id": "S020",
+      "matrix_rank": 512,
+      "vector_dim": 512,
+      "router_hidden": 64,
+      "feedback_rank_actual": 32,
+      "parameter_count": 47831368,
+      "parameter_delta_from_baseline": 393600,
+      "source": "router_width_sweep"
+    },
+    {
+      "sample_id": "S021",
+      "matrix_rank": 16,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 16,
+      "parameter_count": 28837576,
+      "parameter_delta_from_baseline": -18600192,
+      "source": "feedback_rank_interaction"
+    },
+    {
+      "sample_id": "S022",
+      "matrix_rank": 24,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 24,
+      "parameter_count": 29185864,
+      "parameter_delta_from_baseline": -18251904,
+      "source": "feedback_rank_interaction"
+    },
+    {
+      "sample_id": "S023",
+      "matrix_rank": 32,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 29535688,
+      "parameter_delta_from_baseline": -17902080,
+      "source": "feedback_rank_interaction"
+    },
+    {
+      "sample_id": "S024",
+      "matrix_rank": 48,
+      "vector_dim": 512,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 30132424,
+      "parameter_delta_from_baseline": -17305344,
+      "source": "feedback_rank_interaction"
+    },
+    {
+      "sample_id": "S025",
+      "matrix_rank": 512,
+      "vector_dim": 16,
+      "router_hidden": 32,
+      "feedback_rank_actual": 16,
+      "parameter_count": 31992136,
+      "parameter_delta_from_baseline": -15445632,
+      "source": "feedback_rank_interaction"
+    },
+    {
+      "sample_id": "S026",
+      "matrix_rank": 512,
+      "vector_dim": 24,
+      "router_hidden": 32,
+      "feedback_rank_actual": 24,
+      "parameter_count": 32336392,
+      "parameter_delta_from_baseline": -15101376,
+      "source": "feedback_rank_interaction"
+    },
+    {
+      "sample_id": "S027",
+      "matrix_rank": 512,
+      "vector_dim": 32,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 32680648,
+      "parameter_delta_from_baseline": -14757120,
+      "source": "feedback_rank_interaction"
+    },
+    {
+      "sample_id": "S028",
+      "matrix_rank": 512,
+      "vector_dim": 48,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 33172552,
+      "parameter_delta_from_baseline": -14265216,
+      "source": "feedback_rank_interaction"
+    },
+    {
+      "sample_id": "S029",
+      "matrix_rank": 16,
+      "vector_dim": 16,
+      "router_hidden": 32,
+      "feedback_rank_actual": 16,
+      "parameter_count": 13588552,
+      "parameter_delta_from_baseline": -33849216,
+      "source": "feedback_rank_interaction"
+    },
+    {
+      "sample_id": "S030",
+      "matrix_rank": 24,
+      "vector_dim": 24,
+      "router_hidden": 32,
+      "feedback_rank_actual": 24,
+      "parameter_count": 14182792,
+      "parameter_delta_from_baseline": -33254976,
+      "source": "feedback_rank_interaction"
+    },
+    {
+      "sample_id": "S031",
+      "matrix_rank": 32,
+      "vector_dim": 32,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 14778568,
+      "parameter_delta_from_baseline": -32659200,
+      "source": "feedback_rank_interaction"
+    },
+    {
+      "sample_id": "S032",
+      "matrix_rank": 64,
+      "vector_dim": 64,
+      "router_hidden": 32,
+      "feedback_rank_actual": 32,
+      "parameter_count": 16955848,
+      "parameter_delta_from_baseline": -30481920,
+      "source": "feedback_rank_interaction"
+    }
+  ],
+  "held_out_validation": [
+    {
+      "sample_id": "V001",
+      "matrix_rank": 80,
+      "vector_dim": 144,
+      "router_hidden": 12,
+      "actual_feedback_rank": 32,
+      "actual_parameters": 19766104,
+      "predicted_parameters": 19766104,
+      "prediction_error": 0,
+      "exact": true
+    },
+    {
+      "sample_id": "V002",
+      "matrix_rank": 120,
+      "vector_dim": 224,
+      "router_hidden": 28,
+      "actual_feedback_rank": 32,
+      "actual_parameters": 23914264,
+      "predicted_parameters": 23914264,
+      "prediction_error": 0,
+      "exact": true
+    },
+    {
+      "sample_id": "V003",
+      "matrix_rank": 168,
+      "vector_dim": 384,
+      "router_hidden": 20,
+      "actual_feedback_rank": 32,
+      "actual_parameters": 30525112,
+      "predicted_parameters": 30525112,
+      "prediction_error": 0,
+      "exact": true
+    },
+    {
+      "sample_id": "V004",
+      "matrix_rank": 200,
+      "vector_dim": 300,
+      "router_hidden": 24,
+      "actual_feedback_rank": 32,
+      "actual_parameters": 29185288,
+      "predicted_parameters": 29185288,
+      "prediction_error": 0,
+      "exact": true
+    },
+    {
+      "sample_id": "V005",
+      "matrix_rank": 288,
+      "vector_dim": 160,
+      "router_hidden": 40,
+      "actual_feedback_rank": 32,
+      "actual_parameters": 28359976,
+      "predicted_parameters": 28359976,
+      "prediction_error": 0,
+      "exact": true
+    },
+    {
+      "sample_id": "V006",
+      "matrix_rank": 448,
+      "vector_dim": 448,
+      "router_hidden": 56,
+      "actual_feedback_rank": 32,
+      "actual_parameters": 43378408,
+      "predicted_parameters": 43378408,
+      "prediction_error": 0,
+      "exact": true
+    },
+    {
+      "sample_id": "V007",
+      "matrix_rank": 512,
+      "vector_dim": 320,
+      "router_hidden": 18,
+      "actual_feedback_rank": 32,
+      "actual_parameters": 41362720,
+      "predicted_parameters": 41362720,
+      "prediction_error": 0,
+      "exact": true
+    }
+  ],
+  "held_out_validation_exact": true,
+  "status": "passed",
+  "next_gate": "PB0-G calibrated Candidate A dimension search. Do not modify language/models.py or train Candidate A before using the PB0-F calibrated formula."
+}

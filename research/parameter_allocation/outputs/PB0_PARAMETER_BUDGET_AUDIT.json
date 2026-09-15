@@ -1,0 +1,1954 @@
+{
+  "analysis": {
+    "name": "PB0-C Parameter Budget Audit",
+    "purpose": "Exact decomposition of the frozen Modus_X parameter budget before fixed-budget allocation experiments.",
+    "expected_baseline_parameter_count": 47437768,
+    "component_order": [
+      "matrix_memory",
+      "vector_mamba",
+      "router",
+      "feedback_bridge",
+      "embeddings",
+      "output_head",
+      "normalization",
+      "auxiliary",
+      "other"
+    ]
+  },
+  "project_root": "E:\\Modus_X",
+  "topology_identical": true,
+  "baseline_parameter_count_verified": true,
+  "seed_audits": [
+    {
+      "seed": "seed1",
+      "checkpoint_path": "E:\\seed1\\checkpoint.pkl",
+      "checkpoint_size_bytes": 569261257,
+      "checkpoint_step": 25000,
+      "parameter_count": 47437768,
+      "parameter_tensor_count": 52,
+      "component_summaries": [
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "display_name": "Matrix Memory",
+          "parameter_count": 25233468,
+          "byte_count": 100933872,
+          "parameter_fraction": 0.5319278090824172,
+          "parameter_percent": 53.19278090824172,
+          "parameter_tensors": 23,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 25233468
+        },
+        {
+          "seed": "seed1",
+          "component": "vector_mamba",
+          "display_name": "Vector / Mamba Pathway",
+          "parameter_count": 18898944,
+          "byte_count": 75595776,
+          "parameter_fraction": 0.3983944607174604,
+          "parameter_percent": 39.83944607174604,
+          "parameter_tensors": 10,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 18898944
+        },
+        {
+          "seed": "seed1",
+          "component": "router",
+          "display_name": "Router",
+          "parameter_count": 399744,
+          "byte_count": 1598976,
+          "parameter_fraction": 0.00842670338115402,
+          "parameter_percent": 0.842670338115402,
+          "parameter_tensors": 4,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 399744
+        },
+        {
+          "seed": "seed1",
+          "component": "feedback_bridge",
+          "display_name": "Feedback Bridge",
+          "parameter_count": 6156,
+          "byte_count": 24624,
+          "parameter_fraction": 0.0001297700178473827,
+          "parameter_percent": 0.01297700178473827,
+          "parameter_tensors": 2,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 6156
+        },
+        {
+          "seed": "seed1",
+          "component": "embeddings",
+          "display_name": "Embeddings",
+          "parameter_count": 131072,
+          "byte_count": 524288,
+          "parameter_fraction": 0.002763030503458763,
+          "parameter_percent": 0.2763030503458763,
+          "parameter_tensors": 1,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 131072
+        },
+        {
+          "seed": "seed1",
+          "component": "output_head",
+          "display_name": "Output Head",
+          "parameter_count": 1181440,
+          "byte_count": 4725760,
+          "parameter_fraction": 0.024905050338793342,
+          "parameter_percent": 2.490505033879334,
+          "parameter_tensors": 4,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 1181440
+        },
+        {
+          "seed": "seed1",
+          "component": "normalization",
+          "display_name": "Normalization",
+          "parameter_count": 12288,
+          "byte_count": 49152,
+          "parameter_fraction": 0.00025903410969925906,
+          "parameter_percent": 0.025903410969925905,
+          "parameter_tensors": 2,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 12288
+        },
+        {
+          "seed": "seed1",
+          "component": "auxiliary",
+          "display_name": "Auxiliary",
+          "parameter_count": 1181440,
+          "byte_count": 4725760,
+          "parameter_fraction": 0.024905050338793342,
+          "parameter_percent": 2.490505033879334,
+          "parameter_tensors": 4,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 1181440
+        },
+        {
+          "seed": "seed1",
+          "component": "other",
+          "display_name": "Other",
+          "parameter_count": 393216,
+          "byte_count": 1572864,
+          "parameter_fraction": 0.00828909151037629,
+          "parameter_percent": 0.828909151037629,
+          "parameter_tensors": 2,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 393216
+        }
+      ],
+      "parameter_records": [
+        {
+          "seed": "seed1",
+          "component": "embeddings",
+          "parameter_path": "embed",
+          "top_level_group": "embed",
+          "layer": null,
+          "shape": [
+            256,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 131072,
+          "bytes": 524288,
+          "percent_of_seed_total": 0.2763030503458763
+        },
+        {
+          "seed": "seed1",
+          "component": "auxiliary",
+          "parameter_path": "future_heads.b1",
+          "top_level_group": "future_heads",
+          "layer": null,
+          "shape": [
+            1,
+            1536
+          ],
+          "dtype": "float32",
+          "parameters": 1536,
+          "bytes": 6144,
+          "percent_of_seed_total": 0.003237926371240738
+        },
+        {
+          "seed": "seed1",
+          "component": "auxiliary",
+          "parameter_path": "future_heads.b2",
+          "top_level_group": "future_heads",
+          "layer": null,
+          "shape": [
+            1,
+            256
+          ],
+          "dtype": "float32",
+          "parameters": 256,
+          "bytes": 1024,
+          "percent_of_seed_total": 0.0005396543952067897
+        },
+        {
+          "seed": "seed1",
+          "component": "auxiliary",
+          "parameter_path": "future_heads.w1",
+          "top_level_group": "future_heads",
+          "layer": null,
+          "shape": [
+            1,
+            1536,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 786432,
+          "bytes": 3145728,
+          "percent_of_seed_total": 1.657818302075258
+        },
+        {
+          "seed": "seed1",
+          "component": "auxiliary",
+          "parameter_path": "future_heads.w2",
+          "top_level_group": "future_heads",
+          "layer": null,
+          "shape": [
+            1,
+            256,
+            1536
+          ],
+          "dtype": "float32",
+          "parameters": 393216,
+          "bytes": 1572864,
+          "percent_of_seed_total": 0.828909151037629
+        },
+        {
+          "seed": "seed1",
+          "component": "output_head",
+          "parameter_path": "head.b1",
+          "top_level_group": "head",
+          "layer": null,
+          "shape": [
+            1536
+          ],
+          "dtype": "float32",
+          "parameters": 1536,
+          "bytes": 6144,
+          "percent_of_seed_total": 0.003237926371240738
+        },
+        {
+          "seed": "seed1",
+          "component": "output_head",
+          "parameter_path": "head.b2",
+          "top_level_group": "head",
+          "layer": null,
+          "shape": [
+            256
+          ],
+          "dtype": "float32",
+          "parameters": 256,
+          "bytes": 1024,
+          "percent_of_seed_total": 0.0005396543952067897
+        },
+        {
+          "seed": "seed1",
+          "component": "output_head",
+          "parameter_path": "head.w1",
+          "top_level_group": "head",
+          "layer": null,
+          "shape": [
+            1536,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 786432,
+          "bytes": 3145728,
+          "percent_of_seed_total": 1.657818302075258
+        },
+        {
+          "seed": "seed1",
+          "component": "output_head",
+          "parameter_path": "head.w2",
+          "top_level_group": "head",
+          "layer": null,
+          "shape": [
+            256,
+            1536
+          ],
+          "dtype": "float32",
+          "parameters": 393216,
+          "bytes": 1572864,
+          "percent_of_seed_total": 0.828909151037629
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_archive_mix",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_archive_ret",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1
+          ],
+          "dtype": "float32",
+          "parameters": 12,
+          "bytes": 48,
+          "percent_of_seed_total": 2.5296299775318267e-05
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_archive_write",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1
+          ],
+          "dtype": "float32",
+          "parameters": 12,
+          "bytes": 48,
+          "percent_of_seed_total": 2.5296299775318267e-05
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_eta",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1
+          ],
+          "dtype": "float32",
+          "parameters": 12,
+          "bytes": 48,
+          "percent_of_seed_total": 2.5296299775318267e-05
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_out",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_read",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_ret",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1
+          ],
+          "dtype": "float32",
+          "parameters": 12,
+          "bytes": 48,
+          "percent_of_seed_total": 2.5296299775318267e-05
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_write",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1
+          ],
+          "dtype": "float32",
+          "parameters": 12,
+          "bytes": 48,
+          "percent_of_seed_total": 2.5296299775318267e-05
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_ln_b",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_ln_g",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_proj_b",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_proj_w",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            1024
+          ],
+          "dtype": "float32",
+          "parameters": 6291456,
+          "bytes": 25165824,
+          "percent_of_seed_total": 13.262546416602063
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_archive_mix",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_archive_ret",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_archive_write",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_eta",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_out",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_read",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_ret",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_write",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_wk",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_wq",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed1",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_wv",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed1",
+          "component": "normalization",
+          "parameter_path": "layers.pre_b",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "normalization",
+          "parameter_path": "layers.pre_g",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "router",
+          "parameter_path": "layers.r_b",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            32
+          ],
+          "dtype": "float32",
+          "parameters": 384,
+          "bytes": 1536,
+          "percent_of_seed_total": 0.0008094815928101845
+        },
+        {
+          "seed": "seed1",
+          "component": "router",
+          "parameter_path": "layers.r_proj",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            32
+          ],
+          "dtype": "float32",
+          "parameters": 196608,
+          "bytes": 786432,
+          "percent_of_seed_total": 0.4144545755188145
+        },
+        {
+          "seed": "seed1",
+          "component": "router",
+          "parameter_path": "layers.r_proj_b",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "router",
+          "parameter_path": "layers.r_w",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            32,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 196608,
+          "bytes": 786432,
+          "percent_of_seed_total": 0.4144545755188145
+        },
+        {
+          "seed": "seed1",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_b_delta",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_b_gate",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "feedback_bridge",
+          "parameter_path": "layers.s_b_memory_feedback",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1
+          ],
+          "dtype": "float32",
+          "parameters": 12,
+          "bytes": 48,
+          "percent_of_seed_total": 2.5296299775318267e-05
+        },
+        {
+          "seed": "seed1",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_b_ret",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "other",
+          "parameter_path": "layers.s_memory_down",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            32,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 196608,
+          "bytes": 786432,
+          "percent_of_seed_total": 0.4144545755188145
+        },
+        {
+          "seed": "seed1",
+          "component": "other",
+          "parameter_path": "layers.s_memory_up",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            32
+          ],
+          "dtype": "float32",
+          "parameters": 196608,
+          "bytes": 786432,
+          "percent_of_seed_total": 0.4144545755188145
+        },
+        {
+          "seed": "seed1",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_proj_b",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_proj_w",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed1",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_w_c",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed1",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_w_delta",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed1",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_w_gate",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed1",
+          "component": "feedback_bridge",
+          "parameter_path": "layers.s_w_memory_feedback",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed1",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_w_ret",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed1",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_wu",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        }
+      ],
+      "layer_summaries": []
+    },
+    {
+      "seed": "seed2",
+      "checkpoint_path": "E:\\seed2\\checkpoint.pkl",
+      "checkpoint_size_bytes": 569261257,
+      "checkpoint_step": 25000,
+      "parameter_count": 47437768,
+      "parameter_tensor_count": 52,
+      "component_summaries": [
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "display_name": "Matrix Memory",
+          "parameter_count": 25233468,
+          "byte_count": 100933872,
+          "parameter_fraction": 0.5319278090824172,
+          "parameter_percent": 53.19278090824172,
+          "parameter_tensors": 23,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 25233468
+        },
+        {
+          "seed": "seed2",
+          "component": "vector_mamba",
+          "display_name": "Vector / Mamba Pathway",
+          "parameter_count": 18898944,
+          "byte_count": 75595776,
+          "parameter_fraction": 0.3983944607174604,
+          "parameter_percent": 39.83944607174604,
+          "parameter_tensors": 10,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 18898944
+        },
+        {
+          "seed": "seed2",
+          "component": "router",
+          "display_name": "Router",
+          "parameter_count": 399744,
+          "byte_count": 1598976,
+          "parameter_fraction": 0.00842670338115402,
+          "parameter_percent": 0.842670338115402,
+          "parameter_tensors": 4,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 399744
+        },
+        {
+          "seed": "seed2",
+          "component": "feedback_bridge",
+          "display_name": "Feedback Bridge",
+          "parameter_count": 6156,
+          "byte_count": 24624,
+          "parameter_fraction": 0.0001297700178473827,
+          "parameter_percent": 0.01297700178473827,
+          "parameter_tensors": 2,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 6156
+        },
+        {
+          "seed": "seed2",
+          "component": "embeddings",
+          "display_name": "Embeddings",
+          "parameter_count": 131072,
+          "byte_count": 524288,
+          "parameter_fraction": 0.002763030503458763,
+          "parameter_percent": 0.2763030503458763,
+          "parameter_tensors": 1,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 131072
+        },
+        {
+          "seed": "seed2",
+          "component": "output_head",
+          "display_name": "Output Head",
+          "parameter_count": 1181440,
+          "byte_count": 4725760,
+          "parameter_fraction": 0.024905050338793342,
+          "parameter_percent": 2.490505033879334,
+          "parameter_tensors": 4,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 1181440
+        },
+        {
+          "seed": "seed2",
+          "component": "normalization",
+          "display_name": "Normalization",
+          "parameter_count": 12288,
+          "byte_count": 49152,
+          "parameter_fraction": 0.00025903410969925906,
+          "parameter_percent": 0.025903410969925905,
+          "parameter_tensors": 2,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 12288
+        },
+        {
+          "seed": "seed2",
+          "component": "auxiliary",
+          "display_name": "Auxiliary",
+          "parameter_count": 1181440,
+          "byte_count": 4725760,
+          "parameter_fraction": 0.024905050338793342,
+          "parameter_percent": 2.490505033879334,
+          "parameter_tensors": 4,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 1181440
+        },
+        {
+          "seed": "seed2",
+          "component": "other",
+          "display_name": "Other",
+          "parameter_count": 393216,
+          "byte_count": 1572864,
+          "parameter_fraction": 0.00828909151037629,
+          "parameter_percent": 0.828909151037629,
+          "parameter_tensors": 2,
+          "layer_parameter_count": 0,
+          "global_parameter_count": 393216
+        }
+      ],
+      "parameter_records": [
+        {
+          "seed": "seed2",
+          "component": "embeddings",
+          "parameter_path": "embed",
+          "top_level_group": "embed",
+          "layer": null,
+          "shape": [
+            256,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 131072,
+          "bytes": 524288,
+          "percent_of_seed_total": 0.2763030503458763
+        },
+        {
+          "seed": "seed2",
+          "component": "auxiliary",
+          "parameter_path": "future_heads.b1",
+          "top_level_group": "future_heads",
+          "layer": null,
+          "shape": [
+            1,
+            1536
+          ],
+          "dtype": "float32",
+          "parameters": 1536,
+          "bytes": 6144,
+          "percent_of_seed_total": 0.003237926371240738
+        },
+        {
+          "seed": "seed2",
+          "component": "auxiliary",
+          "parameter_path": "future_heads.b2",
+          "top_level_group": "future_heads",
+          "layer": null,
+          "shape": [
+            1,
+            256
+          ],
+          "dtype": "float32",
+          "parameters": 256,
+          "bytes": 1024,
+          "percent_of_seed_total": 0.0005396543952067897
+        },
+        {
+          "seed": "seed2",
+          "component": "auxiliary",
+          "parameter_path": "future_heads.w1",
+          "top_level_group": "future_heads",
+          "layer": null,
+          "shape": [
+            1,
+            1536,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 786432,
+          "bytes": 3145728,
+          "percent_of_seed_total": 1.657818302075258
+        },
+        {
+          "seed": "seed2",
+          "component": "auxiliary",
+          "parameter_path": "future_heads.w2",
+          "top_level_group": "future_heads",
+          "layer": null,
+          "shape": [
+            1,
+            256,
+            1536
+          ],
+          "dtype": "float32",
+          "parameters": 393216,
+          "bytes": 1572864,
+          "percent_of_seed_total": 0.828909151037629
+        },
+        {
+          "seed": "seed2",
+          "component": "output_head",
+          "parameter_path": "head.b1",
+          "top_level_group": "head",
+          "layer": null,
+          "shape": [
+            1536
+          ],
+          "dtype": "float32",
+          "parameters": 1536,
+          "bytes": 6144,
+          "percent_of_seed_total": 0.003237926371240738
+        },
+        {
+          "seed": "seed2",
+          "component": "output_head",
+          "parameter_path": "head.b2",
+          "top_level_group": "head",
+          "layer": null,
+          "shape": [
+            256
+          ],
+          "dtype": "float32",
+          "parameters": 256,
+          "bytes": 1024,
+          "percent_of_seed_total": 0.0005396543952067897
+        },
+        {
+          "seed": "seed2",
+          "component": "output_head",
+          "parameter_path": "head.w1",
+          "top_level_group": "head",
+          "layer": null,
+          "shape": [
+            1536,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 786432,
+          "bytes": 3145728,
+          "percent_of_seed_total": 1.657818302075258
+        },
+        {
+          "seed": "seed2",
+          "component": "output_head",
+          "parameter_path": "head.w2",
+          "top_level_group": "head",
+          "layer": null,
+          "shape": [
+            256,
+            1536
+          ],
+          "dtype": "float32",
+          "parameters": 393216,
+          "bytes": 1572864,
+          "percent_of_seed_total": 0.828909151037629
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_archive_mix",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_archive_ret",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1
+          ],
+          "dtype": "float32",
+          "parameters": 12,
+          "bytes": 48,
+          "percent_of_seed_total": 2.5296299775318267e-05
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_archive_write",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1
+          ],
+          "dtype": "float32",
+          "parameters": 12,
+          "bytes": 48,
+          "percent_of_seed_total": 2.5296299775318267e-05
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_eta",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1
+          ],
+          "dtype": "float32",
+          "parameters": 12,
+          "bytes": 48,
+          "percent_of_seed_total": 2.5296299775318267e-05
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_out",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_read",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_ret",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1
+          ],
+          "dtype": "float32",
+          "parameters": 12,
+          "bytes": 48,
+          "percent_of_seed_total": 2.5296299775318267e-05
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_b_write",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1
+          ],
+          "dtype": "float32",
+          "parameters": 12,
+          "bytes": 48,
+          "percent_of_seed_total": 2.5296299775318267e-05
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_ln_b",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_ln_g",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_proj_b",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_proj_w",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            1024
+          ],
+          "dtype": "float32",
+          "parameters": 6291456,
+          "bytes": 25165824,
+          "percent_of_seed_total": 13.262546416602063
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_archive_mix",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_archive_ret",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_archive_write",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_eta",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_out",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_read",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_ret",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_w_write",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_wk",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_wq",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed2",
+          "component": "matrix_memory",
+          "parameter_path": "layers.m_wv",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed2",
+          "component": "normalization",
+          "parameter_path": "layers.pre_b",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "normalization",
+          "parameter_path": "layers.pre_g",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "router",
+          "parameter_path": "layers.r_b",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            32
+          ],
+          "dtype": "float32",
+          "parameters": 384,
+          "bytes": 1536,
+          "percent_of_seed_total": 0.0008094815928101845
+        },
+        {
+          "seed": "seed2",
+          "component": "router",
+          "parameter_path": "layers.r_proj",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            32
+          ],
+          "dtype": "float32",
+          "parameters": 196608,
+          "bytes": 786432,
+          "percent_of_seed_total": 0.4144545755188145
+        },
+        {
+          "seed": "seed2",
+          "component": "router",
+          "parameter_path": "layers.r_proj_b",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "router",
+          "parameter_path": "layers.r_w",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            32,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 196608,
+          "bytes": 786432,
+          "percent_of_seed_total": 0.4144545755188145
+        },
+        {
+          "seed": "seed2",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_b_delta",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_b_gate",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "feedback_bridge",
+          "parameter_path": "layers.s_b_memory_feedback",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1
+          ],
+          "dtype": "float32",
+          "parameters": 12,
+          "bytes": 48,
+          "percent_of_seed_total": 2.5296299775318267e-05
+        },
+        {
+          "seed": "seed2",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_b_ret",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "other",
+          "parameter_path": "layers.s_memory_down",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            32,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 196608,
+          "bytes": 786432,
+          "percent_of_seed_total": 0.4144545755188145
+        },
+        {
+          "seed": "seed2",
+          "component": "other",
+          "parameter_path": "layers.s_memory_up",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            32
+          ],
+          "dtype": "float32",
+          "parameters": 196608,
+          "bytes": 786432,
+          "percent_of_seed_total": 0.4144545755188145
+        },
+        {
+          "seed": "seed2",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_proj_b",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_proj_w",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed2",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_w_c",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed2",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_w_delta",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed2",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_w_gate",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed2",
+          "component": "feedback_bridge",
+          "parameter_path": "layers.s_w_memory_feedback",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            1,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 6144,
+          "bytes": 24576,
+          "percent_of_seed_total": 0.012951705484962953
+        },
+        {
+          "seed": "seed2",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_w_ret",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        },
+        {
+          "seed": "seed2",
+          "component": "vector_mamba",
+          "parameter_path": "layers.s_wu",
+          "top_level_group": "layers",
+          "layer": null,
+          "shape": [
+            12,
+            512,
+            512
+          ],
+          "dtype": "float32",
+          "parameters": 3145728,
+          "bytes": 12582912,
+          "percent_of_seed_total": 6.631273208301032
+        }
+      ],
+      "layer_summaries": []
+    }
+  ],
+  "seed_comparisons": [
+    {
+      "component": "matrix_memory",
+      "display_name": "Matrix Memory",
+      "seed1_parameters": 25233468,
+      "seed2_parameters": 25233468,
+      "absolute_difference": 0,
+      "relative_difference_percent": 0.0,
+      "topology_consistent": true
+    },
+    {
+      "component": "vector_mamba",
+      "display_name": "Vector / Mamba Pathway",
+      "seed1_parameters": 18898944,
+      "seed2_parameters": 18898944,
+      "absolute_difference": 0,
+      "relative_difference_percent": 0.0,
+      "topology_consistent": true
+    },
+    {
+      "component": "router",
+      "display_name": "Router",
+      "seed1_parameters": 399744,
+      "seed2_parameters": 399744,
+      "absolute_difference": 0,
+      "relative_difference_percent": 0.0,
+      "topology_consistent": true
+    },
+    {
+      "component": "feedback_bridge",
+      "display_name": "Feedback Bridge",
+      "seed1_parameters": 6156,
+      "seed2_parameters": 6156,
+      "absolute_difference": 0,
+      "relative_difference_percent": 0.0,
+      "topology_consistent": true
+    },
+    {
+      "component": "embeddings",
+      "display_name": "Embeddings",
+      "seed1_parameters": 131072,
+      "seed2_parameters": 131072,
+      "absolute_difference": 0,
+      "relative_difference_percent": 0.0,
+      "topology_consistent": true
+    },
+    {
+      "component": "output_head",
+      "display_name": "Output Head",
+      "seed1_parameters": 1181440,
+      "seed2_parameters": 1181440,
+      "absolute_difference": 0,
+      "relative_difference_percent": 0.0,
+      "topology_consistent": true
+    },
+    {
+      "component": "normalization",
+      "display_name": "Normalization",
+      "seed1_parameters": 12288,
+      "seed2_parameters": 12288,
+      "absolute_difference": 0,
+      "relative_difference_percent": 0.0,
+      "topology_consistent": true
+    },
+    {
+      "component": "auxiliary",
+      "display_name": "Auxiliary",
+      "seed1_parameters": 1181440,
+      "seed2_parameters": 1181440,
+      "absolute_difference": 0,
+      "relative_difference_percent": 0.0,
+      "topology_consistent": true
+    },
+    {
+      "component": "other",
+      "display_name": "Other",
+      "seed1_parameters": 393216,
+      "seed2_parameters": 393216,
+      "absolute_difference": 0,
+      "relative_difference_percent": 0.0,
+      "topology_consistent": true
+    }
+  ]
+}

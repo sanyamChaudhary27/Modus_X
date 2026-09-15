@@ -1,0 +1,1084 @@
+{
+  "analysis": {
+    "name": "PB0-B Dense Truncated-SVD Sensitivity",
+    "purpose": "Measure functional sensitivity of frozen Modus_X checkpoints to low-rank dense approximations before architecture-level parameter reallocation.",
+    "parameter_budget": 47437768,
+    "model": "Modus_X_MemoryFeedbackArchive_DeepSupervision",
+    "families": [
+      "m_wq",
+      "m_wk",
+      "m_w_out"
+    ],
+    "ranks": [
+      256,
+      128,
+      64
+    ]
+  },
+  "baseline_parameter_count": 47437768,
+  "evaluation": {
+    "data_path": "E:\\enwik8_data\\enwik8",
+    "sequence_length": 512,
+    "loss_tail": 512,
+    "eval_chunks": 32,
+    "eval_batch": 8
+  },
+  "parameter_inventory": [
+    {
+      "category": "embeddings",
+      "path": "embed",
+      "shape": [
+        256,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 131072,
+      "bytes": 524288,
+      "percent_of_total": 0.002763030503458763
+    },
+    {
+      "category": "output_head",
+      "path": "future_heads.b1",
+      "shape": [
+        1,
+        1536
+      ],
+      "dtype": "float32",
+      "elements": 1536,
+      "bytes": 6144,
+      "percent_of_total": 3.237926371240738e-05
+    },
+    {
+      "category": "output_head",
+      "path": "future_heads.b2",
+      "shape": [
+        1,
+        256
+      ],
+      "dtype": "float32",
+      "elements": 256,
+      "bytes": 1024,
+      "percent_of_total": 5.396543952067897e-06
+    },
+    {
+      "category": "output_head",
+      "path": "future_heads.w1",
+      "shape": [
+        1,
+        1536,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 786432,
+      "bytes": 3145728,
+      "percent_of_total": 0.01657818302075258
+    },
+    {
+      "category": "output_head",
+      "path": "future_heads.w2",
+      "shape": [
+        1,
+        256,
+        1536
+      ],
+      "dtype": "float32",
+      "elements": 393216,
+      "bytes": 1572864,
+      "percent_of_total": 0.00828909151037629
+    },
+    {
+      "category": "output_head",
+      "path": "head.b1",
+      "shape": [
+        1536
+      ],
+      "dtype": "float32",
+      "elements": 1536,
+      "bytes": 6144,
+      "percent_of_total": 3.237926371240738e-05
+    },
+    {
+      "category": "output_head",
+      "path": "head.b2",
+      "shape": [
+        256
+      ],
+      "dtype": "float32",
+      "elements": 256,
+      "bytes": 1024,
+      "percent_of_total": 5.396543952067897e-06
+    },
+    {
+      "category": "output_head",
+      "path": "head.w1",
+      "shape": [
+        1536,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 786432,
+      "bytes": 3145728,
+      "percent_of_total": 0.01657818302075258
+    },
+    {
+      "category": "output_head",
+      "path": "head.w2",
+      "shape": [
+        256,
+        1536
+      ],
+      "dtype": "float32",
+      "elements": 393216,
+      "bytes": 1572864,
+      "percent_of_total": 0.00828909151037629
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_b_archive_mix",
+      "shape": [
+        12,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_b_archive_ret",
+      "shape": [
+        12,
+        1
+      ],
+      "dtype": "float32",
+      "elements": 12,
+      "bytes": 48,
+      "percent_of_total": 2.529629977531827e-07
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_b_archive_write",
+      "shape": [
+        12,
+        1
+      ],
+      "dtype": "float32",
+      "elements": 12,
+      "bytes": 48,
+      "percent_of_total": 2.529629977531827e-07
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_b_eta",
+      "shape": [
+        12,
+        1
+      ],
+      "dtype": "float32",
+      "elements": 12,
+      "bytes": 48,
+      "percent_of_total": 2.529629977531827e-07
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_b_out",
+      "shape": [
+        12,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_b_read",
+      "shape": [
+        12,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_b_ret",
+      "shape": [
+        12,
+        1
+      ],
+      "dtype": "float32",
+      "elements": 12,
+      "bytes": 48,
+      "percent_of_total": 2.529629977531827e-07
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_b_write",
+      "shape": [
+        12,
+        1
+      ],
+      "dtype": "float32",
+      "elements": 12,
+      "bytes": 48,
+      "percent_of_total": 2.529629977531827e-07
+    },
+    {
+      "category": "other",
+      "path": "layers.m_ln_b",
+      "shape": [
+        12,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "other",
+      "path": "layers.m_ln_g",
+      "shape": [
+        12,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "other",
+      "path": "layers.m_proj_b",
+      "shape": [
+        12,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "other",
+      "path": "layers.m_proj_w",
+      "shape": [
+        12,
+        512,
+        1024
+      ],
+      "dtype": "float32",
+      "elements": 6291456,
+      "bytes": 25165824,
+      "percent_of_total": 0.13262546416602064
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_w_archive_mix",
+      "shape": [
+        12,
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 3145728,
+      "bytes": 12582912,
+      "percent_of_total": 0.06631273208301032
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_w_archive_ret",
+      "shape": [
+        12,
+        1,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_w_archive_write",
+      "shape": [
+        12,
+        1,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "other",
+      "path": "layers.m_w_eta",
+      "shape": [
+        12,
+        1,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_w_out",
+      "shape": [
+        12,
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 3145728,
+      "bytes": 12582912,
+      "percent_of_total": 0.06631273208301032
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_w_read",
+      "shape": [
+        12,
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 3145728,
+      "bytes": 12582912,
+      "percent_of_total": 0.06631273208301032
+    },
+    {
+      "category": "other",
+      "path": "layers.m_w_ret",
+      "shape": [
+        12,
+        1,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "other",
+      "path": "layers.m_w_write",
+      "shape": [
+        12,
+        1,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_wk",
+      "shape": [
+        12,
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 3145728,
+      "bytes": 12582912,
+      "percent_of_total": 0.06631273208301032
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_wq",
+      "shape": [
+        12,
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 3145728,
+      "bytes": 12582912,
+      "percent_of_total": 0.06631273208301032
+    },
+    {
+      "category": "matrix_memory",
+      "path": "layers.m_wv",
+      "shape": [
+        12,
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 3145728,
+      "bytes": 12582912,
+      "percent_of_total": 0.06631273208301032
+    },
+    {
+      "category": "other",
+      "path": "layers.pre_b",
+      "shape": [
+        12,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "other",
+      "path": "layers.pre_g",
+      "shape": [
+        12,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "other",
+      "path": "layers.r_b",
+      "shape": [
+        12,
+        32
+      ],
+      "dtype": "float32",
+      "elements": 384,
+      "bytes": 1536,
+      "percent_of_total": 8.094815928101846e-06
+    },
+    {
+      "category": "other",
+      "path": "layers.r_proj",
+      "shape": [
+        12,
+        512,
+        32
+      ],
+      "dtype": "float32",
+      "elements": 196608,
+      "bytes": 786432,
+      "percent_of_total": 0.004144545755188145
+    },
+    {
+      "category": "other",
+      "path": "layers.r_proj_b",
+      "shape": [
+        12,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "other",
+      "path": "layers.r_w",
+      "shape": [
+        12,
+        32,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 196608,
+      "bytes": 786432,
+      "percent_of_total": 0.004144545755188145
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_b_delta",
+      "shape": [
+        12,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_b_gate",
+      "shape": [
+        12,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_b_memory_feedback",
+      "shape": [
+        12,
+        1
+      ],
+      "dtype": "float32",
+      "elements": 12,
+      "bytes": 48,
+      "percent_of_total": 2.529629977531827e-07
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_b_ret",
+      "shape": [
+        12,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_memory_down",
+      "shape": [
+        12,
+        32,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 196608,
+      "bytes": 786432,
+      "percent_of_total": 0.004144545755188145
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_memory_up",
+      "shape": [
+        12,
+        512,
+        32
+      ],
+      "dtype": "float32",
+      "elements": 196608,
+      "bytes": 786432,
+      "percent_of_total": 0.004144545755188145
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_proj_b",
+      "shape": [
+        12,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_proj_w",
+      "shape": [
+        12,
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 3145728,
+      "bytes": 12582912,
+      "percent_of_total": 0.06631273208301032
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_w_c",
+      "shape": [
+        12,
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 3145728,
+      "bytes": 12582912,
+      "percent_of_total": 0.06631273208301032
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_w_delta",
+      "shape": [
+        12,
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 3145728,
+      "bytes": 12582912,
+      "percent_of_total": 0.06631273208301032
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_w_gate",
+      "shape": [
+        12,
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 3145728,
+      "bytes": 12582912,
+      "percent_of_total": 0.06631273208301032
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_w_memory_feedback",
+      "shape": [
+        12,
+        1,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 6144,
+      "bytes": 24576,
+      "percent_of_total": 0.00012951705484962953
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_w_ret",
+      "shape": [
+        12,
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 3145728,
+      "bytes": 12582912,
+      "percent_of_total": 0.06631273208301032
+    },
+    {
+      "category": "vector_mamba",
+      "path": "layers.s_wu",
+      "shape": [
+        12,
+        512,
+        512
+      ],
+      "dtype": "float32",
+      "elements": 3145728,
+      "bytes": 12582912,
+      "percent_of_total": 0.06631273208301032
+    }
+  ],
+  "experiments": [
+    {
+      "seed": "seed1",
+      "family": "m_wq",
+      "rank": 256,
+      "checkpoint_path": "E:\\seed1\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.5164438673100242,
+      "compressed_bpc": 1.516470653607896,
+      "bpc_delta": 2.678629787178366e-05,
+      "retained_energy_mean": 0.9916393986753717,
+      "retained_energy_min": 0.9911660133421741,
+      "relative_frobenius_error_mean": 0.0914113675313268,
+      "relative_frobenius_error_max": 0.09398929012300213,
+      "elapsed_seconds": 303.5890175999957
+    },
+    {
+      "seed": "seed1",
+      "family": "m_wq",
+      "rank": 128,
+      "checkpoint_path": "E:\\seed1\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.5164438673100242,
+      "compressed_bpc": 1.5165036527790303,
+      "bpc_delta": 5.978546900609061e-05,
+      "retained_energy_mean": 0.9645887257957795,
+      "retained_energy_min": 0.9445217545882529,
+      "relative_frobenius_error_mean": 0.18750129925427217,
+      "relative_frobenius_error_max": 0.2355382037202183,
+      "elapsed_seconds": 279.09756670000206
+    },
+    {
+      "seed": "seed1",
+      "family": "m_wq",
+      "rank": 64,
+      "checkpoint_path": "E:\\seed1\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.5164438673100242,
+      "compressed_bpc": 1.5187437053086872,
+      "bpc_delta": 0.002299837998662957,
+      "retained_energy_mean": 0.9168854848895139,
+      "retained_energy_min": 0.788370686515015,
+      "relative_frobenius_error_mean": 0.2820515849707757,
+      "relative_frobenius_error_max": 0.46003186138025814,
+      "elapsed_seconds": 252.08845499999734
+    },
+    {
+      "seed": "seed1",
+      "family": "m_wk",
+      "rank": 256,
+      "checkpoint_path": "E:\\seed1\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.5164438673100242,
+      "compressed_bpc": 1.516457131471972,
+      "bpc_delta": 1.3264161947690312e-05,
+      "retained_energy_mean": 0.9928930080813689,
+      "retained_energy_min": 0.991208371435654,
+      "relative_frobenius_error_mean": 0.08406730845108372,
+      "relative_frobenius_error_max": 0.09376368467773656,
+      "elapsed_seconds": 244.30415760000324
+    },
+    {
+      "seed": "seed1",
+      "family": "m_wk",
+      "rank": 128,
+      "checkpoint_path": "E:\\seed1\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.5164438673100242,
+      "compressed_bpc": 1.5165787662017947,
+      "bpc_delta": 0.00013489889177042969,
+      "retained_energy_mean": 0.9663431005592552,
+      "retained_energy_min": 0.9396358239002273,
+      "relative_frobenius_error_mean": 0.1821210623063504,
+      "relative_frobenius_error_max": 0.2456912210474211,
+      "elapsed_seconds": 248.85606420000113
+    },
+    {
+      "seed": "seed1",
+      "family": "m_wk",
+      "rank": 64,
+      "checkpoint_path": "E:\\seed1\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.5164438673100242,
+      "compressed_bpc": 1.517218219195534,
+      "bpc_delta": 0.000774351885509672,
+      "retained_energy_mean": 0.9159838282299023,
+      "retained_energy_min": 0.7751745046063424,
+      "relative_frobenius_error_mean": 0.2823207258727645,
+      "relative_frobenius_error_max": 0.4741576693397014,
+      "elapsed_seconds": 242.98258789999818
+    },
+    {
+      "seed": "seed1",
+      "family": "m_w_out",
+      "rank": 256,
+      "checkpoint_path": "E:\\seed1\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.5164438673100242,
+      "compressed_bpc": 1.518329119630951,
+      "bpc_delta": 0.0018852523209267336,
+      "retained_energy_mean": 0.9466121922518211,
+      "retained_energy_min": 0.9310022252221141,
+      "relative_frobenius_error_mean": 0.22530936016987038,
+      "relative_frobenius_error_max": 0.2626742750592184,
+      "elapsed_seconds": 242.12533840000106
+    },
+    {
+      "seed": "seed1",
+      "family": "m_w_out",
+      "rank": 128,
+      "checkpoint_path": "E:\\seed1\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.5164438673100242,
+      "compressed_bpc": 1.5229036216677567,
+      "bpc_delta": 0.0064597543577324945,
+      "retained_energy_mean": 0.7890172247068069,
+      "retained_energy_min": 0.7377443290288638,
+      "relative_frobenius_error_mean": 0.4500978291874018,
+      "relative_frobenius_error_max": 0.5121090420712529,
+      "elapsed_seconds": 242.99996329999703
+    },
+    {
+      "seed": "seed1",
+      "family": "m_w_out",
+      "rank": 64,
+      "checkpoint_path": "E:\\seed1\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.5164438673100242,
+      "compressed_bpc": 1.5449023954919083,
+      "bpc_delta": 0.028458528181884102,
+      "retained_energy_mean": 0.6079055763004336,
+      "retained_energy_min": 0.5361626950210909,
+      "relative_frobenius_error_mean": 0.6206735587311304,
+      "relative_frobenius_error_max": 0.6810560219092913,
+      "elapsed_seconds": 245.4758193999951
+    },
+    {
+      "seed": "seed2",
+      "family": "m_wq",
+      "rank": 256,
+      "checkpoint_path": "E:\\seed2\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.4813731866439115,
+      "compressed_bpc": 1.4813743260289736,
+      "bpc_delta": 1.13938506207667e-06,
+      "retained_energy_mean": 0.9916686524137748,
+      "retained_energy_min": 0.9910121053588489,
+      "relative_frobenius_error_mean": 0.09123864371656322,
+      "relative_frobenius_error_max": 0.09480450749384825,
+      "elapsed_seconds": 292.5958002999978
+    },
+    {
+      "seed": "seed2",
+      "family": "m_wq",
+      "rank": 128,
+      "checkpoint_path": "E:\\seed2\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.4813731866439115,
+      "compressed_bpc": 1.4814691314652617,
+      "bpc_delta": 9.594482135022453e-05,
+      "retained_energy_mean": 0.9655025850087355,
+      "retained_energy_min": 0.9579610683939063,
+      "relative_frobenius_error_mean": 0.18551290329191436,
+      "relative_frobenius_error_max": 0.20503397671140686,
+      "elapsed_seconds": 311.8895386000004
+    },
+    {
+      "seed": "seed2",
+      "family": "m_wq",
+      "rank": 64,
+      "checkpoint_path": "E:\\seed2\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.4813731866439115,
+      "compressed_bpc": 1.481806109971796,
+      "bpc_delta": 0.0004329233278845823,
+      "retained_energy_mean": 0.9213526277526243,
+      "retained_energy_min": 0.8506718288497392,
+      "relative_frobenius_error_mean": 0.27733396276518424,
+      "relative_frobenius_error_max": 0.3864300339650902,
+      "elapsed_seconds": 295.0280112000037
+    },
+    {
+      "seed": "seed2",
+      "family": "m_wk",
+      "rank": 256,
+      "checkpoint_path": "E:\\seed2\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.4813731866439115,
+      "compressed_bpc": 1.4814059708367324,
+      "bpc_delta": 3.278419282093381e-05,
+      "retained_energy_mean": 0.9929281951791525,
+      "retained_energy_min": 0.991418416009505,
+      "relative_frobenius_error_mean": 0.08385203754752729,
+      "relative_frobenius_error_max": 0.09263683927301829,
+      "elapsed_seconds": 334.85810559999663
+    },
+    {
+      "seed": "seed2",
+      "family": "m_wk",
+      "rank": 128,
+      "checkpoint_path": "E:\\seed2\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.4813731866439115,
+      "compressed_bpc": 1.4815241874113692,
+      "bpc_delta": 0.00015100076745766522,
+      "retained_energy_mean": 0.967095767007038,
+      "retained_energy_min": 0.9529521620048154,
+      "relative_frobenius_error_mean": 0.18070235781572597,
+      "relative_frobenius_error_max": 0.2169051359354698,
+      "elapsed_seconds": 293.0678759000002
+    },
+    {
+      "seed": "seed2",
+      "family": "m_wk",
+      "rank": 64,
+      "checkpoint_path": "E:\\seed2\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.4813731866439115,
+      "compressed_bpc": 1.4823648386087867,
+      "bpc_delta": 0.000991651964875162,
+      "retained_energy_mean": 0.9195084937786383,
+      "retained_energy_min": 0.8355354109121932,
+      "relative_frobenius_error_mean": 0.27943381845659837,
+      "relative_frobenius_error_max": 0.40554233945151374,
+      "elapsed_seconds": 296.31775230000494
+    },
+    {
+      "seed": "seed2",
+      "family": "m_w_out",
+      "rank": 256,
+      "checkpoint_path": "E:\\seed2\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.4813731866439115,
+      "compressed_bpc": 1.4825827621252612,
+      "bpc_delta": 0.0012095754813497006,
+      "retained_energy_mean": 0.9457734241463994,
+      "retained_energy_min": 0.9321868562358956,
+      "relative_frobenius_error_mean": 0.2272506534654154,
+      "relative_frobenius_error_max": 0.2604095692636974,
+      "elapsed_seconds": 293.88612999999896
+    },
+    {
+      "seed": "seed2",
+      "family": "m_w_out",
+      "rank": 128,
+      "checkpoint_path": "E:\\seed2\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.4813731866439115,
+      "compressed_bpc": 1.4958868885415495,
+      "bpc_delta": 0.01451370189763801,
+      "retained_energy_mean": 0.7864620692757865,
+      "retained_energy_min": 0.7381252857148698,
+      "relative_frobenius_error_mean": 0.4532890062086732,
+      "relative_frobenius_error_max": 0.5117369580996962,
+      "elapsed_seconds": 294.1322134000002
+    },
+    {
+      "seed": "seed2",
+      "family": "m_w_out",
+      "rank": 64,
+      "checkpoint_path": "E:\\seed2\\checkpoint.pkl",
+      "checkpoint_step": 25000,
+      "baseline_bpc": 1.4813731866439115,
+      "compressed_bpc": 1.5205523608564857,
+      "bpc_delta": 0.03917917421257422,
+      "retained_energy_mean": 0.6047485835881099,
+      "retained_energy_min": 0.5345769573597625,
+      "relative_frobenius_error_mean": 0.6234102871335508,
+      "relative_frobenius_error_max": 0.682219204244675,
+      "elapsed_seconds": 300.46558010000444
+    }
+  ],
+  "summaries": [
+    {
+      "family": "m_w_out",
+      "rank": 64,
+      "experiments": 2,
+      "mean_baseline_bpc": 1.498908526976968,
+      "mean_compressed_bpc": 1.532727378174197,
+      "mean_bpc_delta": 0.03381885119722916,
+      "max_bpc_delta": 0.03917917421257422,
+      "min_bpc_delta": 0.028458528181884102,
+      "mean_retained_energy": 0.6063270799442717,
+      "min_retained_energy": 0.5345769573597625,
+      "mean_relative_frobenius_error": 0.6220419229323406,
+      "max_relative_frobenius_error": 0.682219204244675,
+      "recommendation": "reject_at_this_rank"
+    },
+    {
+      "family": "m_w_out",
+      "rank": 128,
+      "experiments": 2,
+      "mean_baseline_bpc": 1.498908526976968,
+      "mean_compressed_bpc": 1.509395255104653,
+      "mean_bpc_delta": 0.010486728127685252,
+      "max_bpc_delta": 0.01451370189763801,
+      "min_bpc_delta": 0.0064597543577324945,
+      "mean_retained_energy": 0.7877396469912967,
+      "min_retained_energy": 0.7377443290288638,
+      "mean_relative_frobenius_error": 0.4516934176980375,
+      "max_relative_frobenius_error": 0.5121090420712529,
+      "recommendation": "reject_at_this_rank"
+    },
+    {
+      "family": "m_w_out",
+      "rank": 256,
+      "experiments": 2,
+      "mean_baseline_bpc": 1.498908526976968,
+      "mean_compressed_bpc": 1.5004559408781062,
+      "mean_bpc_delta": 0.001547413901138217,
+      "max_bpc_delta": 0.0018852523209267336,
+      "min_bpc_delta": 0.0012095754813497006,
+      "mean_retained_energy": 0.9461928081991102,
+      "min_retained_energy": 0.9310022252221141,
+      "mean_relative_frobenius_error": 0.22628000681764288,
+      "max_relative_frobenius_error": 0.2626742750592184,
+      "recommendation": "candidate"
+    },
+    {
+      "family": "m_wk",
+      "rank": 64,
+      "experiments": 2,
+      "mean_baseline_bpc": 1.498908526976968,
+      "mean_compressed_bpc": 1.4997915289021604,
+      "mean_bpc_delta": 0.000883001925192417,
+      "max_bpc_delta": 0.000991651964875162,
+      "min_bpc_delta": 0.000774351885509672,
+      "mean_retained_energy": 0.9177461610042703,
+      "min_retained_energy": 0.7751745046063424,
+      "mean_relative_frobenius_error": 0.28087727216468145,
+      "max_relative_frobenius_error": 0.4741576693397014,
+      "recommendation": "strong_candidate"
+    },
+    {
+      "family": "m_wk",
+      "rank": 128,
+      "experiments": 2,
+      "mean_baseline_bpc": 1.498908526976968,
+      "mean_compressed_bpc": 1.499051476806582,
+      "mean_bpc_delta": 0.00014294982961404745,
+      "max_bpc_delta": 0.00015100076745766522,
+      "min_bpc_delta": 0.00013489889177042969,
+      "mean_retained_energy": 0.9667194337831466,
+      "min_retained_energy": 0.9396358239002273,
+      "mean_relative_frobenius_error": 0.18141171006103818,
+      "max_relative_frobenius_error": 0.2456912210474211,
+      "recommendation": "strong_candidate"
+    },
+    {
+      "family": "m_wk",
+      "rank": 256,
+      "experiments": 2,
+      "mean_baseline_bpc": 1.498908526976968,
+      "mean_compressed_bpc": 1.4989315511543522,
+      "mean_bpc_delta": 2.302417738431206e-05,
+      "max_bpc_delta": 3.278419282093381e-05,
+      "min_bpc_delta": 1.3264161947690312e-05,
+      "mean_retained_energy": 0.9929106016302607,
+      "min_retained_energy": 0.991208371435654,
+      "mean_relative_frobenius_error": 0.08395967299930551,
+      "max_relative_frobenius_error": 0.09376368467773656,
+      "recommendation": "strong_candidate"
+    },
+    {
+      "family": "m_wq",
+      "rank": 64,
+      "experiments": 2,
+      "mean_baseline_bpc": 1.498908526976968,
+      "mean_compressed_bpc": 1.5002749076402417,
+      "mean_bpc_delta": 0.0013663806632737696,
+      "max_bpc_delta": 0.002299837998662957,
+      "min_bpc_delta": 0.0004329233278845823,
+      "mean_retained_energy": 0.9191190563210692,
+      "min_retained_energy": 0.788370686515015,
+      "mean_relative_frobenius_error": 0.27969277386797997,
+      "max_relative_frobenius_error": 0.46003186138025814,
+      "recommendation": "candidate"
+    },
+    {
+      "family": "m_wq",
+      "rank": 128,
+      "experiments": 2,
+      "mean_baseline_bpc": 1.498908526976968,
+      "mean_compressed_bpc": 1.498986392122146,
+      "mean_bpc_delta": 7.786514517815757e-05,
+      "max_bpc_delta": 9.594482135022453e-05,
+      "min_bpc_delta": 5.978546900609061e-05,
+      "mean_retained_energy": 0.9650456554022575,
+      "min_retained_energy": 0.9445217545882529,
+      "mean_relative_frobenius_error": 0.18650710127309328,
+      "max_relative_frobenius_error": 0.2355382037202183,
+      "recommendation": "strong_candidate"
+    },
+    {
+      "family": "m_wq",
+      "rank": 256,
+      "experiments": 2,
+      "mean_baseline_bpc": 1.498908526976968,
+      "mean_compressed_bpc": 1.4989224898184348,
+      "mean_bpc_delta": 1.3962841466930165e-05,
+      "max_bpc_delta": 2.678629787178366e-05,
+      "min_bpc_delta": 1.13938506207667e-06,
+      "mean_retained_energy": 0.9916540255445732,
+      "min_retained_energy": 0.9910121053588489,
+      "mean_relative_frobenius_error": 0.09132500562394501,
+      "max_relative_frobenius_error": 0.09480450749384825,
+      "recommendation": "strong_candidate"
+    }
+  ]
+}

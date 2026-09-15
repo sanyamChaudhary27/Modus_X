@@ -1,0 +1,13 @@
+group_type,group_name,leaf_count,parameters,share_of_matrix_memory_percent,share_of_total_model_percent,paths
+role,memory_input_projection,1,6291456,28.50774860,13.26254642,
+role,key_projection,1,3145728,14.25387430,6.63127321,
+role,memory_output_projection,1,3145728,14.25387430,6.63127321,
+role,memory_read_projection,1,3145728,14.25387430,6.63127321,
+role,query_projection,1,3145728,14.25387430,6.63127321,
+role,value_projection,1,3145728,14.25387430,6.63127321,
+role,other_matrix_memory_parameter,11,49188,0.22287991,0.10368953,
+shape,12x512x512,5,15728640,71.26937149,33.15636604,layers.m_w_out; layers.m_w_read; layers.m_wk; layers.m_wq; layers.m_wv
+shape,12x512x1024,1,6291456,28.50774860,13.26254642,layers.m_proj_w
+shape,12x512,5,30720,0.13919799,0.06475853,layers.m_b_out; layers.m_b_read; layers.m_ln_b; layers.m_ln_g; layers.m_proj_b
+shape,12x1x512,3,18432,0.08351879,0.03885512,layers.m_w_eta; layers.m_w_ret; layers.m_w_write
+shape,12x1,3,36,0.00016312,0.00007589,layers.m_b_eta; layers.m_b_ret; layers.m_b_write
