@@ -1,4 +1,27 @@
-.gitignore
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local reports / scratch files
+folder_structure.txt
+
+# Existing project-local ignored documents
 benchmark_plan.md
 submission_note.md
 results.md

@@ -46,7 +46,16 @@ class CoordinatedMemoryConfig:
     hard_latest_attention: bool = False
     current_archive_delta: bool = False
 
-
+    def __post_init__(self):
+        if self.key_dim < 0:
+            raise ValueError("key_dim must be non-negative")
+        if self.n_values < 0:
+            raise ValueError("n_values must be non-negative")
+        if self.key_dim + self.n_values > self.d_model:
+            raise ValueError(
+                "Invalid CoordinatedMemoryConfig: "
+                "key_dim + n_values must be <= d_model"
+            )
 def count_params(tree) -> int:
     return sum(x.size for x in jax.tree_util.tree_leaves(tree) if hasattr(x, "size"))
 
@@ -234,6 +243,7 @@ def step_state(p: dict, cfg: CoordinatedMemoryConfig, carry, x):
         old = h_current @ k
     else:
         h_current = h
+        h_archive = h_current
         old = h @ k
 
     u = jnp.tanh(p["s_wu"] @ x)
@@ -250,13 +260,12 @@ def step_state(p: dict, cfg: CoordinatedMemoryConfig, carry, x):
         write_control = 1.0
     gate = fact_gate * write_control
 
+    write_vec = jnp.ones(cfg.ax_res)
+    erase_vec = jnp.ones(cfg.ax_res)
     if cfg.disciplined_delta:
         if cfg.vector_channel_gates:
             write_vec = jax.nn.sigmoid(p["write_vec_x"] @ x + p["write_vec_s"] @ s + p["write_vec_b"])
             erase_vec = jax.nn.sigmoid(p["erase_vec_x"] @ x + p["erase_vec_s"] @ s + p["erase_vec_b"])
-        else:
-            write_vec = jnp.ones(cfg.ax_res)
-            erase_vec = jnp.ones(cfg.ax_res)
         h_next = h_current - gate * jnp.outer(erase_vec * old, k) + gate * jnp.outer(write_vec * val, k)
     else:
         h_next = h_current + gate * jnp.outer(val - old, k)

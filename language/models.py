@@ -1563,7 +1563,7 @@ def init_modus_x_memory_feedback_archive_lm(key: jax.Array, cfg: ModelConfig) ->
         "layers": jax.tree_util.tree_map(lambda *xs: jnp.stack(xs), *layers),
         "head": init_lm_head(keys[-1], cfg.embed_dim, cfg),
     }
-
+#ok
 
 def init_modus_x_attention_to_write_archive_lm(
     key: jax.Array,
@@ -1572,6 +1572,8 @@ def init_modus_x_attention_to_write_archive_lm(
     """Seed-paired CurrentArchive plus three bounded write controllers."""
     params = init_modus_x_lm(key, cfg)
     module_count = cfg.n_layers // ATTENTION_TO_WRITE_LAYER_STRIDE
+    if module_count == 0:
+        return params
     attention_keys = random.split(random.fold_in(key, 0xA77E), module_count)
     modules = [
         init_attention_to_write_module(attention_key, cfg)
@@ -1591,6 +1593,8 @@ def init_modus_x_feedback_attention_to_write_archive_lm(
     """Exact MemoryFeedback initialization plus bounded write controllers."""
     params = init_modus_x_memory_feedback_archive_lm(key, cfg)
     module_count = cfg.n_layers // ATTENTION_TO_WRITE_LAYER_STRIDE
+    if module_count == 0:
+        return params
     attention_keys = random.split(random.fold_in(key, 0xA77E), module_count)
     modules = [
         init_attention_to_write_module(attention_key, cfg)
@@ -1667,6 +1671,8 @@ def modus_x_attention_to_write_archive_lm_fwd(
     cfg: ModelConfig,
 ) -> jax.Array:
     x = p["embed"][x_ids]
+    if "attention_to_write" not in p:
+        return modus_x_current_archive_lm_fwd(p, x_ids, cfg)
 
     def scan_layer(x_in, inputs):
         layer_index, layer = inputs
@@ -1706,6 +1712,8 @@ def modus_x_feedback_attention_to_write_archive_lm_fwd(
     cfg: ModelConfig,
 ) -> jax.Array:
     x = p["embed"][x_ids]
+    if "attention_to_write" not in p:
+        return modus_x_memory_feedback_archive_lm_fwd(p, x_ids, cfg)
 
     def scan_layer(x_in, inputs):
         layer_index, layer = inputs
@@ -2044,6 +2052,15 @@ def modus_x_attention_to_write_archive_lm_fwd_deep_supervision(
     dropout_rate: float = 0.0,
 ):
     x = p["embed"][x_ids]
+    if "attention_to_write" not in p:
+        return modus_x_current_archive_lm_fwd_deep_supervision(
+            p,
+            x_ids,
+            cfg,
+            auxiliary_layers,
+            dropout_key,
+            dropout_rate,
+        )
 
     def scan_layer(x_in, inputs):
         layer_index, layer = inputs
@@ -2114,6 +2131,15 @@ def modus_x_feedback_attention_to_write_archive_lm_fwd_deep_supervision(
     dropout_rate: float = 0.0,
 ):
     x = p["embed"][x_ids]
+    if "attention_to_write" not in p:
+        return modus_x_memory_feedback_archive_lm_fwd_deep_supervision(
+            p,
+            x_ids,
+            cfg,
+            auxiliary_layers,
+            dropout_key,
+            dropout_rate,
+        )
 
     def scan_layer(x_in, inputs):
         layer_index, layer = inputs
@@ -2278,6 +2304,9 @@ def make_model(
     future_target_count: int = 0,
     dropout_rate: float = 0.0,
 ) -> tuple[dict, Callable]:
+    deep_supervision = name.endswith("_DeepSupervision")
+    if deep_supervision:
+        name = name.removesuffix("_DeepSupervision")
     if name == "Modus_X_Scalar":
         cfg = replace(cfg, vector_router=False)
         name = "Modus_X"
@@ -2344,150 +2373,61 @@ def make_model(
             vector_router=True,
             router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
         )
-    deep_supervision = name.endswith("_DeepSupervision")
-    if deep_supervision:
-        name = name.removesuffix("_DeepSupervision")
-        if name == "Modus_X_Scalar_PM":
-            cfg = replace(
-                cfg,
-                vector_router=False,
-                router_hidden=cfg.embed_dim,
-            )
-            name = "Modus_X"
-        elif name == "Modus_X_Scalar_Lean":
-            cfg = replace(
-                cfg,
-                vector_router=False,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-            name = "Modus_X"
-        elif name == "Modus_X_Vector_Lean":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-            name = "Modus_X"
-        elif name == "Modus_X_CurrentArchive":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-        elif name == "Modus_X_MemoryFeedbackArchive":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-        elif name == "Modus_X_AdaptivePreconditionedArchive":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-        elif name == "Modus_X_AttentionToWriteArchive":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-        elif name == "Modus_X_FeedbackAttentionToWriteArchive":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
-        elif name == "Modus_X_DisplacedArchive":
-            cfg = replace(
-                cfg,
-                vector_router=True,
-                router_hidden=cfg.router_hidden or max(8, cfg.embed_dim // 16),
-            )
+
     if name not in MODEL_REGISTRY:
-        options = sorted([*MODEL_REGISTRY, "Modus_X_Scalar", "Modus_X_Vector", "Modus_X_Scalar_PM", "Modus_X_Scalar_Lean", "Modus_X_Vector_PM", "Modus_X_Vector_Lean"])
-        raise ValueError(f"Unknown model {name}. Options: {options}")
+        raise ValueError(f"Unknown model type: {name}")
+
     init_fn, fwd_fn = MODEL_REGISTRY[name]
+
+    deep_fwd_map = {
+        "Modus_X": modus_x_lm_fwd_deep_supervision,
+        "Modus_X_CurrentArchive": modus_x_current_archive_lm_fwd_deep_supervision,
+        "Modus_X_MemoryFeedbackArchive": modus_x_memory_feedback_archive_lm_fwd_deep_supervision,
+        "Modus_X_AdaptivePreconditionedArchive": modus_x_adaptive_preconditioned_archive_lm_fwd_deep_supervision,
+        "Modus_X_AttentionToWriteArchive": modus_x_attention_to_write_archive_lm_fwd_deep_supervision,
+        "Modus_X_FeedbackAttentionToWriteArchive": modus_x_feedback_attention_to_write_archive_lm_fwd_deep_supervision,
+        "Modus_X_DisplacedArchive": modus_x_displaced_archive_lm_fwd_deep_supervision,
+    }
+
     if deep_supervision:
-        if name not in (
-            "Modus_X",
-            "Modus_X_CurrentArchive",
-            "Modus_X_DisplacedArchive",
-            "Modus_X_MemoryFeedbackArchive",
-            "Modus_X_AdaptivePreconditionedArchive",
-            "Modus_X_AttentionToWriteArchive",
-            "Modus_X_FeedbackAttentionToWriteArchive",
-        ):
-            raise ValueError("Deep supervision is currently implemented only for Modus_X variants.")
-        keys = random.split(key, 2)
-        params = init_fn(keys[0], cfg)
-        params = add_future_heads(params, keys[1], cfg, future_target_count)
-        if name == "Modus_X_CurrentArchive":
-            return params, lambda p, x, dropout_key=None: modus_x_current_archive_lm_fwd_deep_supervision(
-                p,
-                x,
-                cfg,
-                auxiliary_layers,
-                dropout_key,
-                dropout_rate,
-            )
-        if name == "Modus_X_MemoryFeedbackArchive":
-            return params, lambda p, x, dropout_key=None: modus_x_memory_feedback_archive_lm_fwd_deep_supervision(
-                p,
-                x,
-                cfg,
-                auxiliary_layers,
-                dropout_key,
-                dropout_rate,
-            )
-        if name == "Modus_X_AdaptivePreconditionedArchive":
-            return params, lambda p, x, dropout_key=None: modus_x_adaptive_preconditioned_archive_lm_fwd_deep_supervision(
-                p,
-                x,
-                cfg,
-                auxiliary_layers,
-                dropout_key,
-                dropout_rate,
-            )
-        if name == "Modus_X_AttentionToWriteArchive":
-            return params, lambda p, x, dropout_key=None: modus_x_attention_to_write_archive_lm_fwd_deep_supervision(
-                p,
-                x,
-                cfg,
-                auxiliary_layers,
-                dropout_key,
-                dropout_rate,
-            )
-        if name == "Modus_X_FeedbackAttentionToWriteArchive":
-            return params, lambda p, x, dropout_key=None: modus_x_feedback_attention_to_write_archive_lm_fwd_deep_supervision(
-                p,
-                x,
-                cfg,
-                auxiliary_layers,
-                dropout_key,
-                dropout_rate,
-            )
-        if name == "Modus_X_DisplacedArchive":
-            return params, lambda p, x, dropout_key=None: modus_x_displaced_archive_lm_fwd_deep_supervision(
-                p,
-                x,
-                cfg,
-                auxiliary_layers,
-                dropout_key,
-                dropout_rate,
-            )
-        return params, lambda p, x, dropout_key=None: modus_x_lm_fwd_deep_supervision(
-            p,
-            x,
+        fwd_fn = deep_fwd_map[name]
+
+    params = init_fn(key, cfg)
+
+    if future_target_count > 0:
+        future_key = random.fold_in(key, 0xF00D)
+        params = add_future_heads(
+            params,
+            future_key,
             cfg,
-            auxiliary_layers,
-            dropout_key,
-            dropout_rate,
+            future_target_count,
         )
-    keys = random.split(key, 2)
-    params = init_fn(keys[0], cfg)
-    params = add_future_heads(params, keys[1], cfg, future_target_count)
-    return params, lambda p, x: fwd_fn(p, x, cfg)
+
+    def model_fwd(
+        p: dict,
+        x_ids: jax.Array,
+        auxiliary_layers: tuple[int, ...] | None = None,
+        dropout_key: jax.Array | None = None,
+        dropout_rate: float = 0.0,
+    ) -> jax.Array | tuple[jax.Array, ...]:
+        if (
+            deep_supervision
+            or auxiliary_layers is not None
+            or dropout_key is not None
+            or dropout_rate > 0.0
+        ):
+            return fwd_fn(
+                p,
+                x_ids,
+                cfg,
+                auxiliary_layers=auxiliary_layers,
+                dropout_key=dropout_key,
+                dropout_rate=dropout_rate,
+            )
+
+        return fwd_fn(p, x_ids, cfg)
+
+    return params, model_fwd
 
 
 def lm_loss(
@@ -2498,7 +2438,11 @@ def lm_loss(
     auxiliary_weight: float = 0.3,
 ) -> jax.Array:
     outputs = jax.vmap(lambda xi: fwd_fn(params, xi))(x)
-    logits, auxiliary_logits = outputs if isinstance(outputs, tuple) else (outputs, None)
+    if isinstance(outputs, tuple):
+        logits = outputs[0]
+        auxiliary_logits = outputs[1] if len(outputs) > 1 else None
+    else:
+        logits, auxiliary_logits = outputs, None
     logp = jax.nn.log_softmax(logits, axis=-1)
     b, t = x.shape
     nll = -logp[jnp.arange(b)[:, None], jnp.arange(t)[None, :], y]
