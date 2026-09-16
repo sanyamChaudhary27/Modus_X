@@ -1,0 +1,21 @@
+{
+  "scope": "Retrospective protocol index; not a backdated preregistration",
+  "model": "MemoryFeedbackArchive with segment-scale archive retention512 and two-stage chunk32",
+  "candidate": "Zero-initialized two-lag causal elementwise K and V filtering",
+  "parameters": {"control": 47437768, "candidate": 47462344},
+  "extra_state_fp32_bytes_per_sequence": 98304,
+  "seeds": [1,2,3],
+  "updates": 25000,
+  "characters_per_arm": 102400000,
+  "batch": 8,
+  "context": 512,
+  "schedule": [{"through_step":20000,"lr":0.0006},{"through_step":25000,"lr":0.0003}],
+  "optimizer": "AdamW weight_decay1e-4, global norm clipping1",
+  "loss": "Primary plus auxiliary layer6 weight0.05 and future target2 weight0.5",
+  "data_sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
+  "evaluation": "Dense validation90M:95M and report-only test95M:100M; reset512 offsets0,256 stride512 primary head",
+  "hardware": "Kaggle TPU v5e-8; JAX0.10.2 Optax0.2.8 highest matmul precision",
+  "endpoint_thresholds": {"minimum_validation_gain":0.005,"maximum_update_runtime_ratio":1.1},
+  "history": {"seed1":"Passed5k then resumed to25k; reconstructed for checkpoint audit", "seed2":"Failed5k; separately declared fixed25k follow-up after seed1 endpoint; reran fresh", "seed3":"Prospectively fixed25k endpoint,5k report-only; original protocol in src/SEED3_PROTOCOL.json"},
+  "audit": "Read-only validation reproduction tolerance1e-4 BPC; serial/chunk32, suffix causality and256-token handoff atol/rtol2e-4; carry probe first65536 validation targets only"
+}
