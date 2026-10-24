@@ -9,6 +9,9 @@ without a growing attention cache.
 
 **Modus_X 3.0.0 is a source, paper and experimental-evidence release.**
 Version DOI: [10.5281/zenodo.23621101](https://doi.org/10.5281/zenodo.23621101).
+Zenodo publication is live. The paper is also submitted to arXiv cs.LG,
+awaiting moderation/public announcement; no public arXiv identifier is assigned
+yet. See [publication status](release/PUBLICATION_STATUS.md).
 Its frozen experiment snapshot is based on upstream commit
 `766379e89f1395d98b9fc0df3cf4fc7f5a73de6f`. Large trained checkpoints are not
 bundled; this is not a pretrained assistant or a full checkpoint distribution.
