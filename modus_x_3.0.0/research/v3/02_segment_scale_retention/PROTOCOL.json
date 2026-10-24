@@ -1,0 +1,14 @@
+{
+  "track": "segment_scale_retention",
+  "candidate_equation": "archive_retain = sigmoid(archive_logit + log(512))",
+  "unchanged": ["parameters", "state size", "current matrix", "write rule", "read rule", "feedback", "router", "vector recurrence"],
+  "screen": {"seeds": [1, 2, 3], "characters": 20480000, "selection": "sparse validation only"},
+  "over_retention_audit": {
+    "seed": 2,
+    "checkpoint_step": 25000,
+    "characters": 102400000,
+    "selection_split": "validation only",
+    "primary_metric": "archive_erased_bpc - full_state_bpc on conflicting repeats"
+  },
+  "test_data_used_for_selection": false
+}

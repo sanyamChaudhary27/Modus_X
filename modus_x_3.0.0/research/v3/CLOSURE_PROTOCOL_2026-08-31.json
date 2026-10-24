@@ -1,0 +1,54 @@
+{
+  "name": "MemoryFeedback v3 frozen closure audit",
+  "status": "preregistered_before_seed_1_run",
+  "date": "2026-08-31",
+  "accelerator": "Kaggle TPU v5e-8",
+  "dataset": {
+    "name": "enwik8",
+    "bytes": 100000000,
+    "validation_split": [90000000, 95000000],
+    "test_data_read": false
+  },
+  "models": {
+    "canonical": "Modus_X_MemoryFeedbackArchive_DeepSupervision",
+    "candidate": "Modus_X_MemoryFeedbackSegmentRetention_DeepSupervision",
+    "seed": 1,
+    "parameters_each": 47437768,
+    "optimizer_step": 25000,
+    "processed_characters": 102400000,
+    "candidate_change": "archive_retain = sigmoid(archive_logit + log(512)); all other equations, parameters, and recurrent-state shapes are exact"
+  },
+  "lane_1_over_retention_replication": {
+    "runner": "run_over_retention_audit.py",
+    "conditions": ["reset_all", "full_carry", "no_archive_carry", "archive_only_carry"],
+    "natural_target_interventions": ["full_state", "archive_erased", "current_erased", "vector_erased", "all_erased"],
+    "pass_rule": {
+      "archive_stream_benefit_bpc_min": 0.001,
+      "conflicting_mean_archive_contribution_bpc_min": 0.0,
+      "conflicting_long_mean_archive_contribution_bpc_min": 0.0,
+      "severely_harmful_conflicting_bands_max": 0,
+      "all_values_finite": true
+    }
+  },
+  "lane_2_paired_coordination": {
+    "runner": "run_paired_endpoint_coordination_audit.py",
+    "baseline_stream": "all 1220 contiguous validation segments",
+    "matched_local_positions": 128,
+    "matched_local_sampling": "deterministic linspace over all 1220 segments while the unmodified baseline state is carried through every segment",
+    "local_modes": ["feedback_off", "read_off", "write_off", "router_neutral", "matrix_only", "vector_only"],
+    "persistent_modes": ["feedback_off", "router_neutral"],
+    "pass_rule": {
+      "forward_parity_max_error": 1e-5,
+      "candidate_baseline_bpc_not_worse_by_more_than": 0.005,
+      "candidate_feedback_local_regret_bpc_min": 0.0,
+      "candidate_read_local_regret_bpc_min": 0.002,
+      "candidate_write_local_regret_bpc_min": 0.002,
+      "candidate_router_local_regret_bpc_min": 0.002,
+      "candidate_router_persistent_regret_bpc_min": 0.002,
+      "candidate_matrix_only_local_regret_bpc_min": 0.002,
+      "candidate_vector_only_local_regret_bpc_min": 0.002,
+      "all_values_finite": true
+    }
+  },
+  "decision_boundary": "A pass closes seed-1 stale-interference and coordination checks for the frozen candidate. It does not establish semantic memory, universal superiority, or authorize further tuning."
+}

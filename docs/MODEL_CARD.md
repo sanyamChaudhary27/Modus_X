@@ -1,57 +1,53 @@
-# Modus_X 2.1.0 Model Card
+# Modus_X 3.0.0 Model Card
 
-## Model family
+## Identity and Distribution
 
-Modus_X 2.1.0 is an experimental family of causal recurrent language and
-memory models. It combines a bounded vector recurrence with associative matrix
-state. This release contains two promoted research configurations:
+Sanyam Chaudhary, Independent Researcher. Version3.0.0,2026-10-24.
+DOI10.5281/zenodo.23621101. Research source, paper and evidence are distributed;
+the six trained endpoint checkpoint payloads are not bundled. CodeMIT;
+manuscript/new documentationCC BY4.0. No conference peer-review status is claimed.
 
-- **MemoryFeedbackArchive**, the generic-language lead, feeds compressed
-  matrix retrieval back into the vector computation.
-- **CurrentArchiveDelta**, the controlled-memory lead, separates current and
-  archived matrix state for versioned binding and update experiments.
+## Architecture
 
-These are related research models, not one checkpoint that owns every reported
-advantage.
+MemoryFeedbackArchive with current/archive matrix state, segment-scale archive
+retention512, rank32 memory-to-vector feedback, direct routed matrix/vector
+outputs and two-lag K/V histories. Twelve512-wide layers, hidden_dim1536,
+router_hidden32.47,462,344 training parameters. Persistent FP32 state25,288,704
+bytes per sequence. The vector path is not the official Mamba library.
 
-## Intended use
+Two-stage chunk32 is the tested execution path; canonical recurrence is retained
+for verification. Highest matmul precision is part of the reported protocol.
 
-- research on bounded-state sequence models;
-- associative binding, update, conflict, and distractor studies;
-- byte-level language-model scaling and dense evaluation;
-- systems studies of recurrent-state memory and long-context serving.
+## Intended Use
 
-## Out of scope
+Research on bounded-state sequence modeling, byte-level prediction, memory
+coordination, numerical equivalence and accelerator execution. This is not an
+instruction-tuned assistant, production API, safety-certified system or deployed
+developer model. No downstream coding/reasoning benchmark is reported.
 
-- production or safety-critical deployment;
-- treating synthetic retrieval as general reasoning;
-- claiming state of the art or universal superiority;
-- representing the exact 1B systems smoke as a trained 1B model.
+## Training and Evaluation
 
-## Measured strengths
+Raw enwik8,90M/5M/5M byte split;102.4M sampled input characters per arm;batch8,
+length512,25k updates. AdamW,clip1,weight_decay1e-4;LR6e-4through20k then3e-4.
+Primary loss+layer6auxiliary0.05+separate two-step future head0.5. Future targets
+are labels, not future inputs. Training windows reset recurrent state.
 
-- MemoryFeedbackArchive improves the matched CurrentArchive dense enwik8 result
-  at approximately 47M parameters.
-- Scaling MemoryFeedbackArchive from 47.44M to 81.49M parameters improves dense
-  test BPC at the measured 102.4M-character endpoint.
-- CurrentArchiveDelta retains clean and versioned bindings under a constrained
-  recurrent-state budget where the tested truncated Transformer KV baseline
-  cannot retain the full context.
-- The inference state is bounded in sequence length for a fixed configuration.
+Dense reset512 validation/test use offsets0/256,stride512,primary head. Validation
+selects; test reports afterward. Three paired validation gains .087291,.010196,
+.021213 BPC,median .021213,mean .039566. Seed effects are unequal. Seed2 was a
+post-screen follow-up; seed3 prospectively fixed its endpoint after development.
+Early seed2/3 screen losses remain recorded. The reported audit outputs reproduce
+validation and test causality/handoff; they are not independently re-downloaded
+weights in this release build.
 
-## Measured weaknesses
+## Cost and Limits
 
-- Official Mamba remains better on the available matched dense enwik8 endpoint.
-- The 81M-to-99M MemoryFeedback scaling interval is saturated at the measured
-  data and schedule budget.
-- CurrentArchiveDelta still exhibits stale latest-value recall.
-- The research kernels are not production-optimized.
-- Broad downstream capability, instruction following, and natural-language
-  long-context memory are not established.
+Two continuation experiments report2.923x synchronized median update speedup on
+Kaggle TPUv5e-8. K/V filtering adds~0.115% mean update overhead across seeds,
+24,576params and96KiB state/sequence. These are not whole-job or decoding cost
+claims. Compiler temporary storage is not total peak HBM.
 
-## Evaluation boundaries
-
-Use dense validation and dense test BPC for language conclusions. Sparse
-checkpoint BPC is a progress metric. Synthetic memory results must name the
-task, recurrent-state budget, parameter count, seeds, and whether the
-Transformer comparator retained the full context.
+One corpus, one new endpoint model size, three seeds. No matched modern Mamba-3,
+KDA or Gated DeltaNet-2 v3 benchmark. Historical low-state retrieval advantages
+do not establish semantic correctness or infinite retention. Full public weight
+reproducibility and cross-lane metadata reconciliation remain open.

@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-24",
+  "scope": "Local package preparation, not a new TPU endpoint audit",
+  "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+  "jax": "0.11.0",
+  "jaxlib": "0.11.0",
+  "optax": "0.2.8",
+  "numpy": "2.4.1",
+  "backend": "cpu",
+  "devices": [
+    "cpu:0"
+  ],
+  "unittest_modules": [
+    "test_endpoint_recovery",
+    "test_endpoint_audit",
+    "test_local_kv"
+  ],
+  "tests_run": 5,
+  "passed": true,
+  "elapsed_seconds": 85.66877980006393,
+  "coverage": [
+    "LR update scaling without moment reset",
+    "paired recovery, deduplication and corruption rejection",
+    "primary-head selection and state handoff",
+    "full objective, finite gradients and AdamW step",
+    "identity filter, lag gradients, causality, chunk and streaming history"
+  ],
+  "trained_checkpoint_payloads_downloaded": false,
+  "new_training": false,
+  "latex": {
+    "compiler": "Tectonic 0.17.0+20260731",
+    "compile_pass": true,
+    "overfull_box_messages": []
+  },
+  "pdf_pages": 8,
+  "pdf_visual_review": {
+    "status": "passed",
+    "reviewed": "2026-10-24",
+    "scope": "Eight-page contact sheet, detailed architecture/table/reference/appendix pages; corrected crowded initial diagram and orphaned reference",
+    "overlap_or_clipping_observed": false,
+    "arxiv_flat_source_compiles": true,
+    "flat_source_text_matches_paper": true
+  }
+}

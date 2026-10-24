@@ -1,29 +1,15 @@
-# Release Manifest
+# Manifest and Build
 
-The final release is built deterministically by:
+`modus_x_3.0.0/MANIFEST.sha256` is the authoritative versioned-payload manifest.
+The root MANIFEST.sha256 covers tracked repository files, excluding itself and
+untracked local work. Frozen upstream source hashes additionally appear in the
+versioned SOURCE_PROVENANCE.json.
 
-```bash
-python release/build_release.py
-```
+Run `python release/build_release.py --final` to validate and rebuild the release
+ZIP, paper PDF, flat arXiv source ZIP and artifact SHA-256 list under `dist/`.
+The source/evidence ZIP uses a deterministic timestamp and one enclosing
+`modus_x_3.0.0/` directory. The arXiv ZIP contains the manuscript and figure PDFs
+only, with main.tex at archive root. It is not the code ZIP.
 
-After the Zenodo DOI is reserved and all gates close:
-
-```bash
-python release/build_release.py --final
-```
-
-The staged package contains `MANIFEST.sha256`, which hashes every packaged file
-except itself. The output directory also contains
-`Modus_X_2.1.0_release.zip.sha256` for the archive.
-
-## Primary publication artifacts
-
-| Artifact | Purpose | Status |
-|---|---|---|
-| `paper/Modus_X_2.1.0_whitepaper.pdf` | rendered research paper | generated during build |
-| `Modus_X_2.1.0_release.zip` | source, evidence, docs, and paper | generated during build |
-| `MANIFEST.sha256` | file-level integrity | generated inside archive |
-| `.zenodo.json` | archival metadata | included |
-
-Large training checkpoints are excluded from the compact archive unless
-explicitly added and documented before final publication.
+No checkpoints, Python caches, local review notes or private correspondence are
+included. Save complete paired endpoint outputs separately for recovery.

@@ -1,0 +1,16 @@
+{
+  "title": "Modus_X 3.0.0: Calibrated Associative Memory and Efficient Recurrent Execution",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "creators": [{"name": "Chaudhary, Sanyam", "affiliation": "Independent Researcher"}],
+  "version": "3.0.0",
+  "publication_date": "2026-10-24",
+  "doi": "10.5281/zenodo.23621101",
+  "license": "cc-by-4.0",
+  "description": "<p>Modus_X 3 couples current and archive associative matrix memories to a selective vector recurrence. Retrieved memory conditions the recurrence before its update; a router also preserves the direct matrix output. The model carries fixed-size recurrent state rather than a growing attention cache.</p><p>This release advances the architecture along two independently measured axes. A dependency-preserving two-stage execution schedule delivers a 2.923x median update speedup on the tested 47M-parameter TPU v5e-8 configuration, with dense validation differences below 0.00004 bits per character. Identity-initialized causal two-lag key/value filtering then improves all three paired 25,000-update enwik8 endpoints at 102.4M training characters per arm. Dense-validation gains are 0.087291, 0.010196 and 0.021213 BPC (median 0.021213; mean 0.039566). The filter adds 24,576 parameters, 96 KiB of FP32 recurrent state per sequence, and approximately 0.115% mean median-update overhead across seeds.</p><p>The 47.46M-parameter model retains bounded associative state and memory-conditioned vector processing without adding attention. The paper explains archive-retention calibration, derives the dependency-preserving schedule, reports endpoint and checkpoint audits, and connects the new results to prior controlled-retrieval and language releases.</p><p>The archive includes the paper and LaTeX source, frozen code and self-contained Kaggle cells, machine-readable protocols/results, negative experiments, generated figures/statistics, reproduction instructions and SHA-256 manifests. Validation selects; test is report-only. Seed 2's failed early screen and later fixed-horizon follow-up remain explicit, while seed 3 uses a prospectively fixed endpoint after the development results. Historical Mamba and Transformer comparisons are task-specific and are not presented as modern v3 head-to-head benchmarks.</p><p>This is a source/evidence release: large trained checkpoints are not bundled, and public weight-download verification remains separate. Earlier retention-only and later K/V-control endpoints are kept as distinct recipe-specific records. No universal superiority, infinite recall, production readiness or peer-review certification is claimed. Manuscript and new documentation: CC BY 4.0. Software: MIT.</p>",
+  "keywords": ["recurrent language models", "associative memory", "matrix memory", "bounded-state inference", "memory feedback", "TPU", "enwik8", "causal filtering"],
+  "related_identifiers": [
+    {"identifier": "10.5281/zenodo.21590445", "relation": "isNewVersionOf", "resource_type": "publication-preprint"},
+    {"identifier": "https://github.com/sanyamChaudhary27/Modus_X/tree/release/v3.0.0/modus_x_3.0.0", "relation": "isSupplementTo", "resource_type": "software"}
+  ]
+}

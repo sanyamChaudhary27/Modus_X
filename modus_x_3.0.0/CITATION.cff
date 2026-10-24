@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "Please cite this version's DOI when using the Modus_X 3.0.0 paper, code or evidence."
+title: "Modus_X 3: Calibrated Associative Memory and Efficient Recurrent Execution"
+type: software
+version: 3.0.0
+date-released: 2026-10-24
+doi: 10.5281/zenodo.23621101
+authors:
+  - family-names: Chaudhary
+    given-names: Sanyam
+repository-code: "https://github.com/sanyamChaudhary27/Modus_X"
+license: MIT

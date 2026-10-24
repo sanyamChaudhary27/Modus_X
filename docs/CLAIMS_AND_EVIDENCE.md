@@ -1,39 +1,54 @@
-# Claims and Evidence
+# Claims and Comparisons
 
-The canonical numeric register is `../CLAIMS.md`; the artifact map is
-`../EVIDENCE_INDEX.md`.
+## Recommended Public Lead
 
-## Language claim
+> Modus_X 3 couples bounded associative memory to recurrent processing. Its
+> dependency-preserving TPU implementation delivers a measured 2.923x update
+> speedup. Local K/V context improves all three frozen language endpoints,
+> with a median 0.0212-BPC validation gain at 47.46M parameters, adding 96 KiB
+> of state per sequence and approximately 0.12% measured update overhead.
 
-At approximately 47M parameters and 102.4M processed enwik8 characters,
-MemoryFeedbackArchive improves dense validation and dense test BPC relative to
-the matched CurrentArchive control. At the same 102.4M-character endpoint,
-scaling MemoryFeedbackArchive to 81.49M parameters produces a further measured
-dense-test improvement, while the 99.44M point is effectively saturated.
-Matched late annealing promotes the 81.49M checkpoint to a `163.84M`-character
-endpoint of `1.375422` dense validation and `1.382445` dense test BPC. This
-narrowly improves v1.1.1 with fewer parameters.
+This is confident, quantitative positioning. It does not need a claim of
+universal superiority to communicate the result.
 
-This is a single-seed, fixed-budget result. It is not a universal scaling law,
-and the 47M schedule differs from the larger-model schedule.
+## Comparison Classes
 
-## Baseline boundary
+| Evidence | Fair conclusion | Do not infer |
+|---|---|---|
+| Three local-K/V endpoints | Candidate improves this paired recipe at the frozen 25k horizon | A precise population effect from three seeds; three fully preregistered runs |
+| Two execution continuations | Approximately 2.923x median synchronized update speedup on the tested TPU shape | 2.923x decoding, training-job or universal hardware speedup |
+| Retention-only development endpoints | Two recorded recipe-specific improvements | Gains can be added to K/V gains; an exact factorial decomposition |
+| Three-seed equal-state CurrentArchive/Transformer test | Strong associative retrieval advantage when KV history is constrained to the specified state budget | Universal Transformer defeat; v3 checkpoint semantic memory capability |
+| Historical Mamba comparison | Older Mamba better on recorded compression, older Modus_X far better on specified synthetic retrieval/update task | A v3-vs-Mamba-3 benchmark, equal-state memory comparison or modern Pareto frontier |
+| Carry/intervention probes | State and paths influence predictions in the tested setting | Infinite memory, factual consistency, reasoning, or retrained ablation equivalence |
 
-At the matched 163.84M-character endpoint, official Mamba remains better than
-MemoryFeedbackArchive on dense enwik8 BPC, while MemoryFeedbackArchive is
-better than the tested official xLSTM and narrowly better than v1.1.1. The
-single-seed v2 margin over v1.1.1 is small and requires replication.
+## Wording for the Mamba Question
 
-## Bounded-memory claim
+> Compression and associative recall expose different trade-offs. The
+> historical official-Mamba run compresses enwik8 better; the controlled
+> length-128 lookup test strongly favors Modus_X, including overwritten
+> bindings. We report both, and keep those older task-specific results separate
+> from v3's new matched language experiments.
 
-At equal constrained recurrent-state bytes, CurrentArchiveDelta substantially
-outperforms the tested Transformer with a truncated KV window on the measured
-mixed clean/update protocol. When the same Transformer can retain the full
-context, it wins. The supported conclusion is a state-budget crossover, not
-universal Transformer inferiority.
+Do not call all Mamba models "way worse at updates." Mamba-3, KDA and Gated
+DeltaNet-2 are current related work and have not been run as matched v3 controls.
+The older recall comparison has one seed and different parameter counts.
 
-## Systems claim
+## Novelty
 
-The exact frozen 1B v1-style configuration passes bounded systems and restore
-smokes. The 1B MemoryFeedback candidate is parameter-counted but does not yet
-own the complete systems ladder or trained-model evidence.
+The current/archive-to-vector coordination, exact specification, intervention
+evidence, and execution reordering are the project's concrete research objects.
+Constant state, scalar/vector recurrence, delta rules, retention gates and short
+convolutions are prior art. The archive logit offset is absorbable into a learned
+bias and changes optimization/initialization rather than expressivity. The
+two-stage implementation is a dependency schedule, not a newly invented
+sequence-parallel delta algorithm. A priority claim about being the first
+combined design would require a wider full-text related-work search.
+
+## Statistical Reporting
+
+Report every seed. Validation gains: 0.087291, 0.010196, 0.021213. Mean 0.039566;
+median 0.021213. Report the sample SD generated in AGGREGATE.json. No token-level
+p-value from overlapping dense windows. Seed 2's failed screen and post-screen
+follow-up remain explicit. Seed 3 prospectively fixes the endpoint after the
+earlier observations. Test does not select configurations.

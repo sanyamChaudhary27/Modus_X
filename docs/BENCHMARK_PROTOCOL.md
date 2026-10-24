@@ -1,59 +1,20 @@
-# Benchmark Protocol
+# v3 Benchmark Protocol
 
-## Evidence layers
+The language result compares the retention-calibrated MemoryFeedbackArchive
+control with identical training plus causal two-lag K/V filtering. Both use
+two-stage chunk32 and highest precision. Three seeds reach25k updates,102.4M
+sampled enwik8 input characters, batch8/context512. LR6e-4through20k then3e-4,
+AdamW weight decay1e-4,clip1; primary+layer6auxiliary0.05+future-target2weight0.5.
 
-The release keeps five evidence layers separate:
+Split raw bytes0:90Mtrain,90M:95Mvalidation,95M:100Mtest. Dense evaluation resets
+state per512-input window, stride512 at offsets0/256, complete windows only,
+primary head. Sparse progress and carry probes are separate protocols.
+Validation decides at the frozen endpoint; test reports afterward.
 
-1. generic language modeling;
-2. controlled associative memory;
-3. downstream capability and reasoning;
-4. systems behavior;
-5. serving economics.
+Read `research/v3/05_local_kv_filtering/PROTOCOL.json` for full chronology:
+seed2 followed a failed5k screen under a later fixed-horizon protocol; seed3
+fixed25k prospectively after development. Failed early results are not removed.
 
-A win in one layer is not substituted for another.
-
-## enwik8 language modeling
-
-- Dataset: canonical 100,000,000-byte enwik8 file.
-- Training region: first 90M bytes, with the final 5M of that region retained
-  as the reported train-tail diagnostic.
-- Validation: bytes 90M-95M.
-- Test: bytes 95M-100M.
-- Context: 512 bytes for the reported v2 language results.
-- Sparse checkpoint validation: progress signal only.
-- Dense evaluation: windows at offsets 0 and 256, stride 512.
-- Final test data must not select a checkpoint or tune a configuration.
-
-Comparisons must name parameter count, processed characters, optimizer steps,
-seed, schedule, precision, and evaluator. The 47M MemoryFeedback point used a
-different learning-rate schedule from the 81M and 99M points; the release
-therefore does not fit a universal parameter-only scaling law.
-
-## Controlled versioned memory
-
-Promoted small-model claims use:
-
-- at least three seeds;
-- fixed clean/update/query-role distributions;
-- explicit current, previous, and first-value metrics;
-- stale-false-recall diagnostics;
-- parameter and recurrent-state accounting;
-- a protocol learnability check for every comparator.
-
-For equal-memory comparisons, report whether a Transformer KV window contains
-the complete context. Full-context and truncated-context results answer
-different questions and must appear together.
-
-## Systems
-
-Systems readiness requires exact parameter counting, TPU mesh placement,
-forward/backward execution, optimizer-state allocation, accumulated updates,
-checkpoint creation, and independent restore. Passing those gates does not
-establish language quality.
-
-## Promotion rule
-
-Pre-register the changed variable, control, matching axis, primary metric,
-threshold, and stop rule. Preserve negative outcomes. Do not promote an
-architecture from final-test improvement alone.
-
+Two-stage backend speed is measured in separate continuation experiments.
+Historical Mamba/xLSTM and equal-state memory results are not new v3 paired
+trials. Do not add gains or fit a scaling law across mismatched recipes.

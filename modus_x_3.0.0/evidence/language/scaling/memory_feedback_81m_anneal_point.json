@@ -1,0 +1,31 @@
+{
+  "family": "MemoryFeedbackArchive",
+  "label": "memory_feedback_81m_122p88m",
+  "params": 81486728,
+  "non_embedding_params": 81314696,
+  "processed_characters": 122880000,
+  "optimizer_steps": 30000,
+  "seed": 1,
+  "schedule": [
+    {"through_characters": 81920000, "lr": 0.0004},
+    {"through_characters": 102400000, "lr": 0.0002},
+    {"through_characters": 122880000, "lr": 0.0001}
+  ],
+  "elapsed_s": 31405.055017270995,
+  "sparse_validation_bpc": 1.3411655505299365,
+  "dense_train_tail_bpc": 1.3044087290763855,
+  "dense_validation_bpc": 1.398210883140564,
+  "dense_test_bpc": 1.4081723093986511,
+  "dense_audit_elapsed_s": 1155.0632472480002,
+  "dataset_bytes": 100000000,
+  "dataset_sha256": "2b49720ec4d78c3c9fabaee6e4179a5e997302b3a70029f30f2d582218c024a8",
+  "config": {
+    "embed_dim": 672,
+    "hidden_dim": 2016,
+    "state_dim": 672,
+    "n_layers": 12,
+    "router_hidden": 64,
+    "seq_len": 512,
+    "matrix_states_per_layer": 2
+  }
+}

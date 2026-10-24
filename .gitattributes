@@ -1,4 +1,16 @@
+# Byte-exact snapshots may use CRLF; preserve hashes without treating CR as whitespace.
+* whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 Modus_X_2.1.0/** -text
+/modus_x_3.0.0/** -text
+# Raw logs and historical Markdown references retain their exact upstream whitespace.
+/modus_x_3.0.0/evidence/raw/** -whitespace
+/modus_x_3.0.0/research/v3/01_streaming_and_coordination/references/** -whitespace
+/README.md -text
+/PAPER_LICENSE.md -text
+/SOURCE_PROVENANCE.json -text
+/requirements-cpu.txt -text
+/requirements-paper.txt -text
+/tools/** -text
 /benchmarks/** -text
 /docs/** -text
 /evidence/** -text
