@@ -1,47 +1,32 @@
-# Modus_X 2.1.0 Architecture
+# Modus_X 3 Architecture
 
-## Design objective
+![Modus_X 3 layer](../paper/figures/architecture.png)
 
-Modus_X 2.1.0 asks whether a bounded associative matrix can supply durable,
-content-addressed information to a strong recurrent computation without
-growing a token-by-token inference cache.
+Each of 12 layers maintains a current matrix C, archive matrix A and vector
+state s. Projected K and V pass through zero-initialized two-lag causal
+depthwise filters, then key normalization and value tanh. Queries are not
+filtered. Delta writes update both matrices; their mixed, gated read is
+compressed through a rank-32 bridge and added to the vector input before the
+selective recurrence updates. A scalar router combines direct matrix and vector
+outputs, followed by a residual addition.
 
-## MemoryFeedbackArchive
+The archive retention is sigmoid(logit + log(512)). This changes its operating
+point; a learned bias can absorb the offset, so it does not enlarge the function
+class. Both tested K/V arms use this same calibration.
 
-MemoryFeedbackArchive is the language-model lead. Each layer maintains current
-and archive matrix state. Retrieved matrix context is compressed through a
-low-rank path and conservatively gated into the vector-stream input:
+Two-stage chunk32 execution batches projections around two sequential scans.
+It exploits within-layer matrix independence from the vector state, not
+independence from preceding layers. Canonical execution remains a verification
+reference. This is not an official-Mamba recurrence or an attention layer.
 
-```text
-token representation
-    -> bounded matrix update and retrieval
-    -> low-rank feedback projection
-    -> learned bounded gate
-    -> vector recurrence
-    -> residual output
-```
+At width512/depth12 the K/V candidate has47,462,344 training parameters and
+25,288,704FP32 persistent-state bytes per sequence. This includes96KiB of added
+K/V history. State does not grow with sequence length; width, activations,
+optimizer storage and per-token computation remain separate costs.
 
-The important coordination change is causal: matrix retrieval modifies what
-the recurrent stream reasons over. It is not merely added as a second large
-output expert.
+The full equations, ordering of decay/residual writes and execution argument
+are in [the paper source](../paper/manuscript/main.tex). Frozen implementation:
+`research/v3/05_local_kv_filtering/src/local_kv.py`, `two_stage.py`, `models.py`.
 
-## CurrentArchiveDelta
-
-CurrentArchiveDelta is the controlled-memory lead. It separates rapidly
-updated current state from durable archive state and uses version-aware
-addressing and disciplined delta writes. The design is evaluated on clean,
-updated, conflicting, and distractor-heavy bindings.
-
-## Bounded state
-
-For fixed matrix and vector dimensions, recurrent state does not grow with
-sequence length. Weight storage, activations, computation, batching, and
-hardware efficiency remain separate costs.
-
-## Research boundary
-
-The two promoted variants demonstrate complementary strengths. This release
-does not claim that their advantages have been merged into one final model.
-Rejected attention-to-write, adaptive-preconditioning, erase/write, latest
-shadow, and official-Mamba insertion variants remain documented negative
-results.
+Earlier CurrentArchiveDelta synthetic-memory results are historical companion
+evidence, not a test of semantic updates by the trained v3 language checkpoint.

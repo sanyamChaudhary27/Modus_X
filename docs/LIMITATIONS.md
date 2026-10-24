@@ -1,16 +1,27 @@
-# Limitations
+# Evidence Limits
 
-See the root `LIMITATIONS.md` for the canonical list. The most important
-boundaries are:
+The new language evidence is one byte-level corpus, one model size and three
+seeds. Effects differ substantially by seed. The early-screen/continuation
+history is disclosed; this is not a wholly preregistered campaign. Overlapping
+dense windows are not independent replicates.
 
-- language and controlled-memory leads belong to different promoted models;
-- official Mamba remains better on the available matched dense enwik8 result;
-- the 99M MemoryFeedback point saturates at the current data/schedule budget;
-- language scaling evidence is single-seed, and the matched v1.1.1 improvement
-  is small enough to require replication;
-- stale latest-value recall remains unresolved;
-- the controlled-memory tasks are synthetic;
-- the v2 1B model is not quality-trained;
-- bounded recurrent state does not imply lower total cost on every workload;
-- no production fused kernel is included;
-- no broad downstream reasoning result is claimed.
+Execution speed is synchronized median update time on the tested TPU shape.
+It is not end-to-end job cost, decoding latency, a hardware-independent speedup,
+or a measurement against optimized modern recurrent kernels.
+
+Older retention-only endpoints and later K/V-control endpoints differ. Their
+gains are not summed or labeled a factorial ablation. Reset BPC, full carry
+evaluation and the65,536-target carry probe are different protocols.
+
+Historical Mamba and Transformer comparisons use other configurations and
+budgets. Modern v3-vs-Mamba-3/KDA/Gated DeltaNet-2 parity has not been tested.
+The low-state synthetic memory lead is not demonstrated by one trained language
+checkpoint. Stale-value arbitration is still a measured weakness.
+
+Constant state means constant size in sequence length for fixed dimensions, not
+constant training memory, bounded norm, unlimited capacity, perfect semantic
+revision, or general reasoning. Larger trained quality and real developer
+workload gains remain research goals.
+
+Checkpoint hashes are recorded; payloads and independently verified public
+download links are not bundled. Do not claim full artifact reproducibility.

@@ -1,0 +1,18 @@
+{
+  "validation_gains": [
+    0.08729098473093311,
+    0.010195687210260651,
+    0.02121260527519464
+  ],
+  "mean_validation_gain": 0.03956642573879613,
+  "median_validation_gain": 0.02121260527519464,
+  "sample_stdev_validation_gain": 0.04169614213758677,
+  "mean_test_gain_report_only": 0.045989865576331855,
+  "validation_wins": 3,
+  "mean_runtime_ratio": 1.0011487981190552,
+  "relative_parameter_overhead_percent": 0.05180682193985181,
+  "control_state_fp32_bytes": 25190400,
+  "candidate_state_fp32_bytes": 25288704,
+  "max_audit_reproduction_delta": 6.8485830340137e-09,
+  "interpretation": "Three seed-level differences, not independent token-level samples; no significance claim"
+}

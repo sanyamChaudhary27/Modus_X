@@ -1,0 +1,21 @@
+{
+  "experiment": "local_kv_seed3_prospective_endpoint",
+  "declared": "2026-09-13",
+  "seed": 3,
+  "start": "from scratch, both arms",
+  "endpoint_updates": 25000,
+  "characters_per_arm": 102400000,
+  "batch": 8,
+  "context": 512,
+  "architecture": "Unchanged control and two-lag K/V candidate; archive retention scale512, two-stage chunk32, highest matmul precision",
+  "params": {"control": 47437768, "local_kv": 47462344},
+  "schedule": [{"through_step": 20000, "lr": 0.0006}, {"through_step": 25000, "lr": 0.0003}],
+  "optimizer": "AdamW weight_decay0.0001, global norm clip1; preserve moments at LR transition",
+  "loss": "primary + auxiliary layer6 weight0.05 + future target2 weight0.5, unchanged trainer",
+  "screen_5000": "report only, never quality-based stop",
+  "selection": "dense validation90M:95M reset512 offsets0,256 stride512 primary head",
+  "thresholds": {"minimum_dense_validation_gain": 0.005, "maximum_update_runtime_ratio": 1.1},
+  "test": "dense95M:100M report-only after frozen validation decision",
+  "abort": "Correctness, nonfinite, resource or recovery failure only",
+  "interpretation": "Prospectively fixed seed3 endpoint after observing seed1/2; report all three separately, preserve prior failed screens; no tuning or automatic release promotion"
+}

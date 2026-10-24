@@ -2,3 +2,6 @@
 benchmark_plan.md
 submission_note.md
 results.md
+__pycache__/
+*.py[cod]
+/dist/

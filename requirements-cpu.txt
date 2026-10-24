@@ -1,0 +1,5 @@
+# For the reported experimental API, use Python 3.12 and these JAX/Optax versions.
+# Do not install this CPU requirement set over Kaggle's TPU runtime.
+jax==0.10.2
+optax==0.2.8
+numpy>=2.0,<3

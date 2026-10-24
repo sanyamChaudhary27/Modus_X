@@ -1,48 +1,21 @@
-# Release notes
+# Modus_X 3.0.0
 
-## Modus_X 2.1.0
+Release date: 2026-10-24. Version DOI: `10.5281/zenodo.23621101`.
+Source, paper and evidence release; trained checkpoint payloads are not bundled.
 
-This candidate promotes the completed matched MemoryFeedback endpoint and
-restructures the paper so the v2 mechanisms, evidence lanes, and limitations
-are distinguishable from inherited v1.1.1 results.
+The v3 model combines segment-scale archive retention calibration, opt-in
+two-stage chunk32 execution and identity-initialized two-lag K/V filtering.
+Canonical execution remains available for verification. Source is pinned to
+the official research branch, not to the reviewed teammate changes on other refs.
 
-### Added
+This package replaces the v2-style paper with a v3-specific manuscript,
+source-aligned equations/diagram, generated paired endpoint tables, explicit
+protocol history, prior-release comparisons and a contemporary related-work
+section. It preserves negative results and does not retune or relabel failed
+screens. Earlier evidence and new measurements remain separate.
 
-- Version-aware bounded current/archive memory.
-- Disciplined erase/write delta updates.
-- Matrix-to-vector MemoryFeedback.
-- Dense enwik8 audits at matched character budgets.
-- Measured 47M/81M/99M MemoryFeedback scaling at a `102.4M`-character
-  endpoint, including the observed 81M-to-99M saturation.
-- Matched 81M MemoryFeedback endpoint at `163.84M` characters:
-  `1.375422` dense validation and `1.382445` dense test BPC.
-- Publication-grade coordinated-dual-memory architecture figure.
-- Explicit v1.1.1-to-v2 contribution map and provenance labels on primary
-  result tables.
-- Equal-state Transformer KV crossover study.
-- Clean/update, distractor, curriculum, and operation diagnostics.
-- Exact 1B systems-readiness references.
-- Full v1.1.1-derived publication structure: whitepaper, figures, model card,
-  benchmark protocol, provenance, release validation, manifest, and Zenodo
-  metadata.
-
-### Promoted
-
-- `MemoryFeedbackArchive` for the generic-language lane.
-- `CurrentArchiveDelta` for controlled bounded-memory evidence.
-
-### Rejected or frozen
-
-- Adaptive preconditioning.
-- Attention-to-write.
-- MemoryFeedback plus attention-to-write.
-- Official-Mamba residual matrix insertion.
-- Official-Mamba true MemoryFeedback at the tested gate.
-- Latest-shadow refresh inside CurrentArchive.
-- Open-ended synthetic architecture correction.
-
-### Compatibility
-
-The package is an experimental research release and does not preserve a stable
-production API. It is prepared as a new Zenodo version linked to v2.0.0 and
-the published v1.1.1 lineage.
+This is a defined model and research revision, not only a backend patch. The
+release preserves canonical execution for verification and does not silently
+change historical trainer defaults. Remaining public-checkpoint hosting and
+cross-lane recipe reconciliation are disclosed in docs/RELEASE_REVIEW.md;
+they are not claimed complete by publication of this source/evidence package.

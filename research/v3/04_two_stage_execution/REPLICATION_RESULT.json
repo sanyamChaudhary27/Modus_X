@@ -1,0 +1,38 @@
+{
+  "provenance": "Transcribed from user-provided TWO_STAGE_REPLICATION_DECISION; hashes reported by runner, not independently verified against downloaded files",
+  "source_checkpoint": "/kaggle/input/datasets/sanyamchoudhary27/seed1-segment-retention-3sep/checkpoint.pkl",
+  "source_sha256": "462639542156108f61b14b1c15fa189328effe9d159a3e5dda67817b861f12ab",
+  "start_step": 25000,
+  "seed": 1,
+  "updates": 2000,
+  "added_characters": 8192000,
+  "test_evaluated": false,
+  "validation_protocol": "90M:95M; reset512; dense offsets0,256; primary head; canonical evaluator for both endpoints",
+  "precision": "highest",
+  "jax": "0.10.2",
+  "optax": "0.2.8",
+  "thresholds": {"candidate_minus_control_dense_validation_max": 0.002, "minimum_speedup": 1.2},
+  "devices": [
+    "TPU_0(process=0,(0,0,0,0))", "TPU_1(process=0,(1,0,0,0))",
+    "TPU_2(process=0,(0,1,0,0))", "TPU_3(process=0,(1,1,0,0))",
+    "TPU_4(process=0,(0,2,0,0))", "TPU_5(process=0,(1,2,0,0))",
+    "TPU_6(process=0,(0,3,0,0))", "TPU_7(process=0,(1,3,0,0))"
+  ],
+  "endpoint_artifacts": {
+    "canonical": {"file": "canonical_step27000_checkpoint.pkl", "bytes": 569260656, "sha256": "b6e14ed3a79690c408e2912b97ba1e8121bcb4d006d5827fe0f3c9e46f637569"},
+    "two_stage": {"file": "two_stage_step27000_checkpoint.pkl", "bytes": 569260656, "sha256": "be7a9c7aa4d84b8eed1747fa356ea88dbef2f2889e5dfeacad23038b1fc83f48"}
+  },
+  "checkpoint_restore": {
+    "canonical": {"max_abs": 0.0, "relative_l2": 0.0},
+    "two_stage": {"max_abs": 0.0, "relative_l2": 0.0}
+  },
+  "initial_dense_validation": 1.4328854551452035,
+  "dense_validation": {"canonical": 1.4215114461661484, "two_stage": 1.4215488059912593},
+  "median_update_seconds": {"canonical": 0.8970010105000483, "two_stage": 0.30687559199986936},
+  "speedup": 2.9230119106391173,
+  "validation_delta": 0.000037359825110883094,
+  "screen_pass": true,
+  "replication_pass": true,
+  "local_checkpoint_archive_verified": false,
+  "saved_notebook_version": null
+}

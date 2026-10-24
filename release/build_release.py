@@ -1,117 +1,50 @@
-from __future__ import annotations
-
+"""Rebuild the v3 source/evidence ZIP, standalone PDF and flat arXiv source."""
+from pathlib import Path
 import argparse
 import hashlib
 import shutil
 import subprocess
 import sys
 import zipfile
-from pathlib import Path
+
+ROOT=Path(__file__).resolve().parents[1]
+PACKAGE=ROOT/'modus_x_3.0.0'
 
 
-SOURCE = Path(__file__).resolve().parents[1]
-PROJECT = SOURCE.parent
-OUTPUT = PROJECT / "output"
-STAGE = OUTPUT / "Modus_X_2.1.0"
-ARCHIVE = OUTPUT / "Modus_X_2.1.0_release.zip"
-
-EXCLUDED_PARTS = {"__pycache__", ".git", ".pytest_cache", ".mypy_cache"}
-EXCLUDED_SUFFIXES = {".pyc", ".pyo", ".tmp"}
-EXCLUDED_NAMES = {"whitepaper.html", "MANIFEST.sha256"}
-FIXED_ZIP_TIME = (2026, 7, 24, 0, 0, 0)
-
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for block in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
-
-
-def included(path: Path) -> bool:
-    relative = path.relative_to(SOURCE)
-    if any(part in EXCLUDED_PARTS for part in relative.parts):
-        return False
-    if path.suffix.lower() in EXCLUDED_SUFFIXES:
-        return False
-    if path.name in EXCLUDED_NAMES:
-        return False
-    return True
-
-
-def build_manifest() -> None:
-    rows = []
-    for path in sorted(STAGE.rglob("*")):
-        if path.is_file() and path.name != "MANIFEST.sha256":
-            rows.append(f"{sha256(path)}  {path.relative_to(STAGE).as_posix()}")
-    (STAGE / "MANIFEST.sha256").write_text("\n".join(rows) + "\n", encoding="ascii")
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--outdir',type=Path,default=ROOT/'dist')
+    parser.add_argument('--final',action='store_true',help='Require the pinned final version identity')
+    args=parser.parse_args()
+    subprocess.run([sys.executable,str(PACKAGE/'tools/validate_release.py')],check=True)
+    import json
+    metadata=json.loads((PACKAGE/'.zenodo.json').read_text())
+    if metadata['version']!='3.0.0' or metadata['doi']!='10.5281/zenodo.23621101':
+        raise RuntimeError('Wrong v3 release identity')
+    args.outdir.mkdir(parents=True,exist_ok=True)
+    files=sorted(p for p in PACKAGE.rglob('*') if p.is_file() and '__pycache__' not in p.parts
+                 and p.suffix not in ('.pyc','.aux','.log','.out','.synctex'))
+    archive_path=args.outdir/'Modus_X_3.0.0_release.zip'
+    with zipfile.ZipFile(archive_path,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as archive:
+        for p in files:
+            name='modus_x_3.0.0/'+p.relative_to(PACKAGE).as_posix()
+            info=zipfile.ZipInfo(name,(2026,10,24,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED
+            info.external_attr=0o100644<<16;archive.writestr(info,p.read_bytes())
+    shutil.copy2(PACKAGE/'paper/Modus_X_3.0.0_paper.pdf',args.outdir/'Modus_X_3.0.0_paper.pdf')
+    with zipfile.ZipFile(args.outdir/'Modus_X_3.0.0_arxiv_source.zip','w',zipfile.ZIP_DEFLATED) as archive:
+        text=(PACKAGE/'paper/manuscript/main.tex').read_text()
+        archive.writestr('main.tex',text.replace('../numbers','numbers').replace('../endpoint_table','endpoint_table').replace('../figures/','figures/'))
+        for name in ('numbers.tex','endpoint_table.tex'): archive.write(PACKAGE/'paper'/name,name)
+        for p in sorted((PACKAGE/'paper/figures').glob('*.pdf')): archive.write(p,'figures/'+p.name)
+    rows=[]
+    for p in sorted(args.outdir.glob('Modus_X_3.0.0*')):
+        if p.suffix not in ('.zip','.pdf'): continue
+        if p.suffix=='.zip':
+            with zipfile.ZipFile(p) as archive:
+                if archive.testzip(): raise RuntimeError('Corrupt archive: '+str(p))
+        rows.append(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name)
+    (args.outdir/'ARTIFACTS_SHA256.txt').write_text('\n'.join(rows)+'\n')
+    print('V3_RELEASE_ARTIFACTS_READY',args.outdir,flush=True)
 
 
-def build_zip() -> None:
-    if ARCHIVE.exists():
-        ARCHIVE.unlink()
-    with zipfile.ZipFile(
-        ARCHIVE, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9
-    ) as archive:
-        for path in sorted(STAGE.rglob("*")):
-            if not path.is_file():
-                continue
-            relative = Path("Modus_X_2.1.0") / path.relative_to(STAGE)
-            info = zipfile.ZipInfo(relative.as_posix(), FIXED_ZIP_TIME)
-            info.compress_type = zipfile.ZIP_DEFLATED
-            info.external_attr = 0o100644 << 16
-            archive.writestr(info, path.read_bytes())
-
-
-def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--final",
-        action="store_true",
-        help="Require DOI replacement and all release gates to be checked.",
-    )
-    parser.add_argument(
-        "--skip-pdf",
-        action="store_true",
-        help="Package without rebuilding the whitepaper PDF.",
-    )
-    args = parser.parse_args()
-
-    validator = SOURCE / "release/validate_release.py"
-    command = [sys.executable, str(validator)]
-    if args.final:
-        command.append("--final")
-    subprocess.run(command, check=True, cwd=SOURCE)
-
-    if not args.skip_pdf:
-        subprocess.run(
-            [sys.executable, str(SOURCE / "paper/build_pdf.py")],
-            check=True,
-            cwd=SOURCE / "paper",
-        )
-
-    if STAGE.exists():
-        shutil.rmtree(STAGE)
-    STAGE.mkdir(parents=True)
-
-    for source in sorted(SOURCE.rglob("*")):
-        if source.is_file() and included(source):
-            destination = STAGE / source.relative_to(SOURCE)
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(source, destination)
-
-    build_manifest()
-    build_zip()
-    archive_hash = sha256(ARCHIVE)
-    (OUTPUT / "Modus_X_2.1.0_release.zip.sha256").write_text(
-        f"{archive_hash}  {ARCHIVE.name}\n", encoding="ascii"
-    )
-
-    print(f"STAGED {STAGE}")
-    print(f"ARCHIVE {ARCHIVE}")
-    print(f"SHA256 {archive_hash}")
-
-
-if __name__ == "__main__":
-    main()
+if __name__=='__main__': main()

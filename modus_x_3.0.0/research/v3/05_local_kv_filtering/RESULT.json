@@ -1,0 +1,11 @@
+{
+  "provenance": "Normalized from user-pasted endpoint and audit outputs; raw artifacts not independently downloaded by packaging agent",
+  "seeds": [
+    {"seed":1,"validation_control":1.4827387940010779,"validation_candidate":1.3954478092701448,"test_control":1.4890934416470134,"test_candidate":1.3949510257975357,"runtime_ratio":1.0010174190759844,"audit_validation_control":1.4827387871524949,"audit_validation_candidate":1.395447806987284,"audit_pass":true,"control_sha256":"214fbda6fe9d6754b7b3051e1d3bdf47194a81d3b82d10e0f0fc28ab3e9da4aa","candidate_sha256":"ed59014ccbad50c262327665589e60d8b6ffbc83c6725744db6a99fd5a3fd77e"},
+    {"seed":2,"validation_control":1.4424832014749431,"validation_candidate":1.4322875142646825,"test_control":1.4451160696672283,"test_candidate":1.4327596509511569,"runtime_ratio":1.0013081194581406,"audit_validation_control":1.4424832001137722,"audit_validation_candidate":1.4322875137397466,"audit_pass":true,"control_sha256":"917b4f679a9a126805cc41ca0f4cebc37d3394541d5854ed11f39bee4e81dbe3","candidate_sha256":"d46f5cb65b65a1d6515e6e631b70c7f3d3a7e9b87126450cba78f555da47dd9a"},
+    {"seed":3,"validation_control":1.4279850863336112,"validation_candidate":1.4067724810584166,"test_control":1.4313782657407457,"test_candidate":1.3999075035772992,"runtime_ratio":1.0011208558230407,"audit_validation_control":1.427985087395691,"audit_validation_candidate":1.4067724777378916,"audit_pass":true,"control_sha256":"f159dff336034e98ec1fbb5c6528aef6d1e502e28ac18b84d364013580530b01","candidate_sha256":"9821586f1160b508338f87072e660934669986a57e7d612fa17e43e8db3ca30b"}
+  ],
+  "screen_validation_gains": {"1":0.01704722452456675,"2":-0.0076327910254812,"3":-0.013855188068706337},
+  "test_role": "Report-only, not selection",
+  "audit_boundary": "Serial and chunk32 share equations; numerical checks are not an independent mathematical proof"
+}

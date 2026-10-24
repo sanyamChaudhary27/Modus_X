@@ -1,44 +1,54 @@
-# Claims register
+# Claims and Comparisons
 
-## Supported
+## Recommended Public Lead
 
-1. At approximately 47M parameters and `102.4M` processed enwik8 characters,
-   the single-seed MemoryFeedbackArchive configuration improves dense
-   validation BPC from `1.485020` to `1.459723` and dense test BPC from
-   `1.492694` to `1.465006` relative to its matched CurrentArchive control.
-2. That language gain costs `0.85%` more parameters and approximately `12.5%`
-   more measured runtime in the tested implementation.
-3. On a three-seed synthetic versioned-memory protocol with `16,512` bytes of
-   BF16 recurrent state, CurrentArchiveDelta reaches `77.95%` mean mixed
-   clean/update accuracy versus `16.38%` for the tested tied-Q/K Transformer
-   with a truncated 32-token KV window.
-4. When the state budget retains the complete context, the tested Transformer
-   wins `98.63%` to `71.03%`.
-5. Latest-heavy supervision improves CurrentArchive's latest retrieval but
-   does not eliminate stale recall.
-6. The tested latest-shadow refresh correction is harmful and rejected.
-7. At a fixed `102.4M`-character endpoint, scaling MemoryFeedbackArchive from
-   `47,437,768` to `81,486,728` parameters improves dense test BPC from
-   `1.465006` to `1.443873`. Scaling further to `99,438,920` parameters reaches
-   `1.442034` dense test BPC but regresses dense validation from `1.433138` to
-   `1.434283`; the measured second interval is saturated.
-8. At `163.84M` processed characters, the promoted `81,486,728`-parameter
-   MemoryFeedback checkpoint reaches `1.375422` dense validation and
-   `1.382445` dense test BPC. This narrowly improves the published v1.1.1
-   endpoint (`1.384180`) with `1.54%` fewer parameters.
+> Modus_X 3 couples bounded associative memory to recurrent processing. Its
+> dependency-preserving TPU implementation delivers a measured 2.923x update
+> speedup. Local K/V context improves all three frozen language endpoints,
+> with a median 0.0212-BPC validation gain at 47.46M parameters, adding 96 KiB
+> of state per sequence and approximately 0.12% measured update overhead.
 
-## Unsupported
+This is confident, quantitative positioning. It does not need a claim of
+universal superiority to communicate the result.
 
-- Modus_X is state of the art.
-- Modus_X universally beats Transformers, Mamba, RWKV, or xLSTM.
-- Modus_X has reached `1.1` enwik8 BPC.
-- The 1B configuration has demonstrated trained model quality.
-- Constant recurrent state implies constant total serving cost.
-- Synthetic retrieval establishes general reasoning capability.
-- The current three single-seed MemoryFeedback points establish a universal
-  scaling law or justify extrapolation to `1.1` BPC.
-- The small single-seed MemoryFeedback improvement over v1.1.1 proves a
-  variance-independent family-wide advantage.
+## Comparison Classes
 
-Every external claim must name the tested configuration, matching axis,
-processed data, metric, and relevant limitation.
+| Evidence | Fair conclusion | Do not infer |
+|---|---|---|
+| Three local-K/V endpoints | Candidate improves this paired recipe at the frozen 25k horizon | A precise population effect from three seeds; three fully preregistered runs |
+| Two execution continuations | Approximately 2.923x median synchronized update speedup on the tested TPU shape | 2.923x decoding, training-job or universal hardware speedup |
+| Retention-only development endpoints | Two recorded recipe-specific improvements | Gains can be added to K/V gains; an exact factorial decomposition |
+| Three-seed equal-state CurrentArchive/Transformer test | Strong associative retrieval advantage when KV history is constrained to the specified state budget | Universal Transformer defeat; v3 checkpoint semantic memory capability |
+| Historical Mamba comparison | Older Mamba better on recorded compression, older Modus_X far better on specified synthetic retrieval/update task | A v3-vs-Mamba-3 benchmark, equal-state memory comparison or modern Pareto frontier |
+| Carry/intervention probes | State and paths influence predictions in the tested setting | Infinite memory, factual consistency, reasoning, or retrained ablation equivalence |
+
+## Wording for the Mamba Question
+
+> Compression and associative recall expose different trade-offs. The
+> historical official-Mamba run compresses enwik8 better; the controlled
+> length-128 lookup test strongly favors Modus_X, including overwritten
+> bindings. We report both, and keep those older task-specific results separate
+> from v3's new matched language experiments.
+
+Do not call all Mamba models "way worse at updates." Mamba-3, KDA and Gated
+DeltaNet-2 are current related work and have not been run as matched v3 controls.
+The older recall comparison has one seed and different parameter counts.
+
+## Novelty
+
+The current/archive-to-vector coordination, exact specification, intervention
+evidence, and execution reordering are the project's concrete research objects.
+Constant state, scalar/vector recurrence, delta rules, retention gates and short
+convolutions are prior art. The archive logit offset is absorbable into a learned
+bias and changes optimization/initialization rather than expressivity. The
+two-stage implementation is a dependency schedule, not a newly invented
+sequence-parallel delta algorithm. A priority claim about being the first
+combined design would require a wider full-text related-work search.
+
+## Statistical Reporting
+
+Report every seed. Validation gains: 0.087291, 0.010196, 0.021213. Mean 0.039566;
+median 0.021213. Report the sample SD generated in AGGREGATE.json. No token-level
+p-value from overlapping dense windows. Seed 2's failed screen and post-screen
+follow-up remain explicit. Seed 3 prospectively fixes the endpoint after the
+earlier observations. Test does not select configurations.

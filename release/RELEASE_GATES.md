@@ -1,46 +1,20 @@
-# Modus_X 2.1.0 Release Gates
+# v3 Release Checks
 
-## Evidence
+Source/evidence release scope is explicit; missing checkpoint distribution does
+not become a completed check by publication.
 
-- [x] 47M MemoryFeedback versus CurrentArchive dense audit documented.
-- [x] 81M and 99M 102.4M-character dense scaling points documented.
-- [x] Dataset hash and dense protocol recorded for new scaling points.
-- [x] Mixed clean/update and equal-state crossover evidence included.
-- [x] Negative architecture results retained.
-- [x] 81M and 99M compact run archives are explicitly omitted from v2.1.0;
-      normalized reports, hashes, configs, commands, and dense endpoints are
-      preserved. Raw checkpoints remain external due to release size.
-- [x] 122.88M anneal outcomes and the promoted 163.84M endpoint are complete,
-      normalized, and dense-audited.
-- [x] Environment details available in the run reports are preserved; an exact
-      fresh Kaggle package lock was not recoverable and is disclosed as a
-      reproducibility limitation.
+- Pinned frozen source and three endpoint/audit records: present.
+- Five reduced CPU correctness/recovery/optimizer tests: passed.
+- Explicit final-version smoke entry point: five tests passed locally.
+- Final paper: eight pages, locally compiled and visually checked.
+- arXiv XeLaTeX processing: succeeded; compiled PDF checked against local text,
+  excluding arXiv's added submission stamp.
+- Version DOI:10.5281/zenodo.23621101; single author Sanyam Chaudhary.
+- Author explicitly approved submission agreement and CC BY 4.0; code MIT.
+- Versioned payload manifest and four uploaded artifact checksums: checked.
+- Earlier release directories and research/v3 sources: unchanged.
 
-## Paper
-
-- [x] v1.1.1 evidence lineage retained and explicitly labeled as inherited.
-- [x] v2 contribution map, architecture figure, and mechanism sections lead
-      the paper before inherited results.
-- [x] Limitations and counterevidence are explicit.
-- [x] Rebuilt the 32-page v2.1.0 PDF and completed page-by-page rendered
-      inspection.
-- [x] Inserted the reserved v2.1.0 DOI into the final PDF and citation
-      metadata.
-
-## Reproducibility
-
-- [x] Source, language, memory, systems, and evidence directories included.
-- [x] Package validator and deterministic builder included.
-- [x] Final archive excludes caches, temporary files, and checkpoints.
-- [x] Final SHA-256 manifest generated and verified.
-- [x] Final archive SHA-256 is emitted beside the archive and recorded in the
-      release preparation status.
-
-## Publication
-
-- [x] Zenodo description and metadata reviewed against the claim register.
-- [x] Final archive and PDF are prepared for the reserved new-version draft.
-- [x] Local PDF render and release metadata preview checked before upload.
-
-The live Zenodo draft preview is a publication handoff check and is intentionally
-performed after this self-contained archive is built.
+External publication status is recorded in PUBLICATION_STATUS.md once verified.
+No claim is made that modern cross-family benchmarks, second-corpus results,
+public checkpoint re-download audits or full-v2-to-v3 recipe reconciliation were
+performed. Their boundaries remain visible in the paper and ARTIFACT_GAPS.md.

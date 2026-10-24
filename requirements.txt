@@ -1,3 +1,5 @@
-jax>=0.4.30
-numpy>=1.26
-optax>=0.2.3
+# CPU checks: see ENVIRONMENTS.md and requirements-cpu.txt for the frozen API.
+# Keep Kaggle's TPU-provided JAX stack; do not install CPU wheels over it.
+jax>=0.10.2,<0.12
+numpy>=2.0,<3
+optax==0.2.8
